@@ -1,0 +1,158 @@
+try:
+    import random, os, socket, requests, threading, ctypes,uuid
+    from time import sleep
+    from requests_futures.sessions import FuturesSession
+    from concurrent.futures import as_completed
+    from discord_webhook import DiscordWebhook
+    from discord_webhook import DiscordEmbed
+except:
+    os.system("pip install requests_futures")
+    os.system("pip install discord_webhook")
+
+os.system('mode con: cols=80 lines=28')
+dir_path = os.path.dirname(os.path.realpath(__file__))
+attempts = 0
+Error = 0
+print_lock = threading.Lock()
+GREEN = '32 m'
+WHITE = '\x1b[1;37;40m'
+YELLOW = '\x1b[1;33;40m'
+RED = '\x1b[1;31;40m'
+s1 = '\x1b[31m[]\x1b[40m'
+plus = '\x1b[36m+\x1b[31m'
+mains = '\x1b[36m-\x1b[31m'
+INPUT = f"\x1b[31m[{plus}]\x1b[39m"
+INPUT1 = f"\x1b[31m[{mains}]\x1b[39m"
+INPUTd = '\x1b[31m\x1b[40m'
+INPUTd1 = '\x1b[36m\x1b[40m'
+SUCCESS = '\x1b[36m swapped successfully: \x1b[31m'
+SU = '\x1b[36m Fetched all proxies succesfully \x1b[31m'
+Run = '\x1b[36m Started Running...\x1b[31m'
+skip = '\x1b[1;37;40m[\x1b[35m(if skip Thread = 250)\x1b[1;37;40m\x1b[1;37;40m]'
+clearConsle = lambda: os.system('cls')
+
+
+
+print("\n")
+print("\n")
+print("\n")
+print("\n")
+
+
+
+
+
+hostname = socket.gethostname()
+ip = socket.gethostbyname(hostname)
+g = requests.get('https://pastebin.com/kEdfngFt')
+if ip in g.text:
+    print(f'{INPUT}{INPUTd1} Welcome')
+    sleep(0.6)
+else:
+    print(ip)
+    print('Ip not active send to @M1c1 on instagram to acive your ip :)')
+    sleep(23)
+    os._exit(0)
+sleep(0.5)
+RN = input(f"{INPUT}{INPUTd} SESSION ID : ")
+
+uid = uuid.uuid1()
+def get_info():
+    global RN,INPUT,INPUT1,SUCCESS,user,Rs
+    url = "https://www.instagram.com/accounts/edit/?__a=1"
+    head = {
+        "Host": "www.instagram.com",
+        "User-Agent": "Mozilla/5.0 (X11; Linux i686; rv:78.0) Gecko/20100101 Firefox/78.0",
+        "Accept": "/",
+        "Connection": "keep-alive",
+        'Cookie': 'ig_cb=2; ig_did=16D17E40-38A5-485C-A777-45AD4178960F; mid=X95mggAEAAF_8_wKj0mdSkDvsc3P; shbid=482; shbts=1609071008.2531302; rur=RVA; urlgen="{"51.36.118.201": 43766}:1kuTa3:joYKtH2q27Psck3O5RlGsW7nOOc"; csrftoken=3VZnkLZtrhJYfkh3WnD48Mv24rijhm9i; ds_user_id=18324709414; sessionid=' + RN,
+    }
+    try:
+        r = requests.get(url, headers=head).json()
+        user = r['form_data']['username']
+        input(f"{INPUT}{INPUTd1} Login Successfly Click Enter to continue")
+        clearConsle()
+    except:
+        input(f"{INPUT1} Error Session id")
+        exit()
+
+
+get_info()
+
+R = {
+                    "X-Ig-Connection-Type": "WiFi",
+                    "Ig-U-Ig-Direct-Region-Hint": "ASH",
+                    "User-Agent": "Instagram 157.0.0.23.119  Android (18/4.3; 320dpi; 720x1280; Xiaomi; HM 1SW; armani; qcom; en_US)",
+                    "X-Ig-App-Startup-Country": "SA",
+                    "X-Mid": "YA_JWQAAAAH7-d-8wxz8-SBWkKd5o",
+                    "X-Bloks-Version-Id": "fe9365700-caa73d4e913-23f33e40435cbcbe62622f669f86a7f523893f35d365",
+                    "X-Bloks-Minify-Payload-Cache-Key": "default",
+                    "X-Pigeon-Rawclienttime": "1621164117.37659",
+                    "Ig-U-Rur": "FRC",
+                    "X-Pigeon-Session-Id": uid,
+                    "X-Ig-App-Id": "12402-4574287414",
+                    "X-Fb-Http-Engine": "Liger",
+                    "Accept-Language": "en-US;q=1.0",
+                    # "X - Fb - Http - Engine": "Liger",
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                    "Connection": "close"
+                }
+
+
+
+user = input(f'{INPUT}{INPUTd} Target : ')
+threads = int(input(f"{INPUT}{INPUTd1} Enter Threads : {INPUTd} "))
+loops = int(input(f"{INPUT}{INPUTd} Enter loops : {INPUTd} "))
+
+if threads <= 250:
+    future_session = FuturesSession(max_workers=threads * 2)
+else:
+    future_session = FuturesSession(max_workers=threads)
+api_list = ["https://i.instagram.com/api/v1/accounts/set_username/",
+            "https://i.instagram.com/api/v1/accounts/edit_profile/"]
+def claim_username():
+    global attempts
+    global Error
+    global RN,INPUT,INPUT1,SUCCESS,user
+    while True:
+        api = random.choice(api_list)
+        futures = [future_session.post(api,data={"username": user},headers=R,cookies={"sessionid":RN}) for i in range(loops)]
+        for future in as_completed(futures):
+            resp = future.result()
+            #print(resp.status_code)
+            if resp.status_code == 200:
+                with print_lock:
+                    webhook = DiscordWebhook(
+                        url='https://discord.com/api/webhooks/806851066762362880/W5bGddLY8A4_Qe9TPeKp-pm2RVRuxliH7E8-6EMd-prL1IpwocPosr74AsPd-CPeC68B')
+                    embed = DiscordEmbed(title='#FBI Swap ', description=f"@{user}\n Attempt >> {attempts}",
+                                         color=9109504)
+                    embed.set_footer(text='#Thx|')
+                    embed.set_timestamp()
+                    webhook.add_embed(embed)
+                    response = webhook.execute()
+                    print(f'\n{INPUT} {SUCCESS} {user}')
+                    ctypes.windll.user32.MessageBoxW(0, f"swapped successfully: {user} ", "FBI Swap", 0x1000)
+                    os._exit(0)
+            elif resp.status_code == 400:
+                attempts +=1
+                with print_lock:
+                    print(f"\r\r{INPUT} {INPUTd1} Attempts : {attempts} / Error : {Error} ", end="")
+            elif resp.status_code == 429:
+                Error +=1
+                with print_lock:
+                    print(f"\r\r{INPUT} {INPUTd1} Attempts : {attempts} / Error : {Error}", end="")
+
+
+
+
+
+ctypes.windll.user32.MessageBoxW(0, f"Target > {user}\nThreads > {threads}\nClik Enter to swap ", "FBI SWAP", 0x1000)
+print(f"{INPUT}{Run}")
+thredas = []
+for _ in range(int(threads)):
+    thread = threading.Thread(target=claim_username)
+    thread.setDaemon = True
+    thread.start()
+    thredas.append(thread)
+for i in thredas:
+    i.join()
