@@ -6,8 +6,7 @@ try:
     from discord_webhook import DiscordWebhook
     from discord_webhook import DiscordEmbed
 except:
-    os.system("pip install requests_futures")
-    os.system("pip install discord_webhook")
+  pass
 
 os.system('mode con: cols=80 lines=28')
 dir_path = os.path.dirname(os.path.realpath(__file__))
