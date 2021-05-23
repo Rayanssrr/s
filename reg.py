@@ -283,7 +283,7 @@ def Reg_Attack2():
         Loops = int(input("Loops : "))
         Reg = Target_attack(trd, Timeout, Loops)
     while 1:
-        Reg
+        Reg()
 
 
 Reg_Attack2()
