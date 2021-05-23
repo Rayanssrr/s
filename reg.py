@@ -21,7 +21,7 @@ except Exception as a:
 url_two = 'https://b.i.instagram.com/api/v1/accounts/create_business/'
 
 
-ask = int(input("1-list - 2-Target : "))
+
 
 class Reg_Attack():
     def __init__(self,trd,Timeout,Loops):
@@ -271,6 +271,7 @@ class Target_attack():
 
 
 def Reg_Attack2():
+    ask = int(input("1-list - 2-Target : "))
     if ask == 1:
         trd = int(input("Threads : "))
         Timeout = int(input("Timeout : "))
