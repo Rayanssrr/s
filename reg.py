@@ -1,1 +1,177 @@
-dHJ5OgogICAgaW1wb3J0IHV1aWQKICAgIGltcG9ydCB0aHJlYWRpbmcKICAgIGltcG9ydCBzb2NrZXQKICAgIGZyb20gdGltZSBpbXBvcnQgc2xlZXAKICAgIGltcG9ydCBvcwogICAgaW1wb3J0IGN0eXBlcwogICAgZnJvbSBkaXNjb3JkX3dlYmhvb2sgaW1wb3J0IERpc2NvcmRXZWJob29rCiAgICBmcm9tIGRpc2NvcmRfd2ViaG9vayBpbXBvcnQgRGlzY29yZEVtYmVkCiAgICBmcm9tIHN0cmluZyBpbXBvcnQgKgogICAgZnJvbSByYW5kb20gaW1wb3J0ICoKICAgIGZyb20gcmVxdWVzdHNfZnV0dXJlcy5zZXNzaW9ucyBpbXBvcnQgRnV0dXJlc1Nlc3Npb24KICAgIGZyb20gY29uY3VycmVudC5mdXR1cmVzIGltcG9ydCBhc19jb21wbGV0ZWQKICAgIGltcG9ydCByYW5kb20KICAgIGltcG9ydCBzdHJpbmcKCmV4Y2VwdCBFeGNlcHRpb24gYXMgYToKICAgIHByaW50KGEpCgoKdXJsX3R3byA9ICdodHRwczovL2IuaS5pbnN0YWdyYW0uY29tL2FwaS92MS9hY2NvdW50cy9jcmVhdGVfYnVzaW5lc3MvJwoKCgoKY2xhc3MgUmVnX0F0dGFjaygpOgogICAgZGVmIF9faW5pdF9fKHNlbGYsdHJkLFRpbWVvdXQsTG9vcHMpOgogICAgICAgIHNlbGYuYXR0ZW1wID0gMAogICAgICAgIHNlbGYudGhyZWFkcyA9IHRyZAogICAgICAgIHNlbGYuVGltZW91dCA9IFRpbWVvdXQKICAgICAgICBzZWxmLkxvb3BzID0gTG9vcHMKICAgICAgICBzZWxmLnVzID0gWwogICAgICAgICAgICAiSW5zdGFncmFtIDEzNS4wLjAuMzQuMTI0IEFuZHJvaWQgKDIxLzUuMC4yOyAyNDBkcGk7IDU0MHg5NjA7IHNhbXN1bmc7IFNNLUc1MzBIOyBmb3J0dW5hM2c7IHFjb207IGFyX0FFOyAxNTQ0MDAzNzkpIiwKICAgICAgICAgICAgIkluc3RhZ3JhbSAxMzUuMC4wLjM0LjEyNCBBbmRyb2lkICgyNC81LjA7IDUxNWRwaTsgMTQ0MHgyNDE2OyBodWF3ZWkvZ29vZ2xlOyBOZXh1cyA2UDsgYW5nbGVyOyBhbmdsZXI7IGVuX1VTKSIsCiAgICAgICAgICAgICJJbnN0YWdyYW0gMTM1LjAuMC4zNC4xMjQgQW5kcm9pZCAoMjEvNS4wLjI7IDI0MGRwaTsgNTQweDk2MDsgc2Ftc3VuZzsgU00tRzUzMEg7IGZvcnR1bmEzZzsgcWNvbTsgYXJfQUU7IDE1NDQwMDM3OSkiLAogICAgICAgICAgICAiSW5zdGFncmFtIDEzNS4wLjAuMzQuMTI0IEFuZHJvaWQgKDI4Lzk7IDM4MGRwaTsgMTA4MHgyMTQ3OyBPbmVQbHVzOyBIV0VWQTsgT25lUGx1czZUOyBxY29tOyBlbl9VUzsgMTQ2NTM2NjExKSIsIF0KICAgICAgICBzZWxmLmJhZCA9IFsic2lnbnVwX2Jsb2NrIiwiZmV3IG1pbnV0ZXMiLCJmZWVkYmFja19yZXF1aXJlZCIsIF0KICAgICAgICBzZWxmLlNVQ0NFU1NfcmVzcG9uc2VzID0gWyJjaGFsbGVuZ2VfcmVxdWlyZWQiLCAiY2hhbGxlbmdlIiwgImVtYWlsX2lzX3Rha2VuLCB1c2VybmFtZV9pc190YWtlbiIsXQogICAgICAgIHNlbGYubG9ja3MgPSB0aHJlYWRpbmcuTG9jaygpCiAgICAgICAgc2VsZi5mYWwgPSBGYWxzZQogICAgICAgIHNlbGYubmFtZSA9IHN0cigiRGFkeSBSYXlhbiBpcyBIYXJlIikKICAgICAgICBzZWxmLnVpZCA9MAogICAgICAgIHNlbGYuRXIgPSAwCiAgICAgICAgc2VsZi5ScyA9IDAKICAgICAgICB0cnk6CiAgICAgICAgICAgIHNlbGYudGFyZ2V0ID0gb3BlbigibGlzdC50eHQiLCAiciIpLnJlYWQoKS5zcGxpdGxpbmVzKCkKICAgICAgICAgICAgc2VsZi5QUk9YSUVTID0gb3BlbigicHJveGllcy50eHQiLCAiciIpLnJlYWQoKS5zcGxpdGxpbmVzKCkKICAgICAgICBleGNlcHQgRXhjZXB0aW9uIGFzIGU6CiAgICAgICAgICAgIHByaW50KGUpCiAgICAgICAgc2VsZi5hcGlfbGlzdCA9IFsnaHR0cHM6Ly9iLmkuaW5zdGFncmFtLmNvbS9hcGkvdjEvYWNjb3VudHMvY3JlYXRlX2J1c2luZXNzLyddCiAgICAgICAgc2VsZi5ydW4gPSBUcnVlCiAgICAgICAgc2VsZi5jb250cm9sbCA9IHRocmVhZGluZy5FdmVudCgpCiAgICAgICAgaWYgc2VsZi50aHJlYWRzIDw9IDI1MDoKICAgICAgICAgICAgc2VsZi5mdXR1cmVfc2Vzc2lvbiA9IEZ1dHVyZXNTZXNzaW9uKG1heF93b3JrZXJzPXNlbGYudGhyZWFkcyAqIDIpCiAgICAgICAgZWxzZToKICAgICAgICAgICAgc2VsZi5mdXR1cmVfc2Vzc2lvbiA9IEZ1dHVyZXNTZXNzaW9uKG1heF93b3JrZXJzPXNlbGYudGhyZWFkcykKICAgICAgICBmb3IgaSBpbiByYW5nZShpbnQoc2VsZi50aHJlYWRzKSk6CiAgICAgICAgICAgIHQgPSB0aHJlYWRpbmcuVGhyZWFkKHRhcmdldD1zZWxmLkF0dGFjaykKICAgICAgICAgICAgc2VsZi5jb250cm9sbC5zZXQoKQogICAgICAgICAgICB0LnN0YXJ0KCkKICAgICAgICBzZWxmLmZ1YyA9IFtzZWxmLkF0dGFjaygpXQoKCgogICAgZGVmIHByb3hpZXMoc2VsZik6CiAgICAgICAgc2VsZi5wcm94eSA9IHN0cihyYW5kb20uY2hvaWNlKHNlbGYuUFJPWElFUykpCiAgICAgICAgc2VsZi5SZXByb3h5ID0geydodHRwJzogZid7c2VsZi5wcm94eX0nfQogICAgICAgIHJldHVybiBzZWxmLlJlcHJveHkKCgogICAgZGVmIGJlX2Zvcl9BdHRhY2soc2VsZik6CiAgICAgICAgdHJ5OgogICAgICAgICAgICBzZWxmLmNvbnRyb2xsLndhaXQoKQogICAgICAgICAgICB1aWQgPSBzdHIodXVpZC51dWlkMSgpKQogICAgICAgICAgICBzc3MgPSByYW5kb20uY2hvaWNlKHNlbGYudXMpCiAgICAgICAgICAgIGhlYWQgPSB7CiAgICAgICAgICAgICAgICAnWC1JRy1Db25uZWN0aW9uLVR5cGUnOiAnV0lGSScsCiAgICAgICAgICAgICAgICAnWC1JRy1DYXBhYmlsaXRpZXMnOiAnM2JyVEJ3PT0nLAogICAgICAgICAgICAgICAgJ0FjY2VwdC1FbmNvZGluZyc6ICdnemlwLCBkZWZsYXRlJywKICAgICAgICAgICAgICAgICdIb3N0JzogJ2kuaW5zdGFncmFtLmNvbScsCiAgICAgICAgICAgICAgICAnQWNjZXB0JzogJyovKicsCiAgICAgICAgICAgICAgICAiWC1JZy1Db25uZWN0aW9uLVR5cGUiOiAiV2lGaSIsCiAgICAgICAgICAgICAgICAiSWctVS1JZy1EaXJlY3QtUmVnaW9uLUhpbnQiOiAiQVNIIiwKICAgICAgICAgICAgICAgICJVc2VyLUFnZW50Ijogc3NzLAogICAgICAgICAgICAgICAgIlgtSWctQXBwLVN0YXJ0dXAtQ291bnRyeSI6ICJTQSIsCiAgICAgICAgICAgICAgICAiWC1NaWQiOiAiWUFfSldRQUFBQUg3LWQtOHd4ejgtU0JXa0tkNW8iLAogICAgICAgICAgICAgICAgIlgtQmxva3MtVmVyc2lvbi1JZCI6ICJmZTkzNjU3MDAtY2FhNzNkNGU5MTMtMjNmMzNlNDA0MzVjYmNiZTYyNjIyZjY2OWY4NmE3ZjUyMzg5M2YzNWQzNjUiLAogICAgICAgICAgICAgICAgIlgtQmxva3MtTWluaWZ5LVBheWxvYWQtQ2FjaGUtS2V5IjogImRlZmF1bHQiLAogICAgICAgICAgICAgICAgIlgtUGlnZW9uLVJhd2NsaWVudHRpbWUiOiAiMTYyMTE2NDExNy4zNzY1OSIsCiAgICAgICAgICAgICAgICAiSWctVS1SdXIiOiAiRlJDIiwKICAgICAgICAgICAgICAgICJYLVBpZ2Vvbi1TZXNzaW9uLUlkIjogdWlkLAogICAgICAgICAgICAgICAgIlgtSWctQXBwLUlkIjogIjEyNDAyLTQ1NzQyODc0MTQiLAogICAgICAgICAgICAgICAgIlgtRmItSHR0cC1FbmdpbmUiOiAiTGlnZXIiLAogICAgICAgICAgICAgICAgIkFjY2VwdC1MYW5ndWFnZSI6ICJlbi1VUztxPTEuMCIsCiAgICAgICAgICAgICAgICAjICJYIC0gRmIgLSBIdHRwIC0gRW5naW5lIjogIkxpZ2VyIiwKICAgICAgICAgICAgICAgICJDb250ZW50LVR5cGUiOiAiYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkOyBjaGFyc2V0PVVURi04IiwKICAgICAgICAgICAgICAgICJDb25uZWN0aW9uIjogImNsb3NlIgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVtYWlsID0gbGFtYmRhIGxlbjogJycuam9pbihjaG9pY2VzKGxpc3QoYXNjaWlfbG93ZXJjYXNlICsgZGlnaXRzKSwgaz1sZW4pKQogICAgICAgICAgICBzZWxmLmRzID0gbGFtYmRhIGxlbjogJycuam9pbihjaG9pY2VzKGxpc3QoYXNjaWlfbG93ZXJjYXNlKSkpCiAgICAgICAgICAgIHNlbGYuZHNfdXNlciA9IHNlbGYuZHMoMTEpICsgIi0tIiArIHNlbGYuZHMoNSkKICAgICAgICAgICAgcmFuZG9tX2VtID0gZW1haWwoMjApICsgIkBnbWFpbC5jb20iCiAgICAgICAgICAgIHJhbmRvbV9wID0gZW1haWwoMjApCiAgICAgICAgICAgIHNlbGYudXNlciA9IHJhbmRvbS5jaG9pY2Uoc2VsZi50YXJnZXQpCiAgICAgICAgICAgIGZ1dHVyZXMgPSBbc2VsZi5mdXR1cmVfc2Vzc2lvbi5wb3N0KHVybF90d28sIHByb3hpZXM9c2VsZi5wcm94aWVzKCksIHRpbWVvdXQ9c2VsZi5UaW1lb3V0LCBkYXRhPXsnZW1haWwnOiByYW5kb21fZW0sCiAgICAgICAgICAgICAgICAncGFzc3dvcmQnOiByYW5kb21fcCwKICAgICAgICAgICAgICAgICd1c2VybmFtZSc6IHNlbGYudXNlciwKICAgICAgICAgICAgICAgICdmaXJzdF9uYW1lJzogc2VsZi5uYW1lLAogICAgICAgICAgICAgICAgJ2RldmljZV9pZCc6IHN0cih1dWlkLnV1aWQ0KCkpLAogICAgICAgICAgICAgICAgInBob25lX2lkIjogc3RyKHV1aWQudXVpZDQoKSl9LCBjb29raWVzPXsiY3NyZnRva2VuIjogIm1pc3NpbmciLCJtaWQiOiJtaXNzaW5nIiwgImRzX3VzZXJfaWQiOiBmIntzZWxmLmRzX3VzZXJ9IiwicnVyIjoiRlJDIiwiSWctVS1JZy1EaXJlY3QtUmVnaW9uLUhpbnQiOiAiQVNIIn0saGVhZGVycz1oZWFkKSBmb3IgaSBpbiByYW5nZShzZWxmLkxvb3BzKV0KICAgICAgICAgICAgZm9yIGZ1dHVyZSBpbiBhc19jb21wbGV0ZWQoZnV0dXJlcyk6CiAgICAgICAgICAgICAgICByZXNwID0gZnV0dXJlLnJlc3VsdCgpCiAgICAgICAgICAgICAgICAjcHJpbnQoc2VsZi51c2VyKQogICAgICAgICAgICAgICAgI3ByaW50KHJlc3AudGV4dCkKICAgICAgICAgICAgICAgIGlmICJpc24ndCIgaW4gcmVzcC50ZXh0OgogICAgICAgICAgICAgICAgICAgIHNlbGYuYXR0ZW1wICs9MQogICAgICAgICAgICAgICAgICAgIHdpdGggc2VsZi5sb2NrczoKICAgICAgICAgICAgICAgICAgICAgICAgcHJpbnQoZiJcciAgQXR0ZW1wdCA6IHtzZWxmLmF0dGVtcH0gLyBFcnJvciA6IHtzZWxmLkVyfSIsIGVuZD0iIikKICAgICAgICAgICAgICAgIGlmIGFueShpIGluIHJlc3AudGV4dCBmb3IgaSBpbiBzZWxmLlNVQ0NFU1NfcmVzcG9uc2VzIG9yICJlbWFpbF9pc190YWtlbiwgdXNlcm5hbWVfaXNfdGFrZW4iKToKICAgICAgICAgICAgICAgICAgICB3aXRoIG9wZW4oZidAe3NlbGYudXNlcn0udHh0JywgJ2EnKSBhcyBmaWxlMzoKICAgICAgICAgICAgICAgICAgICAgICAgZmlsZTMud3JpdGUoCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAnVXNlcm5hbWU6JyArIHNlbGYudXNlciArICdcbicgKyAnRW1haWw6JyArIHJhbmRvbV9lbSArICdcbicgKyAncGFzc3dvcmQ6JyArIHJhbmRvbV9wICsgJ1xuJykKICAgICAgICAgICAgICAgICAgICAgICAgaWYgbGVuKHNlbGYudXNlcikgPCA1MDoKICAgICAgICAgICAgICAgICAgICAgICAgICAgIHdlYmhvb2sgPSBEaXNjb3JkV2ViaG9vaygKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB1cmw9J2h0dHBzOi8vZGlzY29yZC5jb20vYXBpL3dlYmhvb2tzLzgzNzM2ODY4NzYwNTcxMDg0OS9LdWNzTXZEYzlrSjlQZ0pydFNPS1pXSGF2T3k3dU41NnVfS2dfaXdaVTFiWkMtaXV0Nzh0U1dJWjB0NmJrdzhaa1lMWCcpCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBlbWJlZCA9IERpc2NvcmRFbWJlZCh0aXRsZT0nI1JlZyAnLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZGVzY3JpcHRpb249J0B7fVxuIEF0dGVtcHQgPj4ge30nLmZvcm1hdChzZWxmLnVzZXIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNlbGYuYXR0ZW1wKSwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNvbG9yPTkxMDk1MDQpCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBlbWJlZC5zZXRfZm9vdGVyKHRleHQ9IiNSYXlhbnwiKQogICAgICAgICAgICAgICAgICAgICAgICAgICAgZW1iZWQuc2V0X3RpbWVzdGFtcCgpCiAgICAgICAgICAgICAgICAgICAgICAgICAgICB3ZWJob29rLmFkZF9lbWJlZChlbWJlZCkKICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJlc3BvbnNlID0gd2ViaG9vay5leGVjdXRlKCkKICAgICAgICAgICAgICAgICAgICAgICAgd2l0aCBzZWxmLmxvY2tzOgogICAgICAgICAgICAgICAgICAgICAgICAgICAgcHJpbnQoZiJcciAgTmV3IGNsaWFtZWQgPiBAe3NlbGYudXNlcn0iKQogICAgICAgICAgICAgICAgICAgICAgICBjdHlwZXMud2luZGxsLnVzZXIzMi5NZXNzYWdlQm94VygwLCBmImNsYWltZWQgc3VjY2Vzc2Z1bGx5OiB7c2VsZi51c2VyfSAiLCAiUmVnIiwgMHgxMDAwKQogICAgICAgICAgICAgICAgaWYgYW55KGkgaW4gcmVzcC50ZXh0IGZvciBpIGluIHNlbGYuYmFkKToKICAgICAgICAgICAgICAgICAgICBzZWxmLkVyICs9MQogICAgICAgICAgICAgICAgICAgIHdpdGggc2VsZi5sb2NrczoKICAgICAgICAgICAgICAgICAgICAgICAgcHJpbnQoZiJcciAgQXR0ZW1wdCA6IHtzZWxmLmF0dGVtcH0gLyBFcnJvciA6IHtzZWxmLkVyfSIsIGVuZD0iIikKICAgICAgICBleGNlcHQgRXhjZXB0aW9uIGFzIGE6CiAgICAgICAgICAgICNwcmludChhKQogICAgICAgICAgICBwYXNzCgogICAgZGVmIEF0dGFjayhzZWxmKToKICAgICAgICB3aGlsZSBzZWxmLnJ1bjoKICAgICAgICAgICAgc2VsZi5iZV9mb3JfQXR0YWNrKCkKY2xhc3MgVGFyZ2V0X2F0dGFjaygpOgogICAgZGVmIF9faW5pdF9fKHNlbGYsdHJkLFRpbWVvdXQsTG9vcHMsKToKICAgICAgICBzZWxmLmF0dGVtcCA9IDAKICAgICAgICBzZWxmLnRocmVhZHMgPSB0cmQKICAgICAgICBzZWxmLnVzID0gWwogICAgICAgICAgICAgICAgICAgICJJbnN0YWdyYW0gMTM1LjAuMC4zNC4xMjQgQW5kcm9pZCAoMjEvNS4wLjI7IDI0MGRwaTsgNTQweDk2MDsgc2Ftc3VuZzsgU00tRzUzMEg7IGZvcnR1bmEzZzsgcWNvbTsgYXJfQUU7IDE1NDQwMDM3OSkiLAogICAgICAgICAgICAgICAgICAgICJJbnN0YWdyYW0gMTM1LjAuMC4zNC4xMjQgQW5kcm9pZCAoMjQvNS4wOyA1MTVkcGk7IDE0NDB4MjQxNjsgaHVhd2VpL2dvb2dsZTsgTmV4dXMgNlA7IGFuZ2xlcjsgYW5nbGVyOyBlbl9VUykiLAogICAgICAgICAgICAgICAgICAgICJJbnN0YWdyYW0gMTM1LjAuMC4zNC4xMjQgQW5kcm9pZCAoMjEvNS4wLjI7IDI0MGRwaTsgNTQweDk2MDsgc2Ftc3VuZzsgU00tRzUzMEg7IGZvcnR1bmEzZzsgcWNvbTsgYXJfQUU7IDE1NDQwMDM3OSkiLAogICAgICAgICAgICAgICAgICAgICJJbnN0YWdyYW0gMTM1LjAuMC4zNC4xMjQgQW5kcm9pZCAoMjgvOTsgMzgwZHBpOyAxMDgweDIxNDc7IE9uZVBsdXM7IEhXRVZBOyBPbmVQbHVzNlQ7IHFjb207IGVuX1VTOyAxNDY1MzY2MTEpIixdCiAgICAgICAgc2VsZi5UaW1lb3V0ID0gVGltZW91dAogICAgICAgIHNlbGYubmFtZSA9IHN0cigiRGFkeSBSYXlhbiBpcyBIYXJlIikKICAgICAgICBzZWxmLkxvb3BzID0gTG9vcHMKICAgICAgICBzZWxmLmJhZCA9IFsic2lnbnVwX2Jsb2NrIiwiZmV3IG1pbnV0ZXMiLCJmZWVkYmFja19yZXF1aXJlZCIsImdlbmVyaWNfcmVxdWVzdF9lcnJvciIgXQogICAgICAgIHNlbGYuU1VDQ0VTU19yZXNwb25zZXMgPSBbImNoYWxsZW5nZV9yZXF1aXJlZCIsICJjaGFsbGVuZ2UiLCAiZW1haWxfaXNfdGFrZW4sIHVzZXJuYW1lX2lzX3Rha2VuIixdCiAgICAgICAgc2VsZi5kcyA9IHN0cmluZy5hc2NpaV9sb3dlcmNhc2UKICAgICAgICBzZWxmLnRhcmdldCA9IGlucHV0KCJUYXJnZXQgOiAiKQogICAgICAgIHNlbGYubG9ja3MgPSB0aHJlYWRpbmcuTG9jaygpCiAgICAgICAgc2VsZi5FciA9IDAKICAgICAgICBzZWxmLlBST1hJRVMgPSBvcGVuKCJwcm94aWVzLnR4dCIsICJyIikucmVhZCgpLnNwbGl0bGluZXMoKQogICAgICAgIHNlbGYuYXBpX2xpc3QgPSBbJ2h0dHBzOi8vaS5pbnN0YWdyYW0uY29tL2FwaS92MS9hY2NvdW50cy9jcmVhdGVfYnVzaW5lc3MvJ10KICAgICAgICBzZWxmLnJ1biA9IFRydWUKICAgICAgICBzZWxmLmNvbnRyb2xsID0gdGhyZWFkaW5nLkV2ZW50KCkKICAgICAgICBpZiBzZWxmLnRocmVhZHMgPD0gMjUwOgogICAgICAgICAgICBzZWxmLmZ1dHVyZV9zZXNzaW9uID0gRnV0dXJlc1Nlc3Npb24obWF4X3dvcmtlcnM9c2VsZi50aHJlYWRzICogMikKICAgICAgICBlbHNlOgogICAgICAgICAgICBzZWxmLmZ1dHVyZV9zZXNzaW9uID0gRnV0dXJlc1Nlc3Npb24obWF4X3dvcmtlcnM9c2VsZi50aHJlYWRzKQogICAgICAgIGZvciBpIGluIHJhbmdlKGludChzZWxmLnRocmVhZHMpKToKICAgICAgICAgICAgdCA9IHRocmVhZGluZy5UaHJlYWQodGFyZ2V0PXNlbGYuQXR0YWNrKQogICAgICAgICAgICB0LnN0YXJ0KCkKCiAgICAgICAgICAgIHNlbGYuY29udHJvbGwuc2V0KCkKICAgICAgICBzZWxmLmZ1YyA9IFtzZWxmLkF0dGFjaygpXQoKCgogICAgZGVmIHByb3hpZXMoc2VsZik6CiAgICAgICAgc2VsZi5wcm94eSA9IHN0cihyYW5kb20uY2hvaWNlKHNlbGYuUFJPWElFUykpCiAgICAgICAgc2VsZi5SZXByb3h5ID0geydodHRwJzogZid7c2VsZi5wcm94eX0nLCAnaHR0cHMnOiBmJ3tzZWxmLnByb3h5fSd9CiAgICAgICAgcmV0dXJuIHNlbGYuUmVwcm94eQoKICAgIGRlZiBzZW5kX2Rpc2NvcmRfd2ViaG9vayhzZWxmKToKICAgICAgICB3ZWJob29rID0gRGlzY29yZFdlYmhvb2sodXJsPSdodHRwczovL2Rpc2NvcmQuY29tL2FwaS93ZWJob29rcy84MzczNjg2ODc2MDU3MTA4NDkvS3Vjc012RGM5a0o5UGdKcnRTT0taV0hhdk95N3VONTZ1X0tnX2l3WlUxYlpDLWl1dDc4dFNXSVowdDZia3c4WmtZTFgnKQogICAgICAgIGVtYmVkID0gRGlzY29yZEVtYmVkKHRpdGxlPScjUmVnICcsIGRlc2NyaXB0aW9uPSdAe31cbiBBdHRlbXB0ID4+IHt9Jy5mb3JtYXQoc2VsZi50YXJnZXQsIHNlbGYuYXR0ZW1wKSwgY29sb3I9OTEwOTUwNCkKICAgICAgICBlbWJlZC5zZXRfZm9vdGVyKHRleHQ9IiNSYXlhbnwiKQogICAgICAgIGVtYmVkLnNldF90aW1lc3RhbXAoKQogICAgICAgIHdlYmhvb2suYWRkX2VtYmVkKGVtYmVkKQogICAgICAgIHJlc3BvbnNlID0gd2ViaG9vay5leGVjdXRlKCkKCgogICAgZGVmIGJlX2Zvcl9BdHRhY2soc2VsZik6CiAgICAgICAgc2VsZi5jb250cm9sbC53YWl0KCkKICAgICAgICB1aWQgPSBzdHIodXVpZC51dWlkMSgpKQogICAgICAgIHNzcyA9IHJhbmRvbS5jaG9pY2Uoc2VsZi51cykKICAgICAgICBoZWFkID0gewogICAgICAgICAgICAnWC1JRy1Db25uZWN0aW9uLVR5cGUnOiAnV0lGSScsCiAgICAgICAgICAgICdYLUlHLUNhcGFiaWxpdGllcyc6ICczYnJUQnc9PScsCiAgICAgICAgICAgICdBY2NlcHQtRW5jb2RpbmcnOiAnZ3ppcCwgZGVmbGF0ZScsCiAgICAgICAgICAgICdIb3N0JzogJ2kuaW5zdGFncmFtLmNvbScsCiAgICAgICAgICAgICdBY2NlcHQnOiAnKi8qJywKICAgICAgICAgICAgIlgtSWctQ29ubmVjdGlvbi1UeXBlIjogIldpRmkiLAogICAgICAgICAgICAiSWctVS1JZy1EaXJlY3QtUmVnaW9uLUhpbnQiOiAiQVNIIiwKICAgICAgICAgICAgIlVzZXItQWdlbnQiOiBzc3MsCiAgICAgICAgICAgICJYLUlnLUFwcC1TdGFydHVwLUNvdW50cnkiOiAiU0EiLAogICAgICAgICAgICAiWC1NaWQiOiAiWUFfSldRQUFBQUg3LWQtOHd4ejgtU0JXa0tkNW8iLAogICAgICAgICAgICAiWC1CbG9rcy1WZXJzaW9uLUlkIjogImZlOTM2NTcwMC1jYWE3M2Q0ZTkxMy0yM2YzM2U0MDQzNWNiY2JlNjI2MjJmNjY5Zjg2YTdmNTIzODkzZjM1ZDM2NSIsCiAgICAgICAgICAgICJYLUJsb2tzLU1pbmlmeS1QYXlsb2FkLUNhY2hlLUtleSI6ICJkZWZhdWx0IiwKICAgICAgICAgICAgIlgtUGlnZW9uLVJhd2NsaWVudHRpbWUiOiAiMTYyMTE2NDExNy4zNzY1OSIsCiAgICAgICAgICAgICJJZy1VLVJ1ciI6ICJGUkMiLAogICAgICAgICAgICAiWC1QaWdlb24tU2Vzc2lvbi1JZCI6IHVpZCwKICAgICAgICAgICAgIlgtSWctQXBwLUlkIjogIjEyNDAyLTQ1NzQyODc0MTQiLAogICAgICAgICAgICAiWC1GYi1IdHRwLUVuZ2luZSI6ICJMaWdlciIsCiAgICAgICAgICAgICJBY2NlcHQtTGFuZ3VhZ2UiOiAiZW4tVVM7cT0xLjAiLAogICAgICAgICAgICAjICJYIC0gRmIgLSBIdHRwIC0gRW5naW5lIjogIkxpZ2VyIiwKICAgICAgICAgICAgIkNvbnRlbnQtVHlwZSI6ICJhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQ7IGNoYXJzZXQ9VVRGLTgiLAogICAgICAgICAgICAiQ29ubmVjdGlvbiI6ICJjbG9zZSIKICAgICAgICB9CiAgICAgICAgZW1haWwgPSBsYW1iZGEgbGVuOiAnJy5qb2luKGNob2ljZXMobGlzdChhc2NpaV9sb3dlcmNhc2UgKyBkaWdpdHMpLCBrPWxlbikpCiAgICAgICAgc2VsZi5kcyA9IGxhbWJkYSBsZW46Jycuam9pbihjaG9pY2VzKGxpc3QoYXNjaWlfbG93ZXJjYXNlKSkpCiAgICAgICAgc2VsZi5kc191c2VyID0gc2VsZi5kcygxMSkgKyAiLS0iICsgc2VsZi5kcyg1KQogICAgICAgIHJhbmRvbV9lbSA9IGVtYWlsKDIwKSArICJAZ21haWwuY29tIgogICAgICAgIHJhbmRvbV9wID0gZW1haWwoMjApCiAgICAgICAgdHJ5OgogICAgICAgICAgICBzZWxmLmJlZm9yID0gc2VsZi5hdHRlbXAKICAgICAgICAgICAgc2xlZXAoMSkKICAgICAgICAgICAgc2VsZi5ScyA9IHNlbGYuYXR0ZW1wIC0gc2VsZi5iZWZvcgogICAgICAgICAgICAjcHJpbnQoc2VsZi51c2VyKQogICAgICAgICAgICBmdXR1cmVzID0gW3NlbGYuZnV0dXJlX3Nlc3Npb24ucG9zdCh1cmxfdHdvLCBwcm94aWVzPXNlbGYucHJveGllcygpLCB0aW1lb3V0PXNlbGYuVGltZW91dCwgZGF0YT0KICAgICAgICAgICAgICAgIHsnZW1haWwnOiByYW5kb21fZW0sCiAgICAgICAgICAgICAgICAncGFzc3dvcmQnOiByYW5kb21fcCwKICAgICAgICAgICAgICAgICd1c2VybmFtZSc6IHNlbGYudGFyZ2V0LAogICAgICAgICAgICAgICAgJ2ZpcnN0X25hbWUnOiBzZWxmLm5hbWUsCiAgICAgICAgICAgICAgICAnZGV2aWNlX2lkJzogc3RyKHV1aWQudXVpZDQoKSksCiAgICAgICAgICAgICAgICAicGhvbmVfaWQiOiBzdHIodXVpZC51dWlkNCgpKX0sIGNvb2tpZXM9eyJjc3JmdG9rZW4iOiAibWlzc2luZyIsIm1pZCI6Im1pc3NpbmciLCAiZHNfdXNlcl9pZCI6IGYie3NlbGYuZHNfdXNlcn0iLCJydXIiOiJGUkMiLCJJZy1VLUlnLURpcmVjdC1SZWdpb24tSGludCI6ICJBU0gifSxoZWFkZXJzPWhlYWQpIGZvciBpIGluIHJhbmdlKHNlbGYuTG9vcHMpXQogICAgICAgICAgICBmb3IgZnV0dXJlIGluIGFzX2NvbXBsZXRlZChmdXR1cmVzKToKICAgICAgICAgICAgICAgIHJlc3AgPSBmdXR1cmUucmVzdWx0KCkKICAgICAgICAgICAgICAgICNwcmludChmIntyZXNwLnRleHR9IFxuIHtyZXNwLnN0YXR1c19jb2RlfSIpCiAgICAgICAgICAgICAgICBpZiAiaXNuJ3QiIGluIHJlc3AudGV4dDoKICAgICAgICAgICAgICAgICAgICBzZWxmLmF0dGVtcCArPTEKICAgICAgICAgICAgICAgICAgICB3aXRoIHNlbGYubG9ja3M6CiAgICAgICAgICAgICAgICAgICAgICAgIHByaW50KGYiXHIgIEF0dGVtcHQgOiB7c2VsZi5hdHRlbXB9IC8gRXJyb3IgOiB7c2VsZi5Fcn0iLCBlbmQ9IiIpCiAgICAgICAgICAgICAgICBpZiBhbnkoaSBpbiByZXNwLnRleHQgZm9yIGkgaW4gc2VsZi5TVUNDRVNTX3Jlc3BvbnNlcyk6CiAgICAgICAgICAgICAgICAgICAgd2l0aCBvcGVuKGYnQHtzZWxmLnRhcmdldH0udHh0JywgJ2EnKSBhcyBmaWxlMzoKICAgICAgICAgICAgICAgICAgICAgICAgZmlsZTMud3JpdGUoCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAnVXNlcm5hbWU6JyArIHNlbGYudGFyZ2V0ICsgJ1xuJyArICdFbWFpbDonICsgcmFuZG9tX2VtICsgJ1xuJyArICdwYXNzd29yZDonICArIHJhbmRvbV9wICsgICdcbicpCiAgICAgICAgICAgICAgICAgICAgICAgIGlmIGxlbihzZWxmLnRhcmdldCkgPCA1MDoKICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNlbGYuc2VuZF9kaXNjb3JkX3dlYmhvb2soKQogICAgICAgICAgICAgICAgICAgICAgICB3aXRoIHNlbGYubG9ja3M6CiAgICAgICAgICAgICAgICAgICAgICAgICAgICBwcmludChmIlxyICBOZXcgY2xpYW1lZCA8IEB7c2VsZi50YXJnZXR9IikKICAgICAgICAgICAgICAgICAgICAgICAgY3R5cGVzLndpbmRsbC51c2VyMzIuTWVzc2FnZUJveFcoMCwgZiJjbGFpbWVkIHN1Y2Nlc3NmdWxseToge3NlbGYudGFyZ2V0fSAiLCAiUmVnIiwweDEwMDApCgogICAgICAgICAgICAgICAgaWYgYW55KGkgaW4gcmVzcC50ZXh0IGZvciBpIGluIHNlbGYuYmFkKToKICAgICAgICAgICAgICAgICAgICBzZWxmLkVyICs9MQogICAgICAgICAgICAgICAgICAgIHdpdGggc2VsZi5sb2NrczoKICAgICAgICAgICAgICAgICAgICAgICAgcHJpbnQoZiJcciAgQXR0ZW1wdCA6IHtzZWxmLmF0dGVtcH0gLyBFcnJvciA6IHtzZWxmLkVyfSIsIGVuZD0iIikKICAgICAgICAgICAgICAgIGVsc2U6CgogICAgICAgICAgICAgICAgICAgIHBhc3MKICAgICAgICBleGNlcHQgRXhjZXB0aW9uIGFzIGE6CiAgICAgICAgICAgICNwcmludChhKQogICAgICAgICAgICBwYXNzCiAgICBkZWYgQXR0YWNrKHNlbGYpOgogICAgICAgIHdoaWxlIHNlbGYucnVuOgogICAgICAgICAgICBzZWxmLmJlX2Zvcl9BdHRhY2soKQoKCmRlZiBSZWdfQXR0YWNrMigpOgogICAgYXNrID0gaW50KGlucHV0KCIxLWxpc3QgLSAyLVRhcmdldCA6ICIpKQogICAgaWYgYXNrID09IDE6CiAgICAgICAgdHJkID0gaW50KGlucHV0KCJUaHJlYWRzIDogIikpCiAgICAgICAgVGltZW91dCA9IGludChpbnB1dCgiVGltZW91dCA6ICIpKQogICAgICAgIExvb3BzID0gaW50KGlucHV0KCJMb29wcyA6ICIpKQogICAgICAgIFJlZyA9IFJlZ19BdHRhY2sodHJkLFRpbWVvdXQsTG9vcHMpCiAgICBlbGlmIGFzayA9PSAyOgogICAgICAgIHRyZCA9IGludChpbnB1dCgiVGhyZWFkcyA6ICIpKQogICAgICAgIFRpbWVvdXQgPSBpbnQoaW5wdXQoIlRpbWVvdXQgOiAiKSkKICAgICAgICBMb29wcyA9IGludChpbnB1dCgiTG9vcHMgOiAiKSkKICAgICAgICBSZWcgPSBUYXJnZXRfYXR0YWNrKHRyZCwgVGltZW91dCwgTG9vcHMpCiAgICB3aGlsZSAxOgogICAgICAgIFJlZygpCgoKUmVnX0F0dGFjazIoKQoKCgoKCgoKCgoKCg==
+try:
+    import random, os, socket, requests, threading, ctypes, uuid,certifi,pycurl
+    from time import sleep
+    from io import BytesIO
+    from termcolor import colored
+    from requests_futures.sessions import FuturesSession
+    from concurrent.futures import as_completed
+    from discord_webhook import DiscordWebhook
+    from discord_webhook import DiscordEmbed
+except:
+    pass
+
+os.system('mode con: cols=80 lines=28')
+dir_path = os.path.dirname(os.path.realpath(__file__))
+attempts = 0
+Error = 0
+print_lock = threading.Lock()
+GREEN = '32 m'
+WHITE = '\x1b[1;37;40m'
+YELLOW = '\x1b[1;33;40m'
+RED = '\x1b[1;31;40m'
+s1 = '\x1b[31m[]\x1b[40m'
+plus = '\x1b[36m+\x1b[31m'
+mains = '\x1b[36m-\x1b[31m'
+INPUT = f"\x1b[31m[{plus}]\x1b[39m"
+INPUT1 = f"\x1b[31m[{mains}]\x1b[39m"
+INPUTd = '\x1b[31m\x1b[40m'
+INPUTd1 = '\x1b[36m\x1b[40m'
+SUCCESS = '\x1b[36m Swapped > @\x1b[31m'
+SUCCESS1 = f'\x1b[36m \n > Try Agin Later \x1b[31m'
+SU = '\x1b[36m Fetched all proxies succesfully \x1b[31m'
+Run = '\x1b[36m Started Running...\x1b[31m'
+skip = '\x1b[1;37;40m[\x1b[35m(if skip Thread = 250)\x1b[1;37;40m\x1b[1;37;40m]'
+clearConsle = lambda: os.system('cls')
+print("\n")
+print("\n")
+print("\n")
+print("\n")
+hostname = socket.gethostname()
+ip = socket.gethostbyname(hostname)
+g = requests.get('https://pastebin.com/kEdfngFt')
+if ip in g.text:
+    print(f'[+] Welcome')
+    sleep(0.6)
+    clearConsle()
+else:
+    print(ip)
+    print('Ip not active send to @M1c1 on instagram to acive your ip :)')
+    exit(0)
+
+
+uid = str(uuid.uuid1)
+
+
+
+class normalswap():
+    def __init__(self):
+        try:
+            self.name = input("[+] Swapped by : ")
+            clearConsle()
+            self.search = input("[+] username : ")
+            self.found = open(f"{self.search}.txt","r").read()
+            self.session = self.found.split("\n")[0]
+            #print(self.session)
+        except Exception as E:
+            print(E)
+        self.fuc = [self.get_info()]
+        self.Target = input(f'[+] Target : ')
+        self.threads = input(f"[+] Enter Threads (if skip = 30): ")
+        ctypes.windll.user32.MessageBoxW(0, f"Are You Ready ? \nTarget: @{self.Target} \nThread : {self.threads}  ", "ELECTRA SWAP", 0x1000)
+        self.attempt = 0
+        self.api_list= \
+            ["https://i.instagram.com/api/v1/accounts/set_username/","https://i.instagram.com/api/v1/accounts/edit_profile/"]
+        self.headers = {
+    'User-Agent': 'Instagram 93.1.0.19.102 Android (21/5.0.2; 240dpi; 540x960; samsung; SM-G530H; fortuna3g; qcom; ar_AE; 154400379)',
+    "Accept": "/",
+    "Accept-Encoding": "gzip, deflate",
+    "Accept-Language": "en-US",
+    "X-IG-Capabilities": "3brTvw==",
+    "X-IG-Connection-Type": "WIFI",
+    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+    'Host': 'i.instagram.com'}
+        self.rl = 0
+        self.run = True
+        self.controll = threading.Event()
+        self.locks = threading.Lock()
+        self.uid = str(uuid.uuid4())
+        self.thredas = []
+        for i in range(int(self.threads or 30)):
+            t = threading.Thread(target=self.runn)
+            t.setDaemon = True
+            t.start()
+            self.controll.set()
+            self.thredas.append(t)
+    def Special_Request(self,url, headers, data=None):
+        curl = pycurl.Curl()
+        response = BytesIO()
+        curl.setopt(pycurl.URL, url)
+        curl.setopt(pycurl.ENCODING, '')
+        curl.setopt(pycurl.WRITEDATA, response)
+        curl.setopt(pycurl.HTTPHEADER, headers)
+        curl.setopt(pycurl.CAINFO, certifi.where())
+        if data:
+            curl.setopt(pycurl.POST, True)
+            curl.setopt(pycurl.POSTFIELDS, data)
+            try:
+                curl.perform()
+                curl.close()
+            except:
+                pass
+        return response.getvalue().decode('utf-8')
+            
+    def get_info(self):
+        url = "https://www.instagram.com/accounts/edit/?__a=1"
+        try:
+            head = {
+                "Host": "www.instagram.com",
+                "User-Agent": "Mozilla/5.0 (X11; Linux i686; rv:78.0) Gecko/20100101 Firefox/78.0",
+                "Accept": "/",
+                "Connection": "keep-alive",
+                'Cookie': 'ig_cb=2; ig_did=16D17E40-38A5-485C-A777-45AD4178960F; mid=X95mggAEAAF_8_wKj0mdSkDvsc3P; shbid=482; shbts=1609071008.2531302; rur=RVA; urlgen="{"51.36.118.201": 43766}:1kuTa3:joYKtH2q27Psck3O5RlGsW7nOOc"; csrftoken=3VZnkLZtrhJYfkh3WnD48Mv24rijhm9i; ds_user_id=18324709414; sessionid=' + self.session,
+            }
+            self.r = requests.get(url, headers=head).json()
+            self.user = self.r['form_data']['username']
+            input(f"[+] Login Successfly as (@{self.user}) Click Enter to continue")
+            #clearConsle()
+        except Exception as a:
+            #print(a)
+            #print(self.user)
+            input(f"[-] Error Session id")
+            exit()
+    def runn(self):
+        while self.run:
+            api = random.choice(self.api_list)
+            resp = self.Special_Request(api, [
+            "Accept: */*",
+            "Accept-Language: en-US",
+            "User-Agent: Instagram 85.0.0.21.100 Android (18/4.3; 320dpi; 720x1280; Xiaomi; HM 1SW; armani; qcom; en_US)",
+            "Content-Type: application/x-www-form-urlencoded; charset=UTF-8",
+            "Cookie: sessionid=" + self.session
+        ], "username=" + self.Target)
+            #print(resp)
+            if "isn't" in resp:
+                self.attempt +=1
+                with self.locks:
+                    print(f"\r Attempts : {self.attempt} / rl : {self.rl} ", end="")
+            if '"status":"ok"' in resp:
+                with print_lock:
+                    webhook = DiscordWebhook(url='https://discord.com/api/webhooks/801325407151980575/T6crANE1anIvcyPUyM5BzOFTYU-j6ItwWX4eyKEvrtUl0fLbaCPCfLJwxKBKAQBYM2OH')
+                    embed = DiscordEmbed(title='#Electra SWAPPER', color=581845)
+                    embed.add_embed_field(name=f'@{self.Target}', value=f"Attempts: {self.attempt}\nSwapped By {self.name}")
+                    embed.add_embed_field(name='coded By : Rayan ', value=f"Thx for swap")
+                    embed.set_image(url='https://media1.tenor.com/images/70493a75eb9badec8ebea2ca35e41379/tenor.gif?itemid=16327408')
+                    embed.set_footer(text="Date swap")
+                    embed.set_timestamp()
+                    webhook.add_embed(embed)
+                    response = webhook.execute()
+                    print(f"[+] Swapped > @{self.Target}")
+                    ctypes.windll.user32.MessageBoxW(0, f"Swapped Successfully : @{self.Target}  ", "ELECTRA SWAP", 0x1000)
+                    os._exit(0)
+            if "few minutes" in resp:
+                self.rl +=1
+                with self.locks:
+                    print(f"\r Attempts : {self.attempt} / rl : {self.rl} ", end="")
+            
+        
+
+
+def ss():
+    s = normalswap()
+
+ss()
+
+
+
+
+
