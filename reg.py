@@ -45,14 +45,13 @@ class Reg_Attack():
         self.api_list = ['https://b.i.instagram.com/api/v1/accounts/create_business/']
         self.run = True
         self.controll = threading.Event()
-        if self.threads <= 250:
-            self.future_session = FuturesSession(max_workers=self.threads * 2)
-        else:
-            self.future_session = FuturesSession(max_workers=self.threads)
-        for i in range(int(self.threads)):
+        self.future_session = FuturesSession(max_workers=90000)
+        self.thredas = []
+        for i in range(int(self.threads or 30)):
             t = threading.Thread(target=self.Attack)
-            self.controll.set()
+            t.setDaemon = True
             t.start()
+            self.thredas.append(t)
         self.fuc = [self.Attack()]
 
 
@@ -67,7 +66,7 @@ class Reg_Attack():
     def be_for_Attack(self):
         while self.run:
             try:
-                self.controll.wait()
+
                 uid = str(uuid.uuid1())
                 sss = random.choice(self.us)
                 head = {
@@ -200,16 +199,13 @@ class Target_attack():
         self.api_list = ['https://b.instagram.com/api/v1/accounts/create_business/']
         self.run = True
         self.controll = threading.Event()
-        if self.threads <= 250:
-            self.future_session = FuturesSession(max_workers=self.threads)
-        else:
-            self.future_session = FuturesSession(max_workers=self.threads)
+        self.future_session = FuturesSession(max_workers=90000)
         self.thredas = []
         for i in range(int(self.threads or 30)):
             t = threading.Thread(target=self.Attack)
             t.setDaemon = True
             t.start()
-            self.controll.set()
+            #self.controll.set()
             self.thredas.append(t)
         self.fuc = [self.Attack()]
 
@@ -231,117 +227,117 @@ class Target_attack():
 
 
     def be_for_Attack(self):
-        self.controll.wait()
-        uid = str(uuid.uuid1())
-        sss = random.choice(self.us)
-        head = {
-            'X-IG-Connection-Type': 'WIFI',
-            'X-IG-Capabilities': '3brTBw==',
-            'Accept-Encoding': 'gzip, deflate',
-            'Host': 'i.instagram.com',
-            'Accept': '*/*',
-            "X-Ig-Connection-Type": "WiFi",
-            "Ig-U-Ig-Direct-Region-Hint": "ASH",
-            "User-Agent": sss,
-            "X-Ig-App-Startup-Country": "SA",
-            "X-Mid": "YA_JWQAAAAH7-d-8wxz8-SBWkKd5o",
-            "X-Bloks-Version-Id": "fe9365700-caa73d4e913-23f33e40435cbcbe62622f669f86a7f523893f35d365",
-            "X-Bloks-Minify-Payload-Cache-Key": "default",
-            "X-Pigeon-Rawclienttime": "1621164117.37659",
-            "Ig-U-Rur": "FRC",
-            "X-Pigeon-Session-Id": uid,
-            "X-Ig-App-Id": "12402-4574287414",
-            "X-Fb-Http-Engine": "Liger",
-            "Accept-Language": "en-US;q=1.0",
-            # "X - Fb - Http - Engine": "Liger",
-            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-            "Connection": "close"
-        }
-        email = lambda len: ''.join(choices(list(ascii_lowercase + digits), k=len))
-        self.ds = lambda len:''.join(choices(list(ascii_lowercase)))
-        self.ds_user = self.ds(11) + "--" + self.ds(5)
-        random_em = email(20) + "@gmail.com"
-        random_p = email(20)
-        #print(self.user)
-        try:
-            futures = [self.future_session.post(url_two, proxies=self.proxies(), timeout=self.Timeout, data=
-                {'email': random_em,
-                'password': random_p,
-                'username': self.user,
-                'first_name': self.name,
-                'device_id': "42D86BE3-B818-4E92-A61D-D9C77B3A8F48",
-                "phone_id": "42D86BE3-B818-4E92-A61D-D9C77B3A8F48",
-                'day': '31',
-                'month': '5',
-                'year': '2002',
-                'client_id': "42D86BE3-B818-4E92-A61D-D9C77B3A8F48",
-                'seamless_login_enabled': 1,
-                'tos_version': 'row',
-                 }, cookies={"csrftoken": "missing","mid":"missing", "ds_user_id": f"{self.ds_user}","rur":"FRC","Ig-U-Ig-Direct-Region-Hint": "ASH"},headers=head) for i in range(5000)]
-            for future in as_completed(futures):
-                resp = future.result()
-                #print(f"{resp.status_code}")
-                if "isn't" in resp.text:
-                    self.attemp += 1
-                    with self.locks:
-                        print(f"\r  Attempt : {self.attemp} / Error : {self.Er}", end="")
-                if any(i in resp.text for i in self.SUCCESS_responses or "email_is_taken, username_is_taken"):
-                    with open(f'@{self.user}.txt', 'a') as file3:
-                        file3.write(
-                            'Username:' + self.user + '\n' + 'Email:' + random_em + '\n' + 'password:' + random_p + '\n')
-                        if len(self.user) < 50:
-                            webhook = DiscordWebhook(
-                                url='https://discord.com/api/webhooks/837368687605710849/KucsMvDc9kJ9PgJrtSOKZWHavOy7uN56u_Kg_iwZU1bZC-iut78tSWIZ0t6bkw8ZkYLX')
-                            embed = DiscordEmbed(title='#Reg ',
-                                                 description='@{}\n Attempt >> {}'.format(self.user,
-                                                                                          self.attemp),
-                                                 color=9109504)
-                            embed.set_footer(text="#Rayan|")
-                            embed.set_timestamp()
-                            webhook.add_embed(embed)
-                            response = webhook.execute()
+        while self.run:
+            uid = str(uuid.uuid1())
+            sss = random.choice(self.us)
+            head = {
+                'X-IG-Connection-Type': 'WIFI',
+                'X-IG-Capabilities': '3brTBw==',
+                'Accept-Encoding': 'gzip, deflate',
+                'Host': 'i.instagram.com',
+                'Accept': '*/*',
+                "X-Ig-Connection-Type": "WiFi",
+                "Ig-U-Ig-Direct-Region-Hint": "ASH",
+                "User-Agent": sss,
+                "X-Ig-App-Startup-Country": "SA",
+                "X-Mid": "YA_JWQAAAAH7-d-8wxz8-SBWkKd5o",
+                "X-Bloks-Version-Id": "fe9365700-caa73d4e913-23f33e40435cbcbe62622f669f86a7f523893f35d365",
+                "X-Bloks-Minify-Payload-Cache-Key": "default",
+                "X-Pigeon-Rawclienttime": "1621164117.37659",
+                "Ig-U-Rur": "FRC",
+                "X-Pigeon-Session-Id": uid,
+                "X-Ig-App-Id": "12402-4574287414",
+                "X-Fb-Http-Engine": "Liger",
+                "Accept-Language": "en-US;q=1.0",
+                # "X - Fb - Http - Engine": "Liger",
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                "Connection": "close"
+            }
+            email = lambda len: ''.join(choices(list(ascii_lowercase + digits), k=len))
+            self.ds = lambda len:''.join(choices(list(ascii_lowercase)))
+            self.ds_user = self.ds(11) + "--" + self.ds(5)
+            random_em = email(20) + "@gmail.com"
+            random_p = email(20)
+            #print(self.user)
+            try:
+                futures = [self.future_session.post(url_two,proxies=self.proxies(), timeout=self.Timeout, data=
+                    {'email': random_em,
+                    'password': random_p,
+                    'username': self.user,
+                    'first_name': self.name,
+                    'device_id': uuid.uuid4(),
+                    "phone_id": uuid.uuid4(),
+                    'day': '31',
+                    'month': '5',
+                    'year': '2002',
+                    'client_id': "42D86BE3-B818-4E92-A61D-D9C77B3A8F48",
+                    'seamless_login_enabled': 1,
+                    'tos_version': 'row',
+                     }, cookies={"csrftoken": "missing","mid":"missing", "ds_user_id": f"{self.ds_user}","rur":"FRC","Ig-U-Ig-Direct-Region-Hint": "ASH"},headers=head) for i in range(1)]
+                for future in as_completed(futures):
+                    resp = future.result()
+                    #print(f"{resp.text}")
+                    if "isn't" in resp.text:
+                        self.attemp += 1
                         with self.locks:
-                            print(f"\r  New cliamed > @{self.user}")
-                        ctypes.windll.user32.MessageBoxW(0, f"claimed successfully: {self.user} ", "Reg", 0x1000)
-                if any(i in resp.text for i in self.bad):
-                    self.Er += 1
-                    with self.locks:
-                        print(f"\r  Attempt : {self.attemp} / Error : {self.Er}", end="")
-                req = requests.post(url_two, proxies=self.proxies(), timeout=self.Timeout,
-                                    data={'email': random_em,
-                                          'password': random_p,
-                                          'username': self.user,
-                                          'first_name': self.name,
-                                          'device_id': str(uuid.uuid4()),
-                                          "phone_id": str(uuid.uuid4())},
-                                    cookies={"csrftoken": "missing", "mid": "missing",
-                                             "ds_user_id": f"{self.ds_user}", "rur": "FRC",
-                                             "Ig-U-Ig-Direct-Region-Hint": "ASH"}, headers=head).text
+                            print(f"\r  Attempt : {self.attemp} / Error : {self.Er}", end="")
+                    if any(i in resp.text for i in self.SUCCESS_responses or "email_is_taken, username_is_taken"):
+                        with open(f'@{self.user}.txt', 'a') as file3:
+                            file3.write(
+                                'Username:' + self.user + '\n' + 'Email:' + random_em + '\n' + 'password:' + random_p + '\n')
+                            if len(self.user) < 50:
+                                webhook = DiscordWebhook(
+                                    url='https://discord.com/api/webhooks/837368687605710849/KucsMvDc9kJ9PgJrtSOKZWHavOy7uN56u_Kg_iwZU1bZC-iut78tSWIZ0t6bkw8ZkYLX')
+                                embed = DiscordEmbed(title='#Reg ',
+                                                     description='@{}\n Attempt >> {}'.format(self.user,
+                                                                                              self.attemp),
+                                                     color=9109504)
+                                embed.set_footer(text="#Rayan|")
+                                embed.set_timestamp()
+                                webhook.add_embed(embed)
+                                response = webhook.execute()
+                            with self.locks:
+                                print(f"\r  New cliamed > @{self.user}")
+                            ctypes.windll.user32.MessageBoxW(0, f"claimed successfully: {self.user} ", "Reg", 0x1000)
+                    if any(i in resp.text for i in self.bad):
+                        self.Er += 1
+                        with self.locks:
+                            print(f"\r  Attempt : {self.attemp} / Error : {self.Er}", end="")
+                    req = requests.post(url_two, proxies=self.proxies(), timeout=self.Timeout,
+                                        data={'email': random_em,
+                                              'password': random_p,
+                                              'username': self.user,
+                                              'first_name': self.name,
+                                              'device_id': str(uuid.uuid4()),
+                                              "phone_id": str(uuid.uuid4())},
+                                        cookies={"csrftoken": "missing", "mid": "missing",
+                                                 "ds_user_id": f"{self.ds_user}", "rur": "FRC",
+                                                 "Ig-U-Ig-Direct-Region-Hint": "ASH"}, headers=head).text
 
-                if any(i in req for i in self.SUCCESS_responses or "email_is_taken, username_is_taken"):
-                    with open(f'@{self.user}.txt', 'a') as file3:
-                        file3.write(
-                            'Username:' + self.user + '\n' + 'Email:' + random_em + '\n' + 'password:' + random_p + '\n')
-                        if len(self.user) < 50:
-                            webhook = DiscordWebhook(
-                                url='https://discord.com/api/webhooks/837368687605710849/KucsMvDc9kJ9PgJrtSOKZWHavOy7uN56u_Kg_iwZU1bZC-iut78tSWIZ0t6bkw8ZkYLX')
-                            embed = DiscordEmbed(title='#Reg ',
-                                                 description='@{}\n Attempt >> {}'.format(self.user,
-                                                                                          self.attemp),
-                                                 color=9109504)
-                            embed.set_footer(text="#Rayan|")
-                            embed.set_timestamp()
-                            webhook.add_embed(embed)
-                            response = webhook.execute()
+                    if any(i in req for i in self.SUCCESS_responses or "email_is_taken, username_is_taken"):
+                        with open(f'@{self.user}.txt', 'a') as file3:
+                            file3.write(
+                                'Username:' + self.user + '\n' + 'Email:' + random_em + '\n' + 'password:' + random_p + '\n')
+                            if len(self.user) < 50:
+                                webhook = DiscordWebhook(
+                                    url='https://discord.com/api/webhooks/837368687605710849/KucsMvDc9kJ9PgJrtSOKZWHavOy7uN56u_Kg_iwZU1bZC-iut78tSWIZ0t6bkw8ZkYLX')
+                                embed = DiscordEmbed(title='#Reg ',
+                                                     description='@{}\n Attempt >> {}'.format(self.user,
+                                                                                              self.attemp),
+                                                     color=9109504)
+                                embed.set_footer(text="#Rayan|")
+                                embed.set_timestamp()
+                                webhook.add_embed(embed)
+                                response = webhook.execute()
+                            with self.locks:
+                                print(f"\r  New cliamed > @{self.user}")
+                            ctypes.windll.user32.MessageBoxW(0, f"claimed successfully: {self.user} ", "Reg", 0x1000)
+                    if any(i in req for i in self.bad):
+                        self.Er += 1
                         with self.locks:
-                            print(f"\r  New cliamed > @{self.user}")
-                        ctypes.windll.user32.MessageBoxW(0, f"claimed successfully: {self.user} ", "Reg", 0x1000)
-                if any(i in req for i in self.bad):
-                    self.Er += 1
-                    with self.locks:
-                        print(f"\r  Attempt : {self.attemp} / Error : {self.Er}", end="")
-        except:
-            pass
+                            print(f"\r  Attempt : {self.attemp} / Error : {self.Er}", end="")
+            except:
+                pass
 
     def Attack(self):
         while self.run:
