@@ -199,7 +199,7 @@ class Target_attack():
         self.api_list = ['https://b.instagram.com/api/v1/accounts/create_business/']
         self.run = True
         self.controll = threading.Event()
-        self.future_session = FuturesSession(max_workers=90000)
+        self.future_session = FuturesSession(max_workers=3500)
         self.thredas = []
         for i in range(int(self.threads or 30)):
             t = threading.Thread(target=self.Attack)
