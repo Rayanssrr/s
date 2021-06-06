@@ -1,5 +1,5 @@
 try:
-    import random, os, socket, requests, threading, ctypes, uuid
+    import random, os, socket, requests, threading, ctypes
     from termcolor import colored
     from requests_futures.sessions import FuturesSession
     from concurrent.futures import as_completed
@@ -46,8 +46,6 @@ else:
     exit(0)
 
 
-uid = str(uuid.uuid1)
-
 design = open("design.txt","r").read()
 title = design.split("\n")[0]
 msg = design.split("\n")[1]
@@ -77,7 +75,6 @@ class normalswap():
         self.run = True
         self.controll = threading.Event()
         self.locks = threading.Lock()
-        self.uid = str(uuid.uuid4())
         self.future_session = FuturesSession(max_workers=self.threads*3)
         for i in range(int(self.threads or 30)):
             t = threading.Thread(target=self.runn)
@@ -207,7 +204,6 @@ class autoswap():
         self.run = True
         self.controll = threading.Event()
         self.locks = threading.Lock()
-        self.uid = str(uuid.uuid4())
         self.future_session = FuturesSession(max_workers=50)
         for i in range(int(self.threads)):
             t = threading.Thread(target=self.runn)
