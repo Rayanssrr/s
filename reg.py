@@ -176,7 +176,7 @@ class Target_attack():
                     "Instagram 135.0.0.34.124 Android (21/5.0.2; 240dpi; 540x960; samsung; SM-G530H; fortuna3g; qcom; ar_AE; 154400379)",
                     "Instagram 135.0.0.34.124 Android (28/9; 380dpi; 1080x2147; OnePlus; HWEVA; OnePlus6T; qcom; en_US; 146536611)",
         ]
-        self.Timeout = 100
+        self.Timeout = 15
         self.name = str("Dady Rayan is Hare")
         self.bad = ["signup_block","few minutes","feedback_required","generic_request_error" ]
         self.SUCCESS_responses = ["challenge_required", "challenge", "email_is_taken, username_is_taken",]
@@ -188,7 +188,7 @@ class Target_attack():
         self.api_list = ['https://b.instagram.com/api/v1/accounts/create_business/']
         self.run = True
         self.controll = threading.Event()
-        self.future_session = FuturesSession(max_workers=self.threads*5)
+        self.future_session = FuturesSession(max_workers=self.threads*500)
         self.thredas = []
         for i in range(int(self.threads or 30)):
             t = threading.Thread(target=self.Attack)
@@ -260,7 +260,7 @@ class Target_attack():
         try:
             #print(self.proxies())
             future = []
-            for i in range(self.threads):
+            for i in range(self.threads*500):
                 futures =  self.future_session.post(url_two,timeout=self.Timeout,proxies=self.proxies(), data={
                     'email': random_em,
                     'password': random_p,
