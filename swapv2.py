@@ -1,6 +1,5 @@
 try:
     import random, os, socket, requests, threading, ctypes, uuid
-    from time import sleep
     from termcolor import colored
     from requests_futures.sessions import FuturesSession
     from concurrent.futures import as_completed
@@ -40,7 +39,6 @@ ip = socket.gethostbyname(hostname)
 g = requests.get('https://pastebin.com/kEdfngFt')
 if ip in g.text:
     print(f'[+] Welcome')
-    sleep(0.6)
     clearConsle()
 else:
     print(ip)
@@ -215,7 +213,6 @@ class autoswap():
             t = threading.Thread(target=self.runn)
             self.controll.set()
             t.start()
-            sleep(3)
             self.fuc1 = [self.open()]
     def get_info(self):
         url = "https://www.instagram.com/accounts/edit/?__a=1"
