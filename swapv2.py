@@ -6,6 +6,10 @@ try:
     from concurrent.futures import as_completed
     from discord_webhook import DiscordWebhook
     from discord_webhook import DiscordEmbed
+    os.system("pip install termcolor")
+    os.system("pip install requests_futures")
+    os.system("pip install discord_webhook")
+
 except Exception as W:
     print(W)
     os._exit(0)
