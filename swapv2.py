@@ -6,13 +6,12 @@ try:
     from concurrent.futures import as_completed
     from discord_webhook import DiscordWebhook
     from discord_webhook import DiscordEmbed
+except Exception as W:
+    print(W)
     os.system("pip install termcolor")
     os.system("pip install requests_futures")
     os.system("pip install discord_webhook")
-
-except Exception as W:
-    print(W)
-    os._exit(0)
+    pass
 
 os.system('mode con: cols=85 lines=33')
 
