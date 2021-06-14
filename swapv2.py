@@ -1,17 +1,18 @@
 try:
-    import random, os, socket, requests, threading, ctypes
+    import random, os, socket, requests, threading, ctypes, uuid
     from time import sleep
     from termcolor import colored
     from requests_futures.sessions import FuturesSession
     from concurrent.futures import as_completed
     from discord_webhook import DiscordWebhook
     from discord_webhook import DiscordEmbed
+
+
 except Exception as W:
     print(W)
     os.system("pip install termcolor")
     os.system("pip install requests_futures")
     os.system("pip install discord_webhook")
-    pass
 
 os.system('mode con: cols=85 lines=33')
 
@@ -48,16 +49,14 @@ else:
     os._exit(0)
 print("\n")
 
-
-
 dude = """
 
     * Swap Instagram * 
-    
+
         Targrt Mode 
         ./ Made By @Cokepokes_
        i can change dude :) 
-   
+
 """
 ban = """""""""
                  ______  __       ____    __  __  ______     
@@ -67,10 +66,10 @@ ban = """""""""
                   \ \ \/\ \ \ \L\ \ \ \ \/  \ \ \ \ \ \ \/\ \ 
                    \ \_\ \_\ \____/ \ \_\   \ \_\ \_\ \_\ \_\ 
                     \/_/\/_/\/___/   \/_/    \/_/\/_/\/_/\/_/
-                    
+
                                 """""""""
 print(GREEN + dude + red + ban)
-print(under*75)
+print(under * 75)
 
 design = open("design.txt", "r").read()
 title = design.split("\n")[0]
@@ -89,14 +88,15 @@ images = [
 
 im = random.choice(images)
 api_list = [
-                'https://i.instagram.com/api/v1/accounts/set_username/',
-                'https://i.instagram.com/api/v1/accounts/edit_profile/'
-            ]
+    'https://b.instagram.com/api/v1/accounts/set_username/',
+    'https://b.instagram.com/api/v1/accounts/edit_profile/'
+]
+
 
 class normalswap():
     def __init__(self):
         self.ask = int(input(f"{INPUT1}{blue} [1] Without Proxy | [2] With Proxy : "))
-        self.PROXIES = open("proxies.txt","r").read().splitlines()
+        self.PROXIES = open("proxies.txt", "r").read().splitlines()
         self.search = input(f"{INPUT1}{GREEN} UserName? : ")
         self.found = open(f"{self.search}.txt", "r").read()
         self._csrftoken = self.found.split("\n")[0]
@@ -106,9 +106,9 @@ class normalswap():
         self.fuc = [self.get_info()]
         self.Target = input(f'{INPUT1}{red} Target? : ')
         self.threads = int(input(f"{INPUT}{blue} Threads? : "))
-        print(under*75)
+        print(under * 75)
         # input(f"{INPUT}{red} Are Yoy Ready?")
-        ctypes.windll.user32.MessageBoxW(0, f"Are You Ready ?","Alpha Swap", 0x1000)
+        ctypes.windll.user32.MessageBoxW(0, f"Are You Ready ?", "Alpha Swap", 0x1000)
         print(f"{INPUT}{Run}")
         self.attempt = 0
         self.rl = 0
@@ -130,6 +130,7 @@ class normalswap():
             self.thredas.append(t)
         for t in self.thredas:
             t.join()
+
     def get_info(self):
         global email
         try:
@@ -139,7 +140,7 @@ class normalswap():
             self.user = self.r['user']['username']
             email = self.r['user']['email']
             print(f"{INPUT}{blue} Login Successfly as (@{self.user}) Click Enter to continue")
-            print(under*75)
+            print(under * 75)
             # clearConsle()
         except Exception as a:
             # print(a)
@@ -153,6 +154,7 @@ class normalswap():
             sleep(1)
             self.Rs = self.attempt - self.per
             os.system(f"title #Counter : {self.attempt} / #Counter Rl : {self.rl} / R/S : {self.Rs}")
+
     def proxies(self):
         self.proxy = random.choice(self.PROXIES)
         self.erp = {"http": f"{self.proxy}", "https": f"{self.proxy}"}
@@ -165,10 +167,10 @@ class normalswap():
             "phone_number": "",
             "username": f"{self.Target}",
             "first_name": "",
-            "_uid": "47907130936",
-            "device_id": "android-1f7220131504938e",
+            "_uid": f"{uuid.uuid1()}",
+            "device_id": uuid.uuid4(),
             "biography": "",
-            "_uuid": "11923c4e-5663-4757-b9f3-0b69396a6c4b",
+            "_uuid": uuid.uuid4(),
             "email": f"{email}"
         }
         return data
@@ -189,10 +191,11 @@ class normalswap():
         webhook.add_embed(embed)
         response = webhook.execute()
         print(f"\n{INPUT1} Claimed:@{self.Target} \x1b[35mAfter {self.attempt} Attempts \x1b[39m")
-        print(under*75)
+        print(under * 75)
         ctypes.windll.user32.MessageBoxW(0, f"{msg} : @{self.Target}  ", f"{title}", 0x1000)
         sleep(20)
         os._exit(0)
+
     def runn(self):
         while self.run:
             try:
@@ -200,28 +203,43 @@ class normalswap():
                 future = []
                 for i in range(self.threads):
                     if self.ask == 1:
-                        futures = self.future_session.post(api,data=self.data(), headers={"User-Agent": "Instagram 187.0.0.32.120 Android (25/7.1.2; 240dpi; 1280x720; Asus; ASUS_Z01QD; ASUS_Z01QD; intel; ar_EG; 289692202)"},cookies={"csrftoken": self._csrftoken, "shbts": "1623419447.990988","sessionid": self.session, "ds_user_id": self.ds,"mid": self.mid})
+                        futures = self.future_session.post(api, data=self.data(), headers={
+                            "User-Agent": "Instagram 187.0.0.32.120 Android (25/7.1.2; 240dpi; 1280x720; Asus; ASUS_Z01QD; ASUS_Z01QD; intel; ar_EG; 289692202)"},
+                                                           cookies={"csrftoken": self._csrftoken,
+                                                                    "shbts": "1623419447.990988",
+                                                                    "sessionid": self.session, "ds_user_id": self.ds,
+                                                                    "mid": self.mid})
                     else:
-                        futures = self.future_session.post(api, data=self.data(), headers={"User-Agent": "Instagram 187.0.0.32.120 Android (25/7.1.2; 240dpi; 1280x720; Asus; ASUS_Z01QD; ASUS_Z01QD; intel; ar_EG; 289692202)"},cookies={"csrftoken": self._csrftoken,"shbts": "1623419447.990988", "sessionid": self.session,"ds_user_id": self.ds, "mid": self.mid},proxies=self.proxies(),timeout=10)
+                        futures = self.future_session.post(api, data=self.data(), headers={
+                            "User-Agent": "Instagram 187.0.0.32.120 Android (25/7.1.2; 240dpi; 1280x720; Asus; ASUS_Z01QD; ASUS_Z01QD; intel; ar_EG; 289692202)"},
+                                                           cookies={"csrftoken": self._csrftoken,
+                                                                    "shbts": "1623419447.990988",
+                                                                    "sessionid": self.session, "ds_user_id": self.ds,
+                                                                    "mid": self.mid}, proxies=self.proxies(), timeout=3)
 
                     futures.i = i
                     future.append(futures)
                     for futures in as_completed(future):
                         with futures.result() as resp:
-                                if resp.status_code == 200:
-                                    with self.locks:
-                                        self.Successfulyy()
-                                        self.run = False
-                                if resp.status_code == 400:
+                            if resp.status_code == 200:
+                                with self.locks:
+                                    self.Successfulyy()
+                                    self.run = False
+                            if resp.status_code == 400:
+                                if "isn't" in resp.text:
                                     self.attempt += 1
-                                    os.system(f"title #Counter : {self.attempt} / #Counter Rl : {self.rl} / R/S : {self.Rs}")
-                                if resp.status_code == 429:
-                                    self.rl +=1
-                                    os.system(f"title #Counter : {self.attempt} / #Counter Rl : {self.rl} / R/S : {self.Rs}")
+                                    os.system(
+                                        f"title #Counter : {self.attempt} / #Counter Rl : {self.rl} / R/S : {self.Rs}")
+                            if resp.status_code == 429:
+                                self.rl += 1
+                                os.system(
+                                    f"title #Counter : {self.attempt} / #Counter Rl : {self.rl} / R/S : {self.Rs}")
             except:
                 pass
 
 
 def ss():
     normalswap()
+
+
 ss()
