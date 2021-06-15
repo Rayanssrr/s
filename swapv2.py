@@ -1,5 +1,5 @@
 try:
-    import random, os, socket, requests, threading, ctypes, uuid
+    import random, os, socket, requests, threading, ctypes
     from time import sleep
     from termcolor import colored
     from requests_futures.sessions import FuturesSession
@@ -95,6 +95,8 @@ api_list = [
 
 class normalswap():
     def __init__(self):
+        self.u = requests.get("https://httpbin.org/uuid").json()
+        self.uuid = self.u["uuid"]
         self.ask = int(input(f"{INPUT1}{blue} [1] Without Proxy | [2] With Proxy : "))
         self.PROXIES = open("proxies.txt", "r").read().splitlines()
         self.search = input(f"{INPUT1}{GREEN} UserName? : ")
@@ -167,10 +169,10 @@ class normalswap():
             "phone_number": "",
             "username": f"{self.Target}",
             "first_name": "",
-            "_uid": f"{uuid.uuid1()}",
-            "device_id": uuid.uuid4(),
+            "_uid": f"{self.uuid}",
+            "device_id": self.uuid,
             "biography": "",
-            "_uuid": uuid.uuid4(),
+            "_uuid": self.uuid,
             "email": f"{email}"
         }
         return data
