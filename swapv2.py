@@ -88,8 +88,8 @@ images = [
 
 im = random.choice(images)
 api_list = [
-    'https://b.instagram.com/api/v1/accounts/set_username/',
-    'https://b.instagram.com/api/v1/accounts/edit_profile/'
+    'https://i.instagram.com/api/v1/accounts/set_username/',
+    'https://i.instagram.com/api/v1/accounts/edit_profile/'
 ]
 
 
@@ -237,7 +237,7 @@ class normalswap():
                                 os.system(
                                     f"title #Counter : {self.attempt} / #Counter Rl : {self.rl} / R/S : {self.Rs}")
             except Exception as E:
-                print(E)
+                #print(E)
                 pass
 
 
