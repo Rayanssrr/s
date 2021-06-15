@@ -236,7 +236,8 @@ class normalswap():
                                 self.rl += 1
                                 os.system(
                                     f"title #Counter : {self.attempt} / #Counter Rl : {self.rl} / R/S : {self.Rs}")
-            except:
+            except Exception as E:
+                print(E)
                 pass
 
 
