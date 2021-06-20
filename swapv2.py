@@ -227,7 +227,6 @@ class sessionlogin():
         print(f"\n{INPUT1} Claimed:@{self.Target} \x1b[35mAfter {self.attempt} Attempts \x1b[39m")
         print(under * 75)
         ctypes.windll.user32.MessageBoxW(0, f"{msg} : @{self.Target}  ", f"{title}", 0x1000)
-        sleep(20)
         os._exit(0)
 
 
@@ -486,7 +485,6 @@ class login():
         print(f"\n{INPUT1} Claimed:@{self.Target} \x1b[35mAfter {self.attempt} Attempts \x1b[39m")
         print(under * 75)
         ctypes.windll.user32.MessageBoxW(0, f"{msg} : @{self.Target}  ", f"{title}", 0x1000)
-        sleep(20)
         os._exit(0)
 
 
@@ -652,12 +650,12 @@ class seesion_extract():
 
 
 def ss():
-    ask = int(input(f"{blue}[1] SeesionID - [2] Login - [3] Extract Cookies : "))
-    if ask == 1:
+    ask = int(input(f"{blue}[S] SeesionID - [L] Login - [E] Extract Cookies : "))
+    if ask == 's' or 'S':
         sessionlogin()
-    elif ask == 2:
+    elif ask == "L" or "l":
         login()
-    elif ask == 3:
+    elif ask == "E" or "e":
         seesion_extract()
     else:
         print(f" {INPUT2}{red} choice anyone")
