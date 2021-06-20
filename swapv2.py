@@ -52,7 +52,7 @@ print("\n")
 
 dude = """
 
-    * Swap Instagram * 
+    * Swap Instagramm * 
 
         Targrt Mode 
         ./ Made By @CokePokes_
@@ -658,6 +658,6 @@ def ss():
     elif "E" or "e" in ask:
         seesion_extract()
     else:
-        print(f" {INPUT2}{red} choice anyone")
+        print(f"{INPUT2}{red} choice anyone")
         return ss()
 ss()
