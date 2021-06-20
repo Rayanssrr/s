@@ -269,44 +269,44 @@ class Target_attack():
 
     def headers(self):
         head = {}
-        head['X-Ig-App-Locale'] = 'en_US'
-        head['X-Ig-Device-Locale'] = "en_US"
-        head["X-Pigeon-Session-Id"] = "e7a9a8b1-8ed1-47ab-9211-b83195c7f398"
-        head["X-Pigeon-Rawclienttime"] = "1619296670.654"
-        head["X-Ig-Bandwidth-Speed-Kbps"] = "-1.000"
-        head["X-Ig-Bandwidth-Totalbytes-B"] = "0"
-        head["X-Ig-Bandwidth-Totaltime-Ms"] = "0"
-        head["X-Ig-App-Startup-Country"] = "unknown"
-        head["X-Bloks-Version-Id"] = "befa8522d3a650f9592e33e4540d527c5b93babbdd6233a1bd40e955c9567f30"
-        head["X-Ig-Www-Claim"] = "0"
-        head["X-Bloks-Is-Layout-Rtl"] = "false"
-        head["X-Bloks-Is-Panorama-Enabled"] = "true"
-        head["X-Ig-Device-Id"] = "bd76a155-e663-4192-b610-f6a1d5190d3d"
-        head["X-Ig-Android-Id"] = "android-7a74997eee76b904"
-        head["X-Ig-Timezone-Offset"] = "72000"
-        head['X-IG-Connection-Type'] = 'WIFI'
-        head['X-IG-Capabilities'] = '3brTBw=='
-        head["X-Ig-App-Id"] = "567067343352427"
-        head["User-Agent"] = "Instagram 133.0.0.34.124 Android (18/4.3; 320dpi; 720x1280; Xiaomi; HM 1SW; armani; qcom; en_US)"
-        head["Accept-Language"] = "en-US"
-        head["X-Mid"] = "YIR9qQABAAGBErx-6UqG4MXIsQLY"
-        head["Ig-Intended-User-Id"] = "0"
+        # head['X-Ig-App-Locale'] = 'en_US'
+        # head['X-Ig-Device-Locale'] = "en_US"
+        # head["X-Pigeon-Session-Id"] = "e7a9a8b1-8ed1-47ab-9211-b83195c7f398"
+        # head["X-Pigeon-Rawclienttime"] = "1619296670.654"
+        # head["X-Ig-Bandwidth-Speed-Kbps"] = "-1.000"
+        # head["X-Ig-Bandwidth-Totalbytes-B"] = "0"
+        # head["X-Ig-Bandwidth-Totaltime-Ms"] = "0"
+        # head["X-Ig-App-Startup-Country"] = "unknown"
+        # head["X-Bloks-Version-Id"] = "befa8522d3a650f9592e33e4540d527c5b93babbdd6233a1bd40e955c9567f30"
+        # head["X-Ig-Www-Claim"] = "0"
+        # head["X-Bloks-Is-Layout-Rtl"] = "false"
+        # head["X-Bloks-Is-Panorama-Enabled"] = "true"
+        # head["X-Ig-Device-Id"] = "bd76a155-e663-4192-b610-f6a1d5190d3d"
+        # head["X-Ig-Android-Id"] = "android-7a74997eee76b904"
+        # head["X-Ig-Timezone-Offset"] = "72000"
+        # head['X-IG-Connection-Type'] = 'WIFI'
+        # head['X-IG-Capabilities'] = '3brTBw=='
+        # head["X-Ig-App-Id"] = "567067343352427"
+        head["User-Agent"] = "Instagram 135.0.0.0.0 Android"
+        # head["Accept-Language"] = "en-US"
+        # head["X-Mid"] = "YIR9qQABAAGBErx-6UqG4MXIsQLY"
+        # head["Ig-Intended-User-Id"] = "0"
         head["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8"
-        head["Content-Length"] = "1698"
-        head["Accept-Encoding"] = "gzip, deflate"
-        head["X-Fb-Http-Engine"] = "Liger"
-        head["X-Fb-Client-Ip"] = "True"
-        head["X-Fb-Server-Cluster"] = "True"
-        head["Connection"] = "close"
+        # head["Content-Length"] = "1698"
+        # head["Accept-Encoding"] = "gzip, deflate"
+        # head["X-Fb-Http-Engine"] = "Liger"
+        # head["X-Fb-Client-Ip"] = "True"
+        # head["X-Fb-Server-Cluster"] = "True"
+        # head["Connection"] = "close"
         return head
 
     #"signed_body=SIGNATURE.{"jazoest":"22434","tos_version":"row","suggestedUsername":"","sn_result":"API_ERROR: class X.7Na:7: ","phone_id":"35a6f462-5bbe-41a9-b47f-87a6b856bf46","professional_signup_source_account_id":"47258184425","fb_auth_token":"",,"page_id":"","entry_point":"setting","phone_number":"","professional_signup_source_user_type":"instagram","_csrftoken":"Of20bpO9gIlEKkJeIUBCvHcjZz0Kfcgr","username":"e451fc37a3","first_name":"MoonWalker","day":"24","guid":"bd76a155-e663-4192-b610-f6a1d5190d3d","year":"1999","device_id":"android-7a74997eee76b904","email":"e451fc37a3@firemailbox.club","month":"4","sn_nonce":"ZTQ1MWZjMzdhM0BmaXJlbWFpbGJveC5jbHVifDE2MTkyOTY1NzR8a5usCxcbiVGUuPb61ZKrvEvAdmZBUAgL","should_show_public_contacts":"0","force_sign_up_code":"sOZRDrzU","should_show_category":"0","qs_stamp":"","category_id":"1314020451960517","to_account_type":"3"}"
     def cookies(self):
-        self.ds = lambda len: ''.join(choices(list(ascii_lowercase)))
+        self.ds = lambda len: ''.join(choices(list(digits)))
         self.token = ''.join(random.choice(hexdigits) for _ in range(32))
         self.mid = ''.join(random.choice(digits) for _ in range(11))
-        self.ds_user = self.ds(11) + "--" + self.ds(5)
-        cookies = {"csrftoken": self.token,"mid":self.mid, "ds_user_id": f"{self.ds_user}","rur":"FRC","Ig-U-Ig-Direct-Region-Hint": "ASH"}
+        self.ds_user = self.ds(11)
+        cookies = {"ds_user_id": f"{self.ds_user}"}
         return cookies
     def data(self,random_em):
         self.token = ''.join(random.choice(hexdigits) for _ in range(32))
@@ -315,7 +315,7 @@ class Target_attack():
         value = {}
         value['phone_id'] = uid
         value['device_id'] = uid
-        value['_csrftoken'] = self.token
+        value['_csrftoken'] = "aidSiNSGoddUk6LBMWsgT6wRqWOBOhqO"
         value['email'] = random_em + "@gmail.com"
         value["password"] = f'{random_em}{self.name1}'
         value['username'] = self.user
@@ -323,7 +323,7 @@ class Target_attack():
         return value
     def SaveInfo(self,random_em):
         try:
-            print(f"\r Claimed @{self.user} After {self.attemp} Attempts ")
+            print(f"Claimedd @{self.user} After {self.attemp} Attempts ")
             file = "./Reg/"
             os.mkdir(file)
             with open(f'./{file}/@{self.user}.txt', 'a') as file3:
