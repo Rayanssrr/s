@@ -429,7 +429,7 @@ class login():
 
     def checkblock(self):
         global user
-        ask = int(input(f"{blue} [1] I wanna Checkblock | [2] I DO NOT wanna checkblock : "))
+        ask = int(input(f"{blue}[1] I wanna Checkblock | [2] I DO NOT wanna checkblock : "))
         if ask == 1:
             ch = requests.post('https://i.instagram.com/api/v1/accounts/set_username/',data={"username":user + "checkblock"},headers={"User-Agent": "Instagram 187.0.0.32.120 Android (25/7.1.2; 240dpi; 1280x720; Asus; ASUS_Z01QD; ASUS_Z01QD; intel; ar_EG; 289692202)"},cookies=coo).status_code
             if ch == 200:
@@ -650,12 +650,12 @@ class seesion_extract():
 
 
 def ss():
-    ask = int(input(f"{blue}[S] SeesionID - [L] Login - [E] Extract Cookies : "))
-    if ask == 's' or 'S':
+    ask = input(f"{blue}[S] SeesionID - [L] Login - [E] Extract Cookies : ")
+    if "s" or "S" in ask:
         sessionlogin()
-    elif ask == "L" or "l":
+    elif "L" or "l" in ask:
         login()
-    elif ask == "E" or "e":
+    elif "E" or "e" in ask:
         seesion_extract()
     else:
         print(f" {INPUT2}{red} choice anyone")
