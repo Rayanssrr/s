@@ -652,12 +652,12 @@ class seesion_extract():
 
 
 def ss():
-    ask = input(f"{blue}[S] SeesionID - [L] Login - [E] Extract Cookies : ")
-    if ask == "S" or "s":
+    ask = int(input(f"{blue}[1] SeesionID - [2] Login - [3] Extract Cookies : "))
+    if ask == 1:
         sessionlogin()
-    elif ask == "L" or "l":
+    elif ask == 2:
         login()
-    elif ask == "E" or "e":
+    elif ask == 3:
         seesion_extract()
     else:
         print(f" {INPUT2}{red} choice anyone")
