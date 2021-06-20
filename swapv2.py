@@ -52,7 +52,7 @@ print("\n")
 
 dude = """
 
-    * Swap Instagramm * 
+    * Swap Instagram * 
 
         Targrt Mode 
         ./ Made By @CokePokes_
@@ -650,12 +650,12 @@ class seesion_extract():
 
 
 def ss():
-    ask = input(f"{blue}[S] SeesionID - [L] Login - [E] Extract Cookies : ")
-    if "s" or "S" in ask:
+    ask = int(input(f"{blue}[S=1] SeesionID - [L=2] Login - [E=3] Extract Cookies : "))
+    if ask == 1:
         sessionlogin()
-    elif "L" or "l" in ask:
+    elif ask == 2:
         login()
-    elif "E" or "e" in ask:
+    elif ask == 3:
         seesion_extract()
     else:
         print(f"{INPUT2}{red} choice anyone")
