@@ -3,14 +3,12 @@ try:
     import threading,requests
     import socket
     from time import sleep
-    import os,asyncio,multiprocessing
+    import os,asyncio
     import ctypes
     from discord_webhook import DiscordWebhook
     from discord_webhook import DiscordEmbed
     from string import *
     from random import *
-    import calendar
-    import time
     from requests_futures.sessions import FuturesSession
     from concurrent.futures import as_completed
     import random
@@ -20,10 +18,10 @@ except Exception as a:
 clear = lambda: os.system('cls')
 url_two = ''
 maxthreads = 3000
-
 hostname = socket.gethostname()
 ip = socket.gethostbyname(hostname)
 #g = requests.get('https://pastebin.com/kEdfngFt')
+
 class List_Reg():
     def __init__(self):
         self.attemp = 0
@@ -32,6 +30,10 @@ class List_Reg():
         self.name = str("Dady Rayan is Hare")
         self.name1 = "Rayan@m1c1"
         self.SB = 0
+        self.api_list = [
+            "https://b.i.instagram.com/api/v1/accounts/create_business/",
+            "https://i.i.instagram.com/api/v1/accounts/create_business/",
+        ]
         self.ds = string.ascii_lowercase
         self.ask = int(input("[1] Proxy Asia | [2] Proxy Erupe : "))
         self.threads = int(input("Threads : "))
@@ -72,10 +74,8 @@ class List_Reg():
         return proxyDict
 
     def send_discord_webhook(self):
-        webhook = DiscordWebhook(
-            url='https://discord.com/api/webhooks/837368687605710849/KucsMvDc9kJ9PgJrtSOKZWHavOy7uN56u_Kg_iwZU1bZC-iut78tSWIZ0t6bkw8ZkYLX')
-        embed = DiscordEmbed(title='#Reg ', description='@{}\n Attempt >> {}'.format(self.user, self.attemp),
-                             color=9109504)
+        webhook = DiscordWebhook(url='https://discord.com/api/webhooks/837368687605710849/KucsMvDc9kJ9PgJrtSOKZWHavOy7uN56u_Kg_iwZU1bZC-iut78tSWIZ0t6bkw8ZkYLX')
+        embed = DiscordEmbed(title='#Reg ', description='@{}\n Attempt >> {}'.format(self.user, self.attemp),color=9109504)
         embed.set_footer(text="#Rayan|")
         embed.set_timestamp()
         webhook.add_embed(embed)
@@ -120,16 +120,14 @@ class List_Reg():
         head["X-Fb-Server-Cluster"] = "True"
         head["Connection"] = "close"
         return head
-
         # "signed_body=SIGNATURE.{"jazoest":"22434","tos_version":"row","suggestedUsername":"","sn_result":"API_ERROR: class X.7Na:7: ","phone_id":"35a6f462-5bbe-41a9-b47f-87a6b856bf46","professional_signup_source_account_id":"47258184425","fb_auth_token":"",,"page_id":"","entry_point":"setting","phone_number":"","professional_signup_source_user_type":"instagram","_csrftoken":"Of20bpO9gIlEKkJeIUBCvHcjZz0Kfcgr","username":"e451fc37a3","first_name":"MoonWalker","day":"24","guid":"bd76a155-e663-4192-b610-f6a1d5190d3d","year":"1999","device_id":"android-7a74997eee76b904","email":"e451fc37a3@firemailbox.club","month":"4","sn_nonce":"ZTQ1MWZjMzdhM0BmaXJlbWFpbGJveC5jbHVifDE2MTkyOTY1NzR8a5usCxcbiVGUuPb61ZKrvEvAdmZBUAgL","should_show_public_contacts":"0","force_sign_up_code":"sOZRDrzU","should_show_category":"0","qs_stamp":"","category_id":"1314020451960517","to_account_type":"3"}"
-
     def cookies(self):
+
         self.ds = lambda len: ''.join(choices(list(ascii_lowercase)))
         self.token = ''.join(random.choice(hexdigits) for _ in range(32))
         self.mid = ''.join(random.choice(digits) for _ in range(11))
         self.ds_user = self.ds(11) + "--" + self.ds(5)
-        cookies = {"csrftoken": self.token, "mid": self.mid, "ds_user_id": f"{self.ds_user}", "rur": "FRC",
-                   "Ig-U-Ig-Direct-Region-Hint": "ASH"}
+        cookies = {"csrftoken": self.token, "mid": self.mid, "ds_user_id": f"{self.ds_user}", "rur": "FRC","Ig-U-Ig-Direct-Region-Hint": "ASH"}
         return cookies
     def SaveInfo(self, random_em):
         try:
@@ -141,15 +139,11 @@ class List_Reg():
                     'Username:' + self.user + '\n' + 'Email:' + random_em + "@gmail.com" + '\n' + 'password:' + random_em + self.name1 + '\n')
         except Exception as P:
             with open(f'./{file}/@{self.user}.txt', 'a') as file3:
-                file3.write(
-                    'Username:' + self.user + '\n' + 'Email:' + random_em + "@gmail.com" +  '\n' + 'password:' + random_em + self.name1 + '\n')
-
+                file3.write('Username:' + self.user + '\n' + 'Email:' + random_em + "@gmail.com" +  '\n' + 'password:' + random_em + self.name1 + '\n')
     def data(self,random_em):
-
         self.token = ''.join(random.choice(hexdigits) for _ in range(32))
         uid = uuid.uuid4()
         self.user = choice(self.list)
-
         # signed_body = {"jazoest":"22434","tos_version":"row","suggestedUsername":"","sn_result":"API_ERROR: class X.7Na:7: ","phone_id":"35a6f462-5bbe-41a9-b47f-87a6b856bf46","professional_signup_source_account_id":"47258184425","fb_auth_token":"",,"page_id":"","entry_point":"setting","phone_number":"","professional_signup_source_user_type":"instagram","_csrftoken":"Of20bpO9gIlEKkJeIUBCvHcjZz0Kfcgr","username":"e451fc37a3","first_name":"MoonWalker","day":"24","guid":"bd76a155-e663-4192-b610-f6a1d5190d3d","year":"1999","device_id":"android-7a74997eee76b904","email":"e451fc37a3@firemailbox.club","month":"4","sn_nonce":"ZTQ1MWZjMzdhM0BmaXJlbWFpbGJveC5jbHVifDE2MTkyOTY1NzR8a5usCxcbiVGUuPb61ZKrvEvAdmZBUAgL","should_show_public_contacts":"0","force_sign_up_code":"sOZRDrzU","should_show_category":"0","qs_stamp":"","category_id":"1314020451960517","to_account_type":"3"}
         value = {}
         value['phone_id'] = uid
@@ -160,22 +154,20 @@ class List_Reg():
         value['username'] = self.user
         value['first_name'] = 'Rayan'
         return value
-
-
-
     def be_for_Attack(self):
         while 1:
             try:
                 random_em = self.email(20)
                 future = []
+                api = choice(self.api_list)
                 for i in range(self.threads):
                     if self.ask == 1:
-                        futures = self.future_session.post("https://i.instagram.com/api/v1/accounts/create_business/",
+                        futures = self.future_session.post(api,
                                                            data=self.data(random_em), cookies=self.cookies(),
                                                            headers=self.headers(), timeout=None,
                                                            proxies=self.proxy_Asia())
                     elif self.ask == 2:
-                        futures = self.future_session.post("https://i.instagram.com/api/v1/accounts/create_business/",
+                        futures = self.future_session.post(api,
                                                            data=self.data(random_em), cookies=self.cookies(),
                                                            headers=self.headers(), timeout=None,
                                                            proxies=self.proxy_Erupe())
@@ -250,6 +242,8 @@ class Target_attack():
             "https": f"http://{self.proxy}"
         }
         return proxyDict
+
+
     def proxy_Erupe(self):
         self.proxy = random.choice(self.PROXIES)
         proxyDict = {
@@ -264,6 +258,8 @@ class Target_attack():
         embed.set_timestamp()
         webhook.add_embed(embed)
         response = webhook.execute()
+
+
     def Requestpersec(self):
         while 1:
             self.per = self.attemp
