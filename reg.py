@@ -354,7 +354,7 @@ class Target_attack():
                                     self.attemp +=1
                                 if resp.status_code == 400:
                                     if any(i in resp.text for i in self.SUCCESS_responses):
-                                        print(resp.text)
+                                        #print(resp.text)
                                         self.SaveInfo(random_em)
                                         self.send_discord_webhook()
                                         ctypes.windll.user32.MessageBoxW(0, f"claimed successfully: {self.user} ","Reg", 0x1000)
