@@ -235,23 +235,22 @@ class sessionlogin():
             try:
                 future = []
                 for i in range(self.threads):
-                    futures = self.future_session.post("https://i.instagram.com/api/v1/users/check_username/",
-                                                       data={"_csrftoken": "UzGMBE6rjkqO7Ir4llJ26Y0VskrPaVZ5",
-                                                             "username": f"{self.Target}",
-                                                             "_uuid": "bd76a155-e663-4192-b610-f6a1d5190d3d"},
-                                                       headers=head, cookies=coo, proxies=self.proxies())
+                    futures = self.future_session.get(
+                        f"https://i.instagram.com/api/v1/feed/user/{self.Target}/username/", headers=head, cookies=coo,
+                        proxies=self.proxies())
                     futures.i = i
                     future.append(futures)
                     for futures in as_completed(future):
                         with futures.result() as resp:
-                            if 'available":true' in resp.text:
+                            if '{"items":[],"num_results":0,"status":"ok"}' in resp.text:
                                 self.runn()
-                            elif 'username_is_taken' in resp.text:
+                            elif '{"items":[],"num_results":0,"more_available":false,"auto_load_more_enabled":true,"status":"ok"}' in resp.text:
                                 self.attempt += 1
                             else:
                                 self.rl += 1
+                                print(resp.text)
             except Exception as a:
-                print(a)
+                pass
 
     def runn(self):
         global coo
@@ -277,7 +276,7 @@ class login():
     def __init__(self):
         self.u = requests.get("https://httpbin.org/uuid").json()
         self.uuid = self.u["uuid"]
-        self.ask = int(input(f"\x1b[35m[1] Without Proxy | [2] With Proxy : \x1b[39m"))
+        #self.ask = int(input(f"\x1b[35m[1] Without Proxy | [2] With Proxy : \x1b[39m"))
         self.PROXIES = open("proxies.txt", "r").read().splitlines()
         self.for_login()
         if self.login(username, password):
@@ -432,7 +431,7 @@ class login():
 
     def checkblock(self):
         global user
-        ask = int(input(f"{blue} [1] I wanna Checkblock | [2] I DO NOT wanna checkblock : "))
+        ask = int(input(f"{blue}[1] I wanna Checkblock | [2] I DO NOT wanna checkblock : "))
         if ask == 1:
             ch = requests.post('https://i.instagram.com/api/v1/accounts/set_username/',data={"username":user + "checkblock"},headers={"User-Agent": "Instagram 187.0.0.32.120 Android (25/7.1.2; 240dpi; 1280x720; Asus; ASUS_Z01QD; ASUS_Z01QD; intel; ar_EG; 289692202)"},cookies=coo).status_code
             if ch == 200:
@@ -487,19 +486,20 @@ class login():
             try:
                 future = []
                 for i in range(self.threads):
-                    futures = self.future_session.post("https://i.instagram.com/api/v1/users/check_username/", data={"_csrftoken":"UzGMBE6rjkqO7Ir4llJ26Y0VskrPaVZ5","username":f"{self.Target}","_uuid":"bd76a155-e663-4192-b610-f6a1d5190d3d"}, headers=head, cookies=coo,proxies=self.proxies())
+                    futures = self.future_session.get(f"https://i.instagram.com/api/v1/feed/user/{self.Target}/username/",headers=head, cookies=coo,proxies=self.proxies())
                     futures.i = i
                     future.append(futures)
                     for futures in as_completed(future):
                         with futures.result() as resp:
-                            if 'available":true' in resp.text:
+                            if '{"items":[],"num_results":0,"status":"ok"}' in resp.text:
                                 self.runn()
-                            elif 'username_is_taken' in resp.text:
+                            elif '{"items":[],"num_results":0,"more_available":false,"auto_load_more_enabled":true,"status":"ok"}' in resp.text:
                                 self.attempt +=1
                             else:
                                 self.rl +=1
+                                print(resp.text)
             except Exception as a:
-                print(a)
+                pass
     def runn(self):
         global coo
         try:
