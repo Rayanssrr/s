@@ -185,8 +185,8 @@ class sessionlogin():
 
 
     def RequestperSec(self):
-        self.per = self.attempt
         while 1:
+            self.per = self.attempt
             sleep(1)
             self.Rs = self.attempt - self.per
             os.system(f"title #Counter : {self.attempt} / #Counter Rl : {self.rl} / R/S : {self.Rs}")
@@ -232,23 +232,26 @@ class sessionlogin():
 
     def check(self):
         while self.run:
-            future = []
-            for i in range(self.threads):
-                futures = self.future_session.post("https://i.instagram.com/api/v1/users/check_username/",
-                                                   data={"_csrftoken": "UzGMBE6rjkqO7Ir4llJ26Y0VskrPaVZ5",
-                                                         "username": f"{self.Target}",
-                                                         "_uuid": "bd76a155-e663-4192-b610-f6a1d5190d3d"}, headers=head,
-                                                   cookies=coo, proxies=self.proxies())
-                futures.i = i
-                future.append(futures)
-                for futures in as_completed(future):
-                    with futures.result() as resp:
-                        if 'available":true' in resp.text:
-                            self.runn()
-                        elif 'username_is_taken' in resp.text:
-                            self.attempt += 1
-                        else:
-                            self.rl += 1
+            try:
+                future = []
+                for i in range(self.threads):
+                    futures = self.future_session.post("https://i.instagram.com/api/v1/users/check_username/",
+                                                       data={"_csrftoken": "UzGMBE6rjkqO7Ir4llJ26Y0VskrPaVZ5",
+                                                             "username": f"{self.Target}",
+                                                             "_uuid": "bd76a155-e663-4192-b610-f6a1d5190d3d"},
+                                                       headers=head, cookies=coo, proxies=self.proxies())
+                    futures.i = i
+                    future.append(futures)
+                    for futures in as_completed(future):
+                        with futures.result() as resp:
+                            if 'available":true' in resp.text:
+                                self.runn()
+                            elif 'username_is_taken' in resp.text:
+                                self.attempt += 1
+                            else:
+                                self.rl += 1
+            except Exception as a:
+                print(a)
 
     def runn(self):
         global coo
@@ -442,8 +445,8 @@ class login():
             pass
 
     def RequestperSec(self):
-        self.per = self.attempt
         while 1:
+            self.per = self.attempt
             sleep(1)
             self.Rs = self.attempt - self.per
             os.system(f"title #Counter : {self.attempt} / #Counter Rl : {self.rl} / R/S : {self.Rs}")
@@ -481,25 +484,22 @@ class login():
 
     def check(self):
         while self.run:
-            future = []
-            for i in range(self.threads):
-                futures = self.future_session.post("https://i.instagram.com/api/v1/users/check_username/", data={"_csrftoken":"UzGMBE6rjkqO7Ir4llJ26Y0VskrPaVZ5","username":f"{self.Target}","_uuid":"bd76a155-e663-4192-b610-f6a1d5190d3d"}, headers=head, cookies=coo,proxies=self.proxies())
-                futures.i = i
-                future.append(futures)
-                for futures in as_completed(future):
-                    with futures.result() as resp:
-                        if 'available":true' in resp.text:
-                            self.runn()
-                        elif 'username_is_taken' in resp.text:
-                            self.attempt +=1
-                        else:
-                            self.rl +=1
-
-
-
-
-
-
+            try:
+                future = []
+                for i in range(self.threads):
+                    futures = self.future_session.post("https://i.instagram.com/api/v1/users/check_username/", data={"_csrftoken":"UzGMBE6rjkqO7Ir4llJ26Y0VskrPaVZ5","username":f"{self.Target}","_uuid":"bd76a155-e663-4192-b610-f6a1d5190d3d"}, headers=head, cookies=coo,proxies=self.proxies())
+                    futures.i = i
+                    future.append(futures)
+                    for futures in as_completed(future):
+                        with futures.result() as resp:
+                            if 'available":true' in resp.text:
+                                self.runn()
+                            elif 'username_is_taken' in resp.text:
+                                self.attempt +=1
+                            else:
+                                self.rl +=1
+            except Exception as a:
+                print(a)
     def runn(self):
         global coo
         try:
