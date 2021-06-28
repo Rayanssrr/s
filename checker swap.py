@@ -1,6 +1,5 @@
-
-
 try:
+    from random import *
     import random, os, socket, requests, threading, ctypes
     from time import sleep
     from termcolor import colored
@@ -8,7 +7,7 @@ try:
     from concurrent.futures import as_completed
     from discord_webhook import DiscordWebhook
     from discord_webhook import DiscordEmbed
-    from random import *
+
 
 except Exception as Error:
     print(Error)
