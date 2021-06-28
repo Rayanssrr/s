@@ -1,5 +1,4 @@
 try:
-    from random import *
     import random, os, socket, requests, threading, ctypes
     from time import sleep
     from termcolor import colored
@@ -114,10 +113,10 @@ class Auto():
             self.contorlthreads.set()
 
     def random_usernames(self):
-        return choice(self.usernames)
+        return random.choice(self.usernames)
 
     def random_session(self):
-        return choice(self.sessionid)
+        return random.choice(self.sessionid)
 
     def remove_session(self, Sessions):
         if Sessions not in self.sessionid:
@@ -137,7 +136,7 @@ class Auto():
             print(f"\r{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="")
 
     def proxy(self):
-        self.prox = choice(self.proxies)
+        self.prox = random.choice(self.proxies)
         self.erp = {"http": f"{self.prox}", "https": f"{self.prox}"}
         return self.erp
     def Done(self,Sessions):
@@ -157,7 +156,7 @@ class Auto():
         self.contorlthreads.wait()
         while self.run:
             Sessions = self.random_session()
-            self.sub = choice(self.subDomin)
+            self.sub = random.choice(self.subDomin)
             try:
                 self.request = [self.future_session.post(f'https://{self.sub}/api/v1/accounts/set_username/', headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}, data={"username": self.random_usernames()},proxies=self.proxy()) for _ in range(5)]
                 for self.req in as_completed(self.request):
