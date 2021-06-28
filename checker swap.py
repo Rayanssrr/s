@@ -1,7 +1,4 @@
-from os import stat
-from random import choice
 
-from requests.sessions import session
 
 try:
     import random, os, socket, requests, threading, ctypes
@@ -11,6 +8,7 @@ try:
     from concurrent.futures import as_completed
     from discord_webhook import DiscordWebhook
     from discord_webhook import DiscordEmbed
+    from random import *
 
 except Exception as Error:
     print(Error)
@@ -24,7 +22,10 @@ bad = [
     "nother account",
     "minutes"
 ]
+os.system('mode con: cols=85 lines=33')
+
 dir_path = os.path.dirname(os.path.realpath(__file__))
+print_lock = threading.Lock()
 WHITE = '\x1b[1;37;40m'
 YELLOW = '\x1b[1;33;40m'
 RED = '\x1b[1;31;40m'
@@ -97,17 +98,18 @@ class Auto():
         self.Ratelimt = 0
         self.sessionid = session
         self.threads = threads
-        self.future_session = FuturesSession(max_workers=self.threads)
         self.run = 1
-        self.subDomin = ["i.instagram.com", "b.i.instagram.com"]
         self.usernames = open("list.txt", "r").read().splitlines()
         self.proxies = open("proxies.txt", "r").read().splitlines()
         self.Target = ''
         self.RequestPerSecound = 0
         self.contorlthreads = threading.Event()
         self.Locks = threading.Lock()
+        self.subDomin = ["i.instagram.com", "b.i.instagram.com"]
         threading.Thread(target=self.RequestPerSecounD).start()
+        self.future_session = FuturesSession(max_workers=self.threads)
         print(RED + "[+] Priavte Auto Claimer © [+]")
+
         for i in range(self.threads):
             t = threading.Thread(target=self.Clim).start()
             self.contorlthreads.set()
