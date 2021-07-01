@@ -50,7 +50,6 @@ dude = """
 
         Targrt Mode + list mode 
         ./ Made By FD § FBI
-       i can change dude :) 
 
 """
 
@@ -59,9 +58,9 @@ by = """
 
     * AutoClaimer *
     \n
-        ./ Made By FD § FBI \n
-        ./ @31421 @exploit305 @m1c1
-       i can change dude :) 
+    ./ Made By FD § FBI \n
+    ./ @31421 @exploit305 @m1c1
+   i can change dude :) 
 
 
 """
@@ -76,7 +75,7 @@ banner = """
 """
 lool = dude + banner
 
-print(f"{blue}  {banner}")
+print(f"{blue}  {lool}")
 images = [
     "https://media.giphy.com/media/I6wUi5eTdUCWI/giphy.gif",
     "https://media.giphy.com/media/3fNmJ20ErpkjK/giphy.gif",
