@@ -135,7 +135,7 @@ class sessionlogin():
         threading.Thread(target=self.RequestperSec).start()
         self.thredas = []
         for i in range(int(self.threads)):
-            t = threading.Thread(target=self.runn)
+            t = threading.Thread(target=self.check)
             t.setDaemon = True
             t.start()
             self.controll.set()
