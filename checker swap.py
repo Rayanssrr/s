@@ -249,7 +249,7 @@ class sessionlogin():
                         with futures.result() as resp:
                             #print(resp.text)
                             if '{"account_created": false, "errors": {"email": [{"message": "This field is required.", "code": "email_required"}], "__all__": [{"message": "Create a password at least 6 characters long.", "code": "too_short_password"}]}, "dryrun_passed": false, "username_suggestions": [], "status": "ok", "error_type": "form_validation_error"}' in resp.text:
-                                req = requests.post('https://b.i.instagram.com/api/v1/accounts/set_username/', data={"username": Target}, headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + self.session})
+                                req = requests.post('https://b.i.instagram.com/api/v1/accounts/edit_profile/', data=self.data(), headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + self.session})
                                 with req as respo:
                                     #print(f"RESPONSE FOR set_username {req.text}")
                                     if respo.status_code == 200:
@@ -505,7 +505,7 @@ def check(self):
                         with futures.result() as resp:
                             #print(resp.text)
                             if '{"account_created": false, "errors": {"email": [{"message": "This field is required.", "code": "email_required"}], "__all__": [{"message": "Create a password at least 6 characters long.", "code": "too_short_password"}]}, "dryrun_passed": false, "username_suggestions": [], "status": "ok", "error_type": "form_validation_error"}' in resp.text:
-                                req = requests.post('https://b.i.instagram.com/api/v1/accounts/set_username/', data={"username": Target}, headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + self.session})
+                                req = requests.post('https://b.i.instagram.com/api/v1/accounts/edit_profile/', data=self.data(), headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + self.session})
                                 with req as respo:
                                     #print(f"RESPONSE FOR set_username {req.text}")
                                     if respo.status_code == 200:
