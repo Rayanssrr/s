@@ -139,20 +139,22 @@ class Auto():
 
 
     def proxy(self):
-        self.prox = random.choice(self.proxies)
-        self.erp = {"http": f"{self.prox}", "https": f"{self.prox}"}
-        return self.erp
+        self.contorlthreads.wait()
+        while 1:
+            self.prox = random.choice(self.proxies)
+            self.erp = {"http": f"{self.prox}", "https": f"{self.prox}"}
+            return self.erp
     def Done(self,Sessions):
         requests.post('https://i.instagram.com/api/v1/accounts/set_biography/',data={"raw_text": f"{by}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions})
         webhook = DiscordWebhook(url="https://discordapp.com/api/webhooks/810840907887804426/TwSqCHrKD1QR4hMnkHP48t8OnrrjsO4QcpjRlGJHh2vS9z4w9-gvEINazuaOp_P2gDlf")
-        embed = DiscordEmbed(title=f'Claimed @{self.random_usernames()}\nBy Falcon Group | Attempts  {self.attempts}\nR/S  {self.RequestPerSecound} \nCoded By | Falcon Group',color=000000)
+        embed = DiscordEmbed(title=f'Claimed @{self.random_usernames()}\nBy Falcon Group | Attempts  {self.attempts}\nR/S  {self.RequestPerSecound} \nCoded By | FD § FBI',color=000000)
         embed.set_thumbnail(url=im)
         embed.set_footer(text="Date claim")
         embed.set_timestamp()
         webhook.add_embed(embed)
         response = webhook.execute()
         print(f"\n{INPUT} Claimed @{self.random_usernames()} \x1b[35mAfter {self.attempts} Attempts \x1b[39m")
-    #ctypes.windll.user32.MessageBoxW(0, f"Hhh Im win : @{self.random_usernames()}  ", f"Auto", 0x1000)
+        ctypes.windll.user32.MessageBoxW(0, f"Hhh Im win : @{self.random_usernames()}  ", f"Auto", 0x1000)
 
     def Clim(self):
         self.contorlthreads.wait()
