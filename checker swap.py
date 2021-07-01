@@ -49,7 +49,7 @@ dude = """
     * AutoClaimer Instagram * 
 
         Targrt Mode + list mode 
-        ./ Made By Falcon Group
+        ./ Made By FD § FBI
        i can change dude :) 
 
 """
@@ -59,7 +59,8 @@ by = """
 
     * AutoClaimer *
     \n
-        ./ Made By Falcon Group\n
+        ./ Made By FD § FBI \n
+        ./ @31421 @exploit305 @m1c1
        i can change dude :) 
 
 
@@ -97,7 +98,11 @@ class Auto():
         self.sessionid = session
         self.threads = threads
         self.run = 1
-        self.usernames = open("list.txt", "r").read().splitlines()
+        self.ask = int(input(f"{blue}{INPUT1} 1 List | 2 Target : "))
+        if self.ask == 1:
+            self.usernames = open("list.txt", "r").read().splitlines()
+        elif self.ask == 2:
+            self.usernames = str(input(f"{GREEN}{INPUT1} Target : "))
         self.proxies = open("proxies.txt", "r").read().splitlines()
         self.Target = ''
         self.RequestPerSecound = 0
@@ -109,6 +114,7 @@ class Auto():
         print(f"{INPUT}{red} Priavte Auto Claimer © {INPUT}")
         for i in range(self.threads):
             threading.Thread(target=self.Clim).start()
+            threading.Thread(target=self.proxy).start()
             self.contorlthreads.set()
 
     def random_usernames(self):
@@ -126,12 +132,15 @@ class Auto():
             self.run = False
 
             print("\n".join(self.sessionid), file=open(dir_path + "/sessions.txt", "w"))
+    def random_sub_domin(self):
+        return random.choice(self.subDomin)
 
     def RequestPerSecounD(self):
         while 1:
             self.befor = self.attempts
             sleep(1)
             self.RequestPerSecound = self.attempts - self.befor
+            print(f"\r{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="")
 
 
     def proxy(self):
@@ -148,18 +157,16 @@ class Auto():
         webhook.add_embed(embed)
         response = webhook.execute()
         print(f"\n{INPUT} Claimed @{self.random_usernames()} \x1b[35mAfter {self.attempts} Attempts \x1b[39m")
-        #ctypes.windll.user32.MessageBoxW(0, f"Hhh Im win : @{self.random_usernames()}  ", f"Auto", 0x1000)
-    def Clim(self):
+    #ctypes.windll.user32.MessageBoxW(0, f"Hhh Im win : @{self.random_usernames()}  ", f"Auto", 0x1000)
+
+    def Clim(self,Sessions):
         self.contorlthreads.wait()
         while self.run:
-            Sessions = self.random_session()
-            self.sub = random.choice(self.subDomin)
             try:
-                self.request = [self.future_session.post(f'https://{self.sub}/api/v1/accounts/set_username/', headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}, data={"username": self.random_usernames()},proxies=self.proxy()) for _ in range(5)]
+                self.request = [self.future_session.post(f'https://{self.random_sub_domin()}/api/v1/accounts/set_username/', headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}, data={"username": self.random_usernames()},proxies=self.proxy()) for _ in range(5)]
                 for self.req in as_completed(self.request):
                     with self.req.result() as self.response:
                         #print(self.response.text)
-                        print(f"\r{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="")
                         if self.response.status_code == 200:
                             with self.Locks:
                                 self.Done(Sessions)
@@ -169,12 +176,14 @@ class Auto():
                         elif "few minutes" in self.response.text:
                             self.Ratelimt += 1
                         elif any(i in self.response.texy for i in bad):
-
                             self.remove_session(":".join(Sessions))
                 if len(self.sessionid) == 0:
                     print(f"\r  {INPUT2} Ran out of accounts after \x1b[31m{self.attempts}\x1b[37m attempts")
             except Exception as Err:
                 pass
+    def varible(self):
+        Sessions = self.random_session()
+        return Sessions
 
 session = open("sessions.txt", "r").read().splitlines()
 threads = int(input(INPUT + " Threads : "))
