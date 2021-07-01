@@ -97,11 +97,7 @@ class Auto():
         self.sessionid = session
         self.threads = threads
         self.run = 1
-        self.ask = int(input(f"{blue}{INPUT1} 1 List | 2 Target : "))
-        if self.ask == 1:
-            self.usernames = open("list.txt", "r").read().splitlines()
-        elif self.ask == 2:
-            self.usernames = str(input(f"{GREEN}{INPUT1} Target : "))
+        self.usernames = open("list.txt", "r").read().splitlines()
         self.proxies = open("proxies.txt", "r").read().splitlines()
         self.Target = ''
         self.RequestPerSecound = 0
