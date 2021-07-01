@@ -159,10 +159,11 @@ class Auto():
         print(f"\n{INPUT} Claimed @{self.random_usernames()} \x1b[35mAfter {self.attempts} Attempts \x1b[39m")
     #ctypes.windll.user32.MessageBoxW(0, f"Hhh Im win : @{self.random_usernames()}  ", f"Auto", 0x1000)
 
-    def Clim(self,Sessions):
+    def Clim(self):
         self.contorlthreads.wait()
         while self.run:
             try:
+                Sessions = self.random_session()
                 self.request = [self.future_session.post(f'https://{self.random_sub_domin()}/api/v1/accounts/set_username/', headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}, data={"username": self.random_usernames()},proxies=self.proxy()) for _ in range(5)]
                 for self.req in as_completed(self.request):
                     with self.req.result() as self.response:
@@ -181,9 +182,6 @@ class Auto():
                     print(f"\r  {INPUT2} Ran out of accounts after \x1b[31m{self.attempts}\x1b[37m attempts")
             except Exception as Err:
                 pass
-    def varible(self):
-        Sessions = self.random_session()
-        return Sessions
 
 session = open("sessions.txt", "r").read().splitlines()
 threads = int(input(INPUT + " Threads : "))
