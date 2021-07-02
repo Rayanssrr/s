@@ -173,7 +173,7 @@ class Auto():
                             self.attempts += 1
                         elif "few minutes" in self.response.text:
                             self.Ratelimt += 1
-                        elif any(i in self.response.texy for i in bad):
+                        elif any(i in self.response.text for i in bad):
                             self.remove_session(":".join(Sessions))
                 if len(self.sessionid) == 0:
                     print(f"\r  {INPUT2} Ran out of accounts after \x1b[31m{self.attempts}\x1b[37m attempts")
