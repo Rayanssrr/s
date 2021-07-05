@@ -21,7 +21,7 @@ bad = [
     "nother account",
     "minutes"
 ]
-os.system('mode con: cols=85 lines=33')
+#os.system('mode con: cols=85 lines=33')
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 print_lock = threading.Lock()
