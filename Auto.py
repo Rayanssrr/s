@@ -56,8 +56,7 @@ dude = """
 by = """
 
 
-    * AutoClaimer *
-    \n
+    * AutoClaimer *\n
     ./ Made By FD § FBI \n
     ./ @31421 @exploit305 @m1c1
    i can change dude :) 
