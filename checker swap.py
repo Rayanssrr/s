@@ -6,6 +6,7 @@ try:
     from concurrent.futures import as_completed
     from discord_webhook import DiscordWebhook
     from discord_webhook import DiscordEmbed
+    from tqdm import tqdm
 
 
 except Exception as Error:
@@ -90,6 +91,8 @@ images = [
 im = random.choice(images)
 
 
+
+
 class Auto():
     def __init__(self, session, threads):
         self.attempts = 0
@@ -99,13 +102,16 @@ class Auto():
         self.run = 1
         self.usernames = open("list.txt", "r").read().splitlines()
         self.proxies = open("proxies.txt", "r").read().splitlines()
+        self.Silnt = int(input(f"{INPUT1} SILNT {red}(MAX = 1500 ) : "))
+        self.skip = int(input(f"{INPUT1} Skip {red}(MAX = 5 ) : "))
+        self.install()
         self.Target = ''
         self.RequestPerSecound = 0
         self.contorlthreads = threading.Event()
         self.Locks = threading.Lock()
         self.subDomin = ["i.instagram.com", "b.i.instagram.com"]
         threading.Thread(target=self.RequestPerSecounD).start()
-        self.future_session = FuturesSession(max_workers=self.threads)
+        self.future_session = FuturesSession(max_workers=self.Silnt)
         print(f"{INPUT}{red} Priavte Auto Claimer © {INPUT}")
         for i in range(self.threads):
             threading.Thread(target=self.Clim).start()
@@ -137,6 +143,11 @@ class Auto():
             self.RequestPerSecound = self.attempts - self.befor
             print(f"\r{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="")
 
+    def install(self):
+        for _ in tqdm(range(100), desc=f"{INPUT1}{red} Please wait to download all settings... ", ascii=False, ncols=115):
+           sleep(0.01)
+        input(f"{INPUT}{GREEN} All settings have been downloaded , Click Enter to continue ")
+
 
     def proxy(self):
         self.contorlthreads.wait()
@@ -144,30 +155,31 @@ class Auto():
             self.prox = random.choice(self.proxies)
             self.erp = {"http": f"{self.prox}", "https": f"{self.prox}"}
             return self.erp
-    def Done(self,Sessions):
+    def Done(self,Sessions,user):
         requests.post('https://i.instagram.com/api/v1/accounts/set_biography/',data={"raw_text": f"{by}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions})
         webhook = DiscordWebhook(url="https://discordapp.com/api/webhooks/810840907887804426/TwSqCHrKD1QR4hMnkHP48t8OnrrjsO4QcpjRlGJHh2vS9z4w9-gvEINazuaOp_P2gDlf")
-        embed = DiscordEmbed(title=f'Claimed @{self.random_usernames()}\nBy Falcon Group | Attempts  {self.attempts}\nR/S  {self.RequestPerSecound} \nCoded By | FD § FBI',color=000000)
+        embed = DiscordEmbed(title=f'Claimed @{user}\nBy Falcon Group | Attempts  {self.attempts}\nR/S  {self.RequestPerSecound} \nCoded By | FD § FBI',color=000000)
         embed.set_thumbnail(url=im)
         embed.set_footer(text="Date claim")
         embed.set_timestamp()
         webhook.add_embed(embed)
         response = webhook.execute()
-        print(f"\n{INPUT} Claimed @{self.random_usernames()} \x1b[35mAfter {self.attempts} Attempts \x1b[39m")
-        ctypes.windll.user32.MessageBoxW(0, f"Hhh Im win : @{self.random_usernames()}  ", f"Auto", 0x1000)
+        print(f"\n{INPUT} Claimed @{user} \x1b[35mAfter {self.attempts} Attempts \x1b[39m")
+        ctypes.windll.user32.MessageBoxW(0, f"Hhh Im win : @{user}  ", f"Auto", 0x1000)
 
     def Clim(self):
         self.contorlthreads.wait()
         while self.run:
             try:
+                user = self.random_usernames()
                 Sessions = self.random_session()
-                self.request = [self.future_session.post(f'https://{self.random_sub_domin()}/api/v1/accounts/set_username/', headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}, data={"username": self.random_usernames()},proxies=self.proxy()) for _ in range(5)]
+                self.request = [self.future_session.post(f'https://{self.random_sub_domin()}/api/v1/accounts/set_username/', headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}, data={"username": user},proxies=self.proxy()) for _ in range(self.skip)]
                 for self.req in as_completed(self.request):
                     with self.req.result() as self.response:
                         #print(self.response.text)
-                        if self.response.status_code == 200:
+                        if '"status":"ok"' in self.response.text:
                             with self.Locks:
-                                self.Done(Sessions)
+                                self.Done(Sessions,user)
                                 return self.Clim()
                         if "isn't" in self.response.text:
                             self.attempts += 1
@@ -181,7 +193,7 @@ class Auto():
                 pass
 
 session = open("sessions.txt", "r").read().splitlines()
-threads = int(input(INPUT + " Threads : "))
+threads = int(input(f"{INPUT1} Threads {red}(Max = 350) : "))
 Auto(session, threads)
 
 
