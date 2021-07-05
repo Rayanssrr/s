@@ -22,7 +22,6 @@ bad = [
     "minutes"
 ]
 os.system('mode con: cols=85 lines=33')
-
 dir_path = os.path.dirname(os.path.realpath(__file__))
 print_lock = threading.Lock()
 WHITE = '\x1b[1;37;40m'
@@ -57,7 +56,8 @@ dude = """
 by = """
 
 
-    * AutoClaimer *\n
+    * AutoClaimer *
+    \n
     ./ Made By FD § FBI \n
     ./ @31421 @exploit305 @m1c1
    i can change dude :) 
@@ -114,7 +114,6 @@ class Auto():
         print(f"{INPUT}{red} Priavte Auto Claimer © {INPUT}")
         for i in range(self.threads):
             threading.Thread(target=self.Clim).start()
-            threading.Thread(target=self.proxy).start()
             self.contorlthreads.set()
 
     def random_usernames(self):
@@ -143,7 +142,8 @@ class Auto():
             print(f"\r{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="")
 
     def install(self):
-        for _ in tqdm(range(100), desc=f"{INPUT1}{red} Please wait to download all settings... ", ascii=False, ncols=115):
+        print(f"{INPUT1}{red} Please wait to download all settings... ")
+        for _ in tqdm(range(200), desc=f"{INPUT1}", ascii=False, ncols=65):
            sleep(0.01)
         input(f"{INPUT}{GREEN} All settings have been downloaded , Click Enter to continue ")
 
