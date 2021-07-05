@@ -502,8 +502,7 @@ class login():
                                 print(f"\r{GREEN}{INPUT1} Counter : {self.attempt} / Counter Rl : {self.rl} / R/S : {self.Rs}",end="")
                             if resp.status_code == 429:
                                 self.rl += 1
-                                print(f"\r#Counter : {self.attempt} / #Counter Rl : {self.rl} / R/S : {self.Rs}",
-                                      end="")
+                                print(f"\r{GREEN}{INPUT1} Counter : {self.attempt} / Counter Rl : {self.rl} / R/S : {self.Rs}",end="")
             except Exception as E:
                 # print(E)
                 pass
