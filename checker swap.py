@@ -6,6 +6,7 @@ try:
     from concurrent.futures import as_completed
     from discord_webhook import DiscordWebhook
     from discord_webhook import DiscordEmbed
+    os.system("pip install tqdm")
     from tqdm import tqdm
 
 
