@@ -89,7 +89,7 @@ class Auto():
         self.Ratelimt = 0
         self.sessionid = session
         self.threads = threads
-        self.run = 1
+        self.run = True
         self.usernames = open("list.txt", "r").read().splitlines()
         self.proxies = open("proxies.txt", "r").read().splitlines()
         self.Silnt = int(input(f"{INPUT1} SILNT {red}(MAX = 1500 ) : "))
@@ -181,24 +181,16 @@ class Auto():
             try:
                 user = self.random_usernames()
                 Sessions = self.random_session()
-                self.request = [
-                    self.future_session.post(f'https://i.instagram.com/api/v1/users/check_username/',headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}, data={"username": user},proxies=self.proxy()) for _ in range(self.skip)]
+                self.request = [self.future_session.post(f'https://i.instagram.com/api/v1/users/check_username/',headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}, data={"_csrftoken":"UzGMBE6rjkqO7Ir4llJ26Y0VskrPaVZ5","_uuid":"bd76a155-e663-4192-b610-f6a1d5190d3d","username": user},proxies=self.proxy()) for _ in range(self.skip)]
                 for self.req in as_completed(self.request):
                     with self.req.result() as self.response:
                         #print(self.response.text)
-                        if '"available":true,"' in self.response:
+                        if '"available":true,"' in self.response.text:
                             self.Clim(Sessions,user)
-                        elif "isn't" in self.response:
+                        elif "isn't" in self.response.text:
                             self.attempts +=1
-                        elif "few minutes" in self.response:
+                        elif "few minutes" in self.response.text:
                             self.Ratelimt +=1
-                        else:
-                            pass
-                            #print(self.response.text)
-                            #return self.check()
-
-
-
             except:
                 pass
 
