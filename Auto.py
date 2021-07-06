@@ -177,10 +177,12 @@ class Auto():
                                 return self.Clim()
                         if "isn't" in self.response.text:
                             self.attempts += 1
-                            print(f"{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="\r", flush=True)
+                            with self.Locks:
+                                print(f"{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="\r", flush=True)
                         elif "few minutes" in self.response.text:
                             self.Ratelimt += 1
-                            print(f"{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="\r", flush=True)
+                            with self.Locks:
+                                print(f"{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="\r", flush=True)
                         elif any(i in self.response.text for i in bad):
                             self.remove_session(":".join(Sessions))
                 if len(self.sessionid) == 0:
