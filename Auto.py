@@ -1,11 +1,14 @@
 try:
-    import random, os, socket, requests, threading, ctypes,uuid
+    import os, socket, requests, threading, ctypes,uuid
     from time import sleep
     from termcolor import colored
     from requests_futures.sessions import FuturesSession
     from concurrent.futures import as_completed
     from discord_webhook import DiscordWebhook
     from discord_webhook import DiscordEmbed
+    from random import *
+    from string import *
+    import random
     from tqdm import tqdm
 except Exception as Error:
     print(Error)
@@ -59,7 +62,7 @@ dude = """
     * Checker Instagram * 
 
         Targrt Mode + list mode 
-        ./ Made By FD § FBI
+        ./ Made By FD § FBI for test
 
 """
 
@@ -96,11 +99,12 @@ images = [
 
 im = random.choice(images)
 class Auto():
-    def __init__(self, session, threads):
+    def __init__(self, session):
         self.attempts = 0
         self.Ratelimt = 0
         self.sessionid = session
-        self.threads = threads
+        self.checkkblock()
+        self.threads = int(input(f"{INPUT1} Threads {red}(Max = 350) : "))
         self.uuid = uuid.uuid1()
         self.run = True
         self.usernames = open("list.txt", "r").read().splitlines()
@@ -119,24 +123,6 @@ class Auto():
         for i in range(self.threads):
             threading.Thread(target=self.check).start()
 
-    def random_usernames(self):
-        return random.choice(self.usernames)
-
-    def random_session(self):
-        return random.choice(self.sessionid)
-
-    def remove_session(self, Sessions):
-        if Sessions not in self.sessionid:
-            return
-        self.sessionid.remove(Sessions)
-
-        if len(self.sessionid) == 0:
-            self.run = False
-
-            print("\n".join(self.sessionid), file=open(dir_path + "/sessions.txt", "w"))
-
-    def random_sub_domin(self):
-        return random.choice(self.subDomin)
 
     def RequestPerSecounD(self):
         while 1:
@@ -155,9 +141,30 @@ class Auto():
         self.prox = random.choice(self.proxies)
         self.erp = {"http": f"{self.prox}", "https": f"{self.prox}"}
         return self.erp
+    def checkkblock(self):
+        self.userxx = lambda len: ''.join(choices(list(ascii_lowercase + digits), k=len))
+        self.kk = self.userxx(7)
 
-    def Done(self, Sessions, user):
-        requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"{by}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + Sessions})
+        ask = int(input(f"{blue}[1] I wanna Checkblock | [2] I DO NOT wanna checkblock : "))
+
+        if ask == 1:
+            ch = requests.post('https://i.instagram.com/api/v1/accounts/set_username/',
+                               headers={"User-Agent": "Instagram 152.0.0.1.60 Android",
+                                        "Cookie": "sessionid=" + self.sessionid},
+                               data={"username": self.kk + ".checkblock"}).status_code
+            if ch == 200:
+                print(f"{INPUT}{GREEN} The account is working")
+            elif ch == 429:
+                print(f"{INPUT2}{red} Account is Not work because to too many requests")
+                input()
+                exit(0)
+        elif ask == 2:
+            pass
+
+
+
+    def Done(self, user):
+        requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"{by}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + self.sessionid})
         webhook = DiscordWebhook(url="https://discordapp.com/api/webhooks/810840907887804426/TwSqCHrKD1QR4hMnkHP48t8OnrrjsO4QcpjRlGJHh2vS9z4w9-gvEINazuaOp_P2gDlf")
         embed = DiscordEmbed(title=f'Claimed @{user}\nBy Falcon Group | Attempts  {self.attempts}\nR/S  {self.RequestPerSecound} \nCoded By | FD § FBI',color=000000)
         embed.set_thumbnail(url=im)
@@ -166,44 +173,21 @@ class Auto():
         webhook.add_embed(embed)
         response = webhook.execute()
         print(f"\n{INPUT} Claimed @{user} \x1b[35mAfter {self.attempts} Attempts \x1b[39m")
-
-    def get_info(self,Sessions):
-        global email
-        global user
-        self.r = requests.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true", headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}).json()
-        user = self.r['user']['username']
-        email = self.r['user']['email']
-
-
-
-    def set(self,Sessions,user):
-        global email
-        self.request = [self.future_session.post(f'https://b.i.instagram.com/api/v1/accounts/edit_profile/',headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions},data={"external_url": "","phone_number": "","username": f"{user}","first_name": "","_uid": f"{self.uuid}","device_id": self.uuid,"biography": "","_uuid": self.uuid,"email": f"{email}"}) for _ in range(self.skip)]
-        for self.req in as_completed(self.request):
-            with self.req.result() as self.resp:
-                if '"status":"ok"' in self.resp.text:
-                    with self.Locks:
-                        self.Done(Sessions, user)
-                        ctypes.windll.user32.MessageBoxW(0, f"Hhh Im win : @{user}  ", f"Auto", 0x1000)
-
-
-
-
-
     def check(self):
-        global email
         while self.run:
+            user = random.choice(self.usernames)
             try:
-                user = self.random_usernames()
-                Sessions = self.random_session()
                 self.request = [self.future_session.post(f'https://www.instagram.com/accounts/web_create_ajax/attempt/',headers=h,data ={'email': '','username': user,'first_name': '','opt_into_one_tap': 'false'},proxies=self.proxy()) for _ in range(self.skip)]
                 for self.req in as_completed(self.request):
                     with self.req.result() as self.response:
                         #print(self.response.text)
                         if '{"account_created": false, "errors": {"email": [{"message": "This field is required.", "code": "email_required"}], "__all__": [{"message": "Create a password at least 6 characters long.", "code": "too_short_password"}]}, "dryrun_passed": false, "username_suggestions": [], "status": "ok", "error_type": "form_validation_error"}' in self.response.text:
-                            with self.Locks:
-                                self.set(Sessions,user)
-                                return self.check()
+                            res = requests.post('https://i.instagram.com/api/v1/accounts/set_username/',headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + self.sessionid},data={"username": f"{user}"}).status_code
+                            if res == 200:
+                                with self.Locks:
+                                    self.Done(user)
+                                    ctypes.windll.user32.MessageBoxW(0, f"Hhh Im win : @{user}  ", f"Auto", 0x1000)
+                                    return False
                         elif "isn't" in self.response.text:
                             self.attempts += 1
                         else:
@@ -212,9 +196,9 @@ class Auto():
                 pass
 
 
-session = open("sessions.txt", "r").read().splitlines()
-threads = int(input(f"{INPUT1} Threads {red}(Max = 350) : "))
-Auto(session, threads)
+
+session = input(f"{INPUT1} Session : ")
+Auto(session)
 
 
 
