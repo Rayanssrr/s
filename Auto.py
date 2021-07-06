@@ -167,7 +167,7 @@ class Auto():
             try:
                 user = self.random_usernames()
                 Sessions = self.random_session()
-                self.request = [self.future_session.post(f'https://{self.random_sub_domin()}/api/v1/accounts/set_username/', headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions[1]}, data={"username": user},proxies=self.proxy(),timeout=1) for _ in range(self.skip)]
+                self.request = [self.future_session.post(f'https://{self.random_sub_domin()}/api/v1/accounts/set_username/', headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions[1]}, data={"username": user},proxies=self.proxy(),timeout=500000) for _ in range(self.skip)]
                 for self.req in as_completed(self.request):
                     with self.req.result() as self.response:
                         #print(self.response.text)
@@ -177,10 +177,10 @@ class Auto():
                                 return self.Clim()
                         if "isn't" in self.response.text:
                             self.attempts += 1
-                            print(f"{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="\r", flush=True)
+                            print(f"{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="\r")
                         elif "few minutes" in self.response.text:
                             self.Ratelimt += 1
-                            print(f"{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="\r", flush=True)
+                            print(f"{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="\r")
                         elif any(i in self.response.text for i in bad):
                             self.remove_session(":".join(Sessions))
                 if len(self.sessionid) == 0:
