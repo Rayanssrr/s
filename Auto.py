@@ -193,7 +193,7 @@ class Auto():
                         elif self.response.text.find("few minutes")>0:
                             self.Ratelimt +=1
                         else:
-                            print(self.response.text)
+                            #print(self.response.text)
                             return self.check()
 
 
