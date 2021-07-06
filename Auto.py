@@ -99,7 +99,7 @@ class Auto():
         self.usernames = open("list.txt", "r").read().splitlines()
         self.proxies = open("proxies.txt", "r").read().splitlines()
         self.Silnt = int(input(f"{INPUT1} SILNT {red}(MAX = 1500 ) : "))
-        self.skip = int(input(f"{INPUT1} Skip {red}(MAX = 5 ) : "))
+        self.skip = int(input(f"{INPUT1} Skip {red}(MAX = 500 ) : "))
         self.install()
         self.Target = ''
         self.RequestPerSecound = 0
@@ -166,31 +166,34 @@ class Auto():
             try:
                 user = self.random_usernames()
                 Sessions = self.random_session()
-                self.request = [self.future_session.post(f'https://{self.random_sub_domin()}/api/v1/accounts/set_username/', headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}, data={"username": user},proxies=self.proxy(),timeout=500000) for _ in range(self.skip)]
-                for self.req in as_completed(self.request):
-                    with self.req.result() as self.response:
-                        #print(self.response.text)
-                        if '"status":"ok"' in self.response.text:
-                            with self.Locks:
-                                self.Done(Sessions,user)
-                                return self.Clim()
-                        if "isn't" in self.response.text:
-                            self.attempts += 1
-                            with self.Locks:
-                                print(f"{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="\r", flush=True)
-                        elif "few minutes" in self.response.text:
-                            self.Ratelimt += 1
-                            with self.Locks:
-                                print(f"{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="\r", flush=True)
-                        elif any(i in self.response.text for i in bad):
-                            self.remove_session(":".join(Sessions))
+                future = []
+                for i in range(self.threads):
+                    futures = self.future_session.post(f'https://{self.random_sub_domin()}/api/v1/accounts/set_username/', headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}, data={"username": user},proxies=self.proxy())
+                    futures.i = i
+                    future.append(futures)
+                    for futures in as_completed(future):
+                        with futures.result() as self.response:
+                            if '"status":"ok"' in self.response.text:
+                                with self.Locks:
+                                    self.Done(Sessions,user)
+                                    return self.Clim()
+                            if "isn't" in self.response.text:
+                                self.attempts += 1
+                                with self.Locks:
+                                    print(f"{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="\r", flush=True)
+                            elif "few minutes" in self.response.text:
+                                self.Ratelimt += 1
+                                with self.Locks:
+                                    print(f"{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="\r", flush=True)
+                            elif any(i in self.response.text for i in bad):
+                                self.remove_session(":".join(Sessions))
                 if len(self.sessionid) == 0:
                     print(f"\r  {INPUT2} Ran out of accounts after \x1b[31m{self.attempts}\x1b[37m attempts")
             except Exception as Err:
                 pass
 
 session = open("sessions.txt", "r").read().splitlines()
-threads = int(input(f"{INPUT1} Threads {red}(Max = 350) : "))
+threads = int(input(f"{INPUT1} Threads {red}(Max = 500) : "))
 Auto(session, threads)
 
 
