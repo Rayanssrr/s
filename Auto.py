@@ -193,8 +193,9 @@ class Auto():
                         elif "few minutes" in self.response:
                             self.Ratelimt +=1
                         else:
-                            print(self.response.text)
-                            return self.check()
+                            pass
+                            #print(self.response.text)
+                            #return self.check()
 
 
 
