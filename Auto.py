@@ -46,7 +46,7 @@ skip = '\x1b[31m (defult Thread = 300) \x1b[31m'
 clearConsle = lambda: os.system('cls')
 dude = """
 
-    * AutoClaimer Instagram * 
+    * Checker Instagram * 
 
         Targrt Mode + list mode 
         ./ Made By FD § FBI
@@ -55,7 +55,7 @@ dude = """
 by = """
 
 
-    * AutoClaimer *\n
+    * Checker *\n
     ./ Made By FD § FBI \n
     ./ @31421 @exploit305 @m1c1
    i can change dude :) 
@@ -102,7 +102,7 @@ class Auto():
         self.subDomin = ["i.instagram.com", "b.i.instagram.com"]
         threading.Thread(target=self.RequestPerSecounD).start()
         self.future_session = FuturesSession(max_workers=self.Silnt)
-        print(f"{INPUT}{red} Priavte Auto Claimer © {INPUT}")
+        print(f"{INPUT}{red} Priavte Checker  © {INPUT}")
         for i in range(self.threads):
             threading.Thread(target=self.check).start()
 
@@ -186,14 +186,14 @@ class Auto():
                 for self.req in as_completed(self.request):
                     with self.req.result() as self.response:
                         #print(self.response.text)
-                        if self.response.text.find('{"items":[],"num_results":0,"status":"ok"}')>=0:
+                        if '{"items":[],"num_results":0,"status":"ok"}' in self.response:
                             self.Clim(Sessions,user)
-                        elif self.response.text.find('{"items":[],"num_results":0,"more_available":false,"auto_load_more_enabled":true,"status":"ok"}')>0:
+                        elif '{"items":[],"num_results":0,"more_available":false,"auto_load_more_enabled":true,"status":"ok"}' in self.response:
                             self.attempts +=1
-                        elif self.response.text.find("few minutes")>0:
+                        elif "few minutes" in self.response:
                             self.Ratelimt +=1
                         else:
-                            #print(self.response.text)
+                            print(self.response.text)
                             return self.check()
 
 
