@@ -49,7 +49,7 @@ dude = """
     * Checker Instagram * 
 
         Targrt Mode + list mode 
-        ./ Made By FD § FBI
+        ./ Made By FD § FBI RRG
 
 """
 by = """
