@@ -62,6 +62,8 @@ dude = """
         ./ Made By FD § FBI
 
 """
+
+
 by = """
 
 
@@ -164,22 +166,25 @@ class Auto():
         webhook.add_embed(embed)
         response = webhook.execute()
         print(f"\n{INPUT} Claimed @{user} \x1b[35mAfter {self.attempts} Attempts \x1b[39m")
-        
-        
-    
+
+    def get_info(self,Sessions):
+        global email
+        global user
+        self.r = requests.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true", headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}).json()
+        user = self.r['user']['username']
+        email = self.r['user']['email']
+
+
+
     def set(self,Sessions,user):
-        self.request = [self.future_session.post(f'https://b.i.instagram.com/api/v1/accounts/set_username/',headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions},data={"username" : user}) for _ in range(self.skip)]
+        global email
+        self.request = [self.future_session.post(f'https://b.i.instagram.com/api/v1/accounts/edit_profile/',headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions},data={"external_url": "","phone_number": "","username": f"{user}","first_name": "","_uid": f"{self.uuid}","device_id": self.uuid,"biography": "","_uuid": self.uuid,"email": f"{email}"}) for _ in range(self.skip)]
         for self.req in as_completed(self.request):
             with self.req.result() as self.resp:
                 if '"status":"ok"' in self.resp.text:
                     with self.Locks:
                         self.Done(Sessions, user)
                         ctypes.windll.user32.MessageBoxW(0, f"Hhh Im win : @{user}  ", f"Auto", 0x1000)
-        
-        
-    
-
-
 
 
 
