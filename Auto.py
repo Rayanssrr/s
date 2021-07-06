@@ -1,5 +1,5 @@
 try:
-    import random, os, socket, requests, threading, ctypes
+    import random, os, socket, requests, threading, ctypes,uuid
     from time import sleep
     from termcolor import colored
     from requests_futures.sessions import FuturesSession
@@ -99,6 +99,7 @@ class Auto():
         self.Ratelimt = 0
         self.sessionid = session
         self.threads = threads
+        self.uuid = uuid.uuid1()
         self.run = True
         self.usernames = open("list.txt", "r").read().splitlines()
         self.proxies = open("proxies.txt", "r").read().splitlines()
@@ -167,11 +168,20 @@ class Auto():
 
 
 
+    def get_info(self,Sessions):
+        global email
+        global user
+        self.r = requests.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true", headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}).json()
+        email = self.r['user']['email']
+
+
+
 
 
 
 
     def check(self):
+        global email
         while self.run:
             try:
                 user = self.random_usernames()
@@ -181,9 +191,7 @@ class Auto():
                     with self.req.result() as self.response:
                         #print(self.response.text)
                         if '{"account_created": false, "errors": {"email": [{"message": "This field is required.", "code": "email_required"}], "__all__": [{"message": "Create a password at least 6 characters long.", "code": "too_short_password"}]}, "dryrun_passed": false, "username_suggestions": [], "status": "ok", "error_type": "form_validation_error"}' in self.response.text:
-                            with self.Locks:
-                                print("Done")
-                            re = requests.post(f'https://b.i.instagram.com/api/v1/accounts/set_username/',headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}, data={"username": user},proxies=self.proxy()).text
+                            re = requests.post(f'https://b.i.instagram.com/api/v1/accounts/edit_profile/',headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}, data={"external_url": "","phone_number": "","username": f"{user}","first_name": "","_uid": f"{self.uuid}","device_id": self.uuid,"biography": "","_uuid": self.uuid,"email": f"{email}"})
                             if re == 200:
                                 with self.Locks:
                                     self.Done(Sessions, user)
