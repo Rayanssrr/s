@@ -170,21 +170,6 @@ class Auto():
 
 
 
-    def Clim(self,Sessions,user):
-        while self.run:
-            try:
-
-                self.request = [self.future_session.post(f'https://{self.random_sub_domin()}/api/v1/accounts/set_username/',headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}, data={"username": user},proxies=self.proxy()) for _ in range(self.skip)]
-                for self.req in as_completed(self.request):
-                    with self.req.result() as self.response:
-                        # print(self.response.text)
-                        if '"status":"ok"' in self.response.text:
-                            with self.Locks:
-                                self.Done(Sessions, user)
-                if len(self.sessionid) == 0:
-                    print(f"\r  {INPUT2} Ran out of accounts after \x1b[31m{self.attempts}\x1b[37m attempts")
-            except Exception as Err:
-                pass
 
     def check(self):
         while self.run:
@@ -196,8 +181,13 @@ class Auto():
                     with self.req.result() as self.response:
                         #print(self.response.text)
                         if '{"account_created": false, "errors": {"email": [{"message": "This field is required.", "code": "email_required"}], "__all__": [{"message": "Create a password at least 6 characters long.", "code": "too_short_password"}]}, "dryrun_passed": false, "username_suggestions": [], "status": "ok", "error_type": "form_validation_error"}' in self.response.text:
-                            print("true")
-                            self.Clim(Sessions,user)
+                            with self.Locks:
+                                print("Done")
+                            re = requests.post(f'https://b.i.instagram.com/api/v1/accounts/set_username/',headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}, data={"username": user},proxies=self.proxy()).text
+                            if re == 200:
+                                with self.Locks:
+                                    self.Done(Sessions, user)
+
                         elif "isn't" in self.response.text:
                             self.attempts += 1
                         else:
