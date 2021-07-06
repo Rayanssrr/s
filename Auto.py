@@ -182,13 +182,13 @@ class Auto():
                 user = self.random_usernames()
                 Sessions = self.random_session()
                 self.request = [
-                    self.future_session.get(f'https://b.i.instagram.com/api/v1/feed/user/{user}/username/',headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}, data={"username": user},proxies=self.proxy()) for _ in range(self.skip)]
+                    self.future_session.post(f'https://i.instagram.com/api/v1/users/check_username/',headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}, data={"username": user},proxies=self.proxy()) for _ in range(self.skip)]
                 for self.req in as_completed(self.request):
                     with self.req.result() as self.response:
                         #print(self.response.text)
-                        if '{"items":[],"num_results":0,"status":"ok"}' in self.response:
+                        if '"available":true,"' in self.response:
                             self.Clim(Sessions,user)
-                        elif '{"items":[],"num_results":0,"more_available":false,"auto_load_more_enabled":true,"status":"ok"}' in self.response:
+                        elif "isn't" in self.response:
                             self.attempts +=1
                         elif "few minutes" in self.response:
                             self.Ratelimt +=1
