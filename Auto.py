@@ -21,7 +21,17 @@ bad = [
     "nother account",
     "minutes"
 ]
-
+h = {
+        'Host': 'www.instagram.com',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0',
+        'Accept': '*/*',
+        'Accept-Language': 'en-US;q=0.7,en;q=0.3',
+        'X-CSRFToken': 'jeagRYeHcMF4yZmO4UJbNY6DBCbYivNA',
+        'Content-Type': "application/x-www-form-urlencoded",
+        'X-Requested-With': 'XMLHttpRequest',
+        'Referer': 'https://www.instagram.com/accounts/emailsignup/',
+        'Cookie': 'csrftoken=jeagRYeHcMF4yZmO4UJbNY6DBCbYivNA; mid=YHv_AwALAAFmtVEzOC0HhIUrKHs4; ig_did=7741DF1B-DA96-4EEA-A42A-799C654EBFBB; ig_nrcb=1'
+    }
 os.system('mode con: cols=85 lines=33')
 dir_path = os.path.dirname(os.path.realpath(__file__))
 print_lock = threading.Lock()
@@ -49,7 +59,7 @@ dude = """
     * Checker Instagram * 
 
         Targrt Mode + list mode 
-        ./ Made By FD § FBI RRG
+        ./ Made By FD § FBI
 
 """
 by = """
@@ -181,17 +191,17 @@ class Auto():
             try:
                 user = self.random_usernames()
                 Sessions = self.random_session()
-                self.request = [self.future_session.post(f'https://i.instagram.com/api/v1/users/check_username/',headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}, data={"_csrftoken":"UzGMBE6rjkqO7Ir4llJ26Y0VskrPaVZ5","_uuid":"bd76a155-e663-4192-b610-f6a1d5190d3d","username": user},proxies=self.proxy()) for _ in range(self.skip)]
+                self.request = [self.future_session.post(f'https://www.instagram.com/accounts/web_create_ajax/attempt/',headers=h,data ={'email': '','username': user,'first_name': '','opt_into_one_tap': 'false'},proxies=self.proxy()) for _ in range(self.skip)]
                 for self.req in as_completed(self.request):
                     with self.req.result() as self.response:
                         #print(self.response.text)
-                        if '"available":true,"' in self.response.text:
+                        if '{"account_created": false, "errors": {"email": [{"message": "This field is required.", "code": "email_required"}], "__all__": [{"message": "Create a password at least 6 characters long.", "code": "too_short_password"}]}, "dryrun_passed": false, "username_suggestions": [], "status": "ok", "error_type": "form_validation_error"}' in self.response.text:
                             print("true")
                             self.Clim(Sessions,user)
-                        elif '"available":false,"' in self.response.text:
-                            self.attempts +=1
-                        elif "few minutes" in self.response.text:
-                            self.Ratelimt +=1
+                        elif "isn't" in self.response.text:
+                            self.attempts += 1
+                        else:
+                            self.Ratelimt += 1
             except:
                 pass
 
