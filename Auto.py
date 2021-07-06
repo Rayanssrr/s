@@ -99,7 +99,7 @@ class Auto():
         self.usernames = open("list.txt", "r").read().splitlines()
         self.proxies = open("proxies.txt", "r").read().splitlines()
         self.Silnt = int(input(f"{INPUT1} SILNT {red}(MAX = 1500 ) : "))
-        self.skip = int(input(f"{INPUT1} Skip {red}(MAX = 500 ) : "))
+        self.skip = int(input(f"{INPUT1} Skip {red}(MAX = 5 ) : "))
         self.install()
         self.Target = ''
         self.RequestPerSecound = 0
@@ -136,7 +136,7 @@ class Auto():
             self.befor = self.attempts
             sleep(1)
             self.RequestPerSecound = self.attempts - self.befor
-            print(f"{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="\r", flush=True)
+            print(f"\r{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="")
 
     def install(self):
         print(f"{INPUT1}{red} Please wait to download all settings... ")
@@ -180,11 +180,11 @@ class Auto():
                             if "isn't" in self.response.text:
                                 self.attempts += 1
                                 with self.Locks:
-                                    print(f"{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="\r", flush=True)
+                                    print(f"\r{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="")
                             elif "few minutes" in self.response.text:
                                 self.Ratelimt += 1
                                 with self.Locks:
-                                    print(f"{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="\r", flush=True)
+                                    print(f"\r{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="")
                             elif any(i in self.response.text for i in bad):
                                 self.remove_session(":".join(Sessions))
                 if len(self.sessionid) == 0:
@@ -193,7 +193,7 @@ class Auto():
                 pass
 
 session = open("sessions.txt", "r").read().splitlines()
-threads = int(input(f"{INPUT1} Threads {red}(Max = 500) : "))
+threads = int(input(f"{INPUT1} Threads {red}(Max = 350) : "))
 Auto(session, threads)
 
 
