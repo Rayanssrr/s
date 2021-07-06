@@ -130,11 +130,11 @@ class Auto():
             self.befor = self.attempts
             sleep(1)
             self.RequestPerSecound = self.attempts - self.befor
-            print(f"{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="\r")
+            print(f"\r{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="")
 
     def install(self):
         print(f"{INPUT1}{red} Please wait to download all settings... ")
-        for _ in tqdm(range(200), desc=f"{INPUT1}", ascii=False, ncols=65):
+        for _ in tqdm(range(100), desc=f"{INPUT1}", ascii=False, ncols=65):
             sleep(0.01)
         input(f"{INPUT}{GREEN} All settings have been downloaded , Click Enter to continue ")
 
@@ -164,7 +164,7 @@ class Auto():
         while self.run:
             try:
 
-                self.request = [self.future_session.post(f'https://{self.random_sub_domin()}/api/v1/accounts/set_username/',headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}, data={"username": user}) for _ in range(self.skip)]
+                self.request = [self.future_session.post(f'https://{self.random_sub_domin()}/api/v1/accounts/set_username/',headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}, data={"username": user},proxies=self.proxy()) for _ in range(self.skip)]
                 for self.req in as_completed(self.request):
                     with self.req.result() as self.response:
                         # print(self.response.text)
@@ -186,8 +186,9 @@ class Auto():
                     with self.req.result() as self.response:
                         #print(self.response.text)
                         if '"available":true,"' in self.response.text:
+                            print("true")
                             self.Clim(Sessions,user)
-                        elif "isn't" in self.response.text:
+                        elif '"available":false,"' in self.response.text:
                             self.attempts +=1
                         elif "few minutes" in self.response.text:
                             self.Ratelimt +=1
