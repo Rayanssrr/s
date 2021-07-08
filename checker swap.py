@@ -198,7 +198,7 @@ class Auto():
                      with futures.result() as resp:
                          #print(resp.text)
                          if f'"username":"{user}","prototype":"last"' in resp.text:
-                             res = requests.post('https://i.instagram.com/api/v1/accounts/edit_profile/',headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + self.sessionid}, data={"external_url": "","phone_number": "","username": f"{self.Target}","first_name": "","_uid": f"{self.uuid}","device_id": self.uuid,"biography": "","_uuid": self.uuid,"email": f"{self.email}"})
+                             res = requests.post('https://i.instagram.com/api/v1/accounts/set_username/',headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + self.sessionid}, data={"username": f"{user}"})
                              if res.status_code == 200:
                                  with self.Locks:
                                      self.Done(user)
@@ -249,7 +249,7 @@ class Auto():
 
 
 
-session = input(f"{INPUT1} Session : ")
+session = input(f"{INPUT1} Sessionid : ")
 Auto(session)
 
 
