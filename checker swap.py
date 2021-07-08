@@ -122,6 +122,7 @@ class Auto():
         for i in range(self.threads):
             t = threading.Thread(target=self.check,daemon=True).start()
             self.listTH.append(t)
+            self.contorlthreads.set()
 
 
     def RequestPerSecounD(self):
@@ -189,6 +190,7 @@ class Auto():
         ctypes.windll.user32.MessageBoxW(0, f"Hhh Im win : @{user}  ", f"Auto", 0x1000)
         return False
     def check(self):
+        self.contorlthreads.wait(2)
         while self.run:
              user = random.choice(self.usernames)
              try:
@@ -206,13 +208,17 @@ class Auto():
                                  with self.Locks:
                                      self.Done(user)
                                      return self.check()
+                             else:
+                                 with self.Locks:
+
+                                    print(f" set >> ({res.text})")
                          elif "isn't" in resp.text:
                              self.attempts +=1
                          else:
                              self.Ratelimt +=1
              except requests.Timeout:
                  self.timeout +=1
-            
+
              except:
                  pass
 
