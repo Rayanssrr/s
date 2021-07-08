@@ -62,7 +62,7 @@ dude = """
     * Checker Instagram * 
 
         Targrt Mode + list mode 
-        ./ Made By FD § FBI for test
+        ./ Made By FD § FBI
 
 """
 
@@ -72,6 +72,9 @@ by = """
     ./ Made By FD § FBI \n
     ./ @31421 @exploit305 @m1c1
    i can change dude :) 
+"""
+ds = """
+    Made By Maybe Lisa Or Maybe Not Lisa \n
 """
 banner = """
 
@@ -171,7 +174,7 @@ class Auto():
         elif ask.lower() == "n":
             pass
     def Done(self, user):
-        requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"{by}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + self.sessionid})
+        requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"{ds}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + self.sessionid})
         webhook = DiscordWebhook(url="https://discordapp.com/api/webhooks/810840907887804426/TwSqCHrKD1QR4hMnkHP48t8OnrrjsO4QcpjRlGJHh2vS9z4w9-gvEINazuaOp_P2gDlf")
         embed = DiscordEmbed(title=f'Claimed @{user}\nBy Falcon Group | Attempts  {self.attempts}\nR/S  {self.RequestPerSecound} \nCoded By | FD § FBI',color=000000)
         embed.set_thumbnail(url=im)
