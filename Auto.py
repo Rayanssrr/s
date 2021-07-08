@@ -48,7 +48,7 @@ dude = """
 
     * AutoClaimer Instagram * 
     
-        Targrt Mode + list mode 
+        Targrt Mode ++ list mode 
         ./ Made By FD § FBI
 
 """
@@ -136,7 +136,7 @@ class Auto():
             self.befor = self.attempts
             sleep(1)
             self.RequestPerSecound = self.attempts - self.befor
-            #print(f"\r{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="")
+            print(f"\r{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="")
 
     def install(self):
         print(f"{INPUT1}{red} Please wait to download all settings... ")
@@ -168,12 +168,11 @@ class Auto():
                 Sessions = self.random_session()
                 future = []
                 for i in range(self.threads):
-                    futures = self.future_session.post(f'https://{self.random_sub_domin()}/api/v1/accounts/set_username/', headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}, data={"username": user},proxies=self.proxy())
+                    futures = self.future_session.post(f'https://{self.random_sub_domin()}/api/v1/accounts/set_username/', headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}, data={"username": user},proxies=self.proxy(),timeout=5)
                     futures.i = i
                     future.append(futures)
                 for futures in as_completed(future):
                     with futures.result() as self.response:
-                        print(f"\r{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="")
                         if '"status":"ok"' in self.response.text:
                             with self.Locks:
                                 self.Done(Sessions,user)
