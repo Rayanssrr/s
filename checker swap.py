@@ -144,12 +144,10 @@ class Auto():
         self.erp = {"http": f"{self.prox}", "https": f"{self.prox}"}
         return self.erp
     def get_info(self):
-        global email
-        global user
         try:
             self.r = requests.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true", headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + self.sessionid}).json()
             user = self.r['user']['username']
-            email = self.r['user']['email']
+            self.email = self.r['user']['email']
             clearConsle()
             print(GREEN + dude + red + banner)
             print(f"{INPUT}{GREEN} Login Successfly as (@{user}) Click Enter to continue")
@@ -175,9 +173,6 @@ class Auto():
                 exit(0)
         elif ask.lower() == "n":
             pass
-
-
-
     def Done(self, user):
         requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"{by}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + self.sessionid})
         webhook = DiscordWebhook(url="https://discordapp.com/api/webhooks/810840907887804426/TwSqCHrKD1QR4hMnkHP48t8OnrrjsO4QcpjRlGJHh2vS9z4w9-gvEINazuaOp_P2gDlf")
@@ -196,26 +191,25 @@ class Auto():
              try:
                  future = []
                  for i in range(self.skip):
-                     futures = self.future_session.post(f'https://www.instagram.com/accounts/web_create_ajax/attempt/', headers=h,data={'email': '', 'username': user, 'first_name': '','opt_into_one_tap': 'false'}, proxies=self.proxy(),timeout=5)
+                     futures = self.future_session.post("https://i.instagram.com/api/v1/accounts/username_suggestions/",data={"name":user},headers={"User-Agent": "Instagram 152.0.0.1.60 Android"}, proxies=self.proxy())
                      futures.i = i
                      future.append(futures)
                  for futures in as_completed(future):
                      with futures.result() as resp:
                          #print(resp.text)
-                         if '{"account_created": false, "errors": {"email": [{"message": "This field is required.", "code": "email_required"}], "__all__": [{"message": "Create a password at least 6 characters long.", "code": "too_short_password"}]}, "dryrun_passed": false, "username_suggestions": [], "status": "ok", "error_type": "form_validation_error"}' in resp.text:
-                             res = requests.post('https://i.instagram.com/api/v1/accounts/set_username/',headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + self.sessionid}, data={"username": f"{user}"})
+                         if f'"username":"{user}","prototype":"last"' in resp.text:
+                             res = requests.post('https://i.instagram.com/api/v1/accounts/edit_profile/',headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + self.sessionid}, data={"external_url": "","phone_number": "","username": f"{self.Target}","first_name": "","_uid": f"{self.uuid}","device_id": self.uuid,"biography": "","_uuid": self.uuid,"email": f"{self.email}"})
                              if res.status_code == 200:
                                  with self.Locks:
                                      self.Done(user)
                                      return self.check()
                              else:
                                  with self.Locks:
-
                                     print(f" set >> ({res.text})")
-                         elif "isn't" in resp.text:
-                             self.attempts +=1
-                         else:
+                         elif "few minutes" in resp.text:
                              self.Ratelimt +=1
+                         else:
+                             self.attempts +=1
              except requests.Timeout:
                  self.timeout +=1
 
