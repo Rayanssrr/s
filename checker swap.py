@@ -68,14 +68,10 @@ dude = """
 
 
 by = """
-
-
     * Checker *\n
     ./ Made By FD § FBI \n
     ./ @31421 @exploit305 @m1c1
    i can change dude :) 
-
-
 """
 banner = """
 
@@ -108,6 +104,7 @@ class Auto():
         self.threads = int(input(f"{INPUT1} Threads {red}(Max = 500) : "))
         self.uuid = uuid.uuid1()
         self.run = True
+        self.timeout = 0
         self.usernames = open("list.txt", "r").read().splitlines()
         self.proxies = open("proxies.txt", "r").read().splitlines()
         self.Silnt = int(input(f"{INPUT1} SILNT {red}(MAX = 1500 ) : "))
@@ -121,8 +118,12 @@ class Auto():
         threading.Thread(target=self.RequestPerSecounD).start()
         self.future_session = FuturesSession(max_workers=self.Silnt)
         print(f"{INPUT}{red} Priavte Checker  © {INPUT}")
+        listTH = []
         for i in range(self.threads):
-            threading.Thread(target=self.check).start()
+            t = threading.Thread(target=self.check,daemon=True).start()
+            listTH.append(t)
+        for i in listTH:
+            i.join()
 
 
     def RequestPerSecounD(self):
@@ -130,7 +131,7 @@ class Auto():
             self.befor = self.attempts
             sleep(1)
             self.RequestPerSecound = self.attempts - self.befor
-            print(f"\r{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="")
+            print(f"\r{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound} | Timeout : {self.timeout}",end="")
 
     def install(self):
         print(f"{INPUT1}{red} Please wait to download all settings... ")
@@ -178,40 +179,41 @@ class Auto():
 
 
     def Done(self, user):
-        with self.Locks:
-            requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"{by}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + self.sessionid})
-            webhook = DiscordWebhook(url="https://discordapp.com/api/webhooks/810840907887804426/TwSqCHrKD1QR4hMnkHP48t8OnrrjsO4QcpjRlGJHh2vS9z4w9-gvEINazuaOp_P2gDlf")
-            embed = DiscordEmbed(title=f'Claimed @{user}\nBy Falcon Group | Attempts  {self.attempts}\nR/S  {self.RequestPerSecound} \nCoded By | FD § FBI',color=000000)
-            embed.set_thumbnail(url=im)
-            embed.set_footer(text="Date claim")
-            embed.set_timestamp()
-            webhook.add_embed(embed)
-            response = webhook.execute()
-            print(f"\n{INPUT} Claimed @{user} \x1b[35mAfter {self.attempts} Attempts \x1b[39m")
-            ctypes.windll.user32.MessageBoxW(0, f"Hhh Im win : @{user}  ", f"Auto", 0x1000)
+        requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"{by}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + self.sessionid})
+        webhook = DiscordWebhook(url="https://discordapp.com/api/webhooks/810840907887804426/TwSqCHrKD1QR4hMnkHP48t8OnrrjsO4QcpjRlGJHh2vS9z4w9-gvEINazuaOp_P2gDlf")
+        embed = DiscordEmbed(title=f'Claimed @{user}\nBy Falcon Group | Attempts  {self.attempts}\nR/S  {self.RequestPerSecound} \nCoded By | FD § FBI',color=000000)
+        embed.set_thumbnail(url=im)
+        embed.set_footer(text="Date claim")
+        embed.set_timestamp()
+        webhook.add_embed(embed)
+        response = webhook.execute()
+        print(f"\n{INPUT} Claimed @{user} \x1b[35mAfter {self.attempts} Attempts \x1b[39m")
+        ctypes.windll.user32.MessageBoxW(0, f"Hhh Im win : @{user}  ", f"Auto", 0x1000)
     def check(self):
         while self.run:
              user = random.choice(self.usernames)
              try:
                  future = []
                  for i in range(self.threads):
-                     futures = self.future_session.post(f'https://www.instagram.com/accounts/web_create_ajax/attempt/', headers=h,data={'email': '', 'username': user, 'first_name': '','opt_into_one_tap': 'false'}, proxies=self.proxy())
+                     futures = self.future_session.post(f'https://www.instagram.com/accounts/web_create_ajax/attempt/', headers=h,data={'email': '', 'username': user, 'first_name': '','opt_into_one_tap': 'false'}, proxies=self.proxy(),timeout=5)
                      futures.i = i
                      future.append(futures)
-                     for futures in as_completed(future):
-                         with futures.result() as resp:
-                             #print(resp.text)
-                             if '{"account_created": false, "errors": {"email": [{"message": "This field is required.", "code": "email_required"}], "__all__": [{"message": "Create a password at least 6 characters long.", "code": "too_short_password"}]}, "dryrun_passed": false, "username_suggestions": [], "status": "ok", "error_type": "form_validation_error"}' in resp.text:
-                                 res = requests.post('https://i.instagram.com/api/v1/accounts/set_username/',headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + self.sessionid}, data={"username": f"{user}"})
-                                 if res.status_code == 200:
-                                     with self.Locks:
-                                         self.Done(user)
-                                         return False
-                             elif "isn't" in resp.text:
-                                 self.attempts +=1
-                             else:
-                                 self.Ratelimt +=1
-
+                 for futures in as_completed(future):
+                     with futures.result() as resp:
+                         #print(resp.text)
+                         if '{"account_created": false, "errors": {"email": [{"message": "This field is required.", "code": "email_required"}], "__all__": [{"message": "Create a password at least 6 characters long.", "code": "too_short_password"}]}, "dryrun_passed": false, "username_suggestions": [], "status": "ok", "error_type": "form_validation_error"}' in resp.text:
+                             res = requests.post('https://i.instagram.com/api/v1/accounts/set_username/',headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + self.sessionid}, data={"username": f"{user}"})
+                             if res.status_code == 200:
+                                 with self.Locks:
+                                     self.Done(user)
+                                     return False
+                         elif "isn't" in resp.text:
+                             self.attempts +=1
+                         else:
+                             self.Ratelimt +=1
+             except requests.Timeout:
+                 self.timeout +=1
+                 pass
              except:
                  pass
 
