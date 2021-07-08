@@ -118,12 +118,10 @@ class Auto():
         threading.Thread(target=self.RequestPerSecounD).start()
         self.future_session = FuturesSession(max_workers=self.Silnt)
         print(f"{INPUT}{red} Priavte Checker  © {INPUT}")
-        listTH = []
+        self.listTH = []
         for i in range(self.threads):
             t = threading.Thread(target=self.check,daemon=True).start()
-            listTH.append(t)
-        for i in listTH:
-            i.join()
+            self.listTH.append(t)
 
 
     def RequestPerSecounD(self):
@@ -189,6 +187,7 @@ class Auto():
         response = webhook.execute()
         print(f"\n{INPUT} Claimed @{user} \x1b[35mAfter {self.attempts} Attempts \x1b[39m")
         ctypes.windll.user32.MessageBoxW(0, f"Hhh Im win : @{user}  ", f"Auto", 0x1000)
+        return False
     def check(self):
         while self.run:
              user = random.choice(self.usernames)
@@ -206,14 +205,14 @@ class Auto():
                              if res.status_code == 200:
                                  with self.Locks:
                                      self.Done(user)
-                                     return False
+                                     return self.check()
                          elif "isn't" in resp.text:
                              self.attempts +=1
                          else:
                              self.Ratelimt +=1
              except requests.Timeout:
                  self.timeout +=1
-                 pass
+            
              except:
                  pass
 
