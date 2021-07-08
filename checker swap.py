@@ -194,22 +194,22 @@ class Auto():
                      futures = self.future_session.post("https://i.instagram.com/api/v1/accounts/username_suggestions/",data={"name":user},headers={"User-Agent": "Instagram 152.0.0.1.60 Android"}, proxies=self.proxy())
                      futures.i = i
                      future.append(futures)
-                 for futures in as_completed(future):
-                     with futures.result() as resp:
-                         #print(resp.text)
-                         if f'"username":"{user}","prototype":"last"' in resp.text:
-                             res = requests.post('https://i.instagram.com/api/v1/accounts/set_username/',headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + self.sessionid}, data={"username": f"{user}"})
-                             if res.status_code == 200:
-                                 with self.Locks:
-                                     self.Done(user)
-                                     return self.check()
+                     for futures in as_completed(future):
+                         with futures.result() as resp:
+                             #print(resp.text)
+                             if f'"username":"{user}","prototype":"last"' in resp.text:
+                                 res = requests.post('https://i.instagram.com/api/v1/accounts/set_username/',headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + self.sessionid}, data={"username": f"{user}"})
+                                 if res.status_code == 200:
+                                     with self.Locks:
+                                         self.Done(user)
+                                         return self.check()
+                                 else:
+                                     with self.Locks:
+                                        print(f" set >> ({res.text})")
+                             elif "few minutes" in resp.text:
+                                 self.Ratelimt +=1
                              else:
-                                 with self.Locks:
-                                    print(f" set >> ({res.text})")
-                         elif "few minutes" in resp.text:
-                             self.Ratelimt +=1
-                         else:
-                             self.attempts +=1
+                                 self.attempts +=1
              except requests.Timeout:
                  self.timeout +=1
 
@@ -249,7 +249,7 @@ class Auto():
 
 
 
-session = input(f"{INPUT1} Sessionid : ")
+session = input(f"{INPUT1} Session : ")
 Auto(session)
 
 
