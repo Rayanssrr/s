@@ -48,7 +48,7 @@ dude = """
 
     * AutoClaimer Instagram * 
     
-        Targrt Mode ++ list mode 
+        Targrt Mode + list mode 
         ./ Made By FD § FBI
 
 """
@@ -96,6 +96,7 @@ class Auto():
         self.sessionid = session
         self.threads = threads
         self.run = 1
+        self.timeout = 0
         self.usernames = open("list.txt", "r").read().splitlines()
         self.proxies = open("proxies.txt", "r").read().splitlines()
         self.Silnt = int(input(f"{INPUT1} SILNT {red}(MAX = 1500 ) : "))
@@ -136,7 +137,7 @@ class Auto():
             self.befor = self.attempts
             sleep(1)
             self.RequestPerSecound = self.attempts - self.befor
-            print(f"\r{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="")
+            print(f"\r{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound} | Timeout : {self.timeout}",end="")
 
     def install(self):
         print(f"{INPUT1}{red} Please wait to download all settings... ")
@@ -185,6 +186,8 @@ class Auto():
                             self.remove_session(":".join(Sessions))
                 if len(self.sessionid) == 0:
                     print(f"\r  {INPUT2} Ran out of accounts after \x1b[31m{self.attempts}\x1b[37m attempts")
+            except requests.Timeout:
+                self.timeout +=1
             except Exception as Err:
                 pass
 
