@@ -136,7 +136,7 @@ class Auto():
             self.befor = self.attempts
             sleep(1)
             self.RequestPerSecound = self.attempts - self.befor
-            print(f"\r{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="")
+            #print(f"\r{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="")
 
     def install(self):
         print(f"{INPUT1}{red} Please wait to download all settings... ")
@@ -171,22 +171,19 @@ class Auto():
                     futures = self.future_session.post(f'https://{self.random_sub_domin()}/api/v1/accounts/set_username/', headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}, data={"username": user},proxies=self.proxy())
                     futures.i = i
                     future.append(futures)
-                    for futures in as_completed(future):
-                        with futures.result() as self.response:
-                            if '"status":"ok"' in self.response.text:
-                                with self.Locks:
-                                    self.Done(Sessions,user)
-                                    return self.Clim()
-                            if "isn't" in self.response.text:
-                                self.attempts += 1
-                                with self.Locks:
-                                    print(f"\r{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="")
-                            elif "few minutes" in self.response.text:
-                                self.Ratelimt += 1
-                                with self.Locks:
-                                    print(f"\r{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="")
-                            elif any(i in self.response.text for i in bad):
-                                self.remove_session(":".join(Sessions))
+                for futures in as_completed(future):
+                    with futures.result() as self.response:
+                        print(f"\r{blue}{INPUT1} Attempts : {self.attempts} | Ratelimt : {self.Ratelimt} | R/S : {self.RequestPerSecound}",end="")
+                        if '"status":"ok"' in self.response.text:
+                            with self.Locks:
+                                self.Done(Sessions,user)
+                                return self.Clim()
+                        if "isn't" in self.response.text:
+                            self.attempts += 1
+                        elif "few minutes" in self.response.text:
+                            self.Ratelimt += 1
+                        elif any(i in self.response.text for i in bad):
+                            self.remove_session(":".join(Sessions))
                 if len(self.sessionid) == 0:
                     print(f"\r  {INPUT2} Ran out of accounts after \x1b[31m{self.attempts}\x1b[37m attempts")
             except Exception as Err:
