@@ -118,11 +118,11 @@ class Auto():
         threading.Thread(target=self.RequestPerSecounD).start()
         self.future_session = FuturesSession(max_workers=self.Silnt)
         print(f"{INPUT}{red} Priavte Checker  © {INPUT}")
-        self.listTH = []
-        for i in range(self.threads):
-            t = threading.Thread(target=self.check,daemon=True).start()
-            self.listTH.append(t)
-            self.contorlthreads.set()
+        #self.listTH = []
+        #for i in range(self.threads):
+            #t = threading.Thread(target=self.check,daemon=True).start()
+            #self.listTH.append(t)
+            #self.contorlthreads.set()
 
 
     def RequestPerSecounD(self):
@@ -190,12 +190,11 @@ class Auto():
         ctypes.windll.user32.MessageBoxW(0, f"Hhh Im win : @{user}  ", f"Auto", 0x1000)
         return False
     def check(self):
-        self.contorlthreads.wait(2)
         while self.run:
              user = random.choice(self.usernames)
              try:
                  future = []
-                 for i in range(self.threads):
+                 for i in range(self.skip):
                      futures = self.future_session.post(f'https://www.instagram.com/accounts/web_create_ajax/attempt/', headers=h,data={'email': '', 'username': user, 'first_name': '','opt_into_one_tap': 'false'}, proxies=self.proxy(),timeout=5)
                      futures.i = i
                      future.append(futures)
