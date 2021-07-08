@@ -118,11 +118,8 @@ class Auto():
         threading.Thread(target=self.RequestPerSecounD).start()
         self.future_session = FuturesSession(max_workers=self.Silnt)
         print(f"{INPUT}{red} Priavte Checker  © {INPUT}")
-        self.check()
-        self.listTH = []
         for i in range(self.threads):
-            t = threading.Thread(target=self.check,daemon=True).start()
-            self.listTH.append(t)
+            threading.Thread(target=self.check,daemon=True).start()
             self.contorlthreads.set()
 
 
@@ -186,6 +183,7 @@ class Auto():
         ctypes.windll.user32.MessageBoxW(0, f"Hhh Im win : @{user}  ", f"Auto", 0x1000)
         return False
     def check(self):
+        self.contorlthreads.wait(5)
         while self.run:
              user = random.choice(self.usernames)
              try:
@@ -249,7 +247,7 @@ class Auto():
 
 
 
-session = input(f"{INPUT1} Session : ")
+session = input(f"{INPUT1} Sessionid : ")
 Auto(session)
 
 
