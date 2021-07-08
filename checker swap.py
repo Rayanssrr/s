@@ -119,12 +119,11 @@ class Auto():
         self.future_session = FuturesSession(max_workers=self.Silnt)
         print(f"{INPUT}{red} Priavte Checker  © {INPUT}")
         self.check()
-        
-        #self.listTH = []
-        #for i in range(self.threads):
-            #t = threading.Thread(target=self.check,daemon=True).start()
-            #self.listTH.append(t)
-            #self.contorlthreads.set()
+        self.listTH = []
+        for i in range(self.threads):
+            t = threading.Thread(target=self.check,daemon=True).start()
+            self.listTH.append(t)
+            self.contorlthreads.set()
 
 
     def RequestPerSecounD(self):
