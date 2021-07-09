@@ -49,7 +49,7 @@ dude = """
     * AutoClaimer Instagram * 
     
         Targrt Mode + list mode 
-        ./ Made By FD § FBI
+        ./ Made By FD § FBII
 
 """
 
