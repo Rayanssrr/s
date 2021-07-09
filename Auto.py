@@ -169,7 +169,7 @@ class Auto():
                 Sessions = self.random_session()
                 future = []
                 for i in range(self.threads):
-                    futures = self.future_session.post(f'https://{self.random_sub_domin()}/api/v1/accounts/set_username/', headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}, data={"username": user},proxies=self.proxy(),timeout=5)
+                    futures = self.future_session.post(f'https://{self.random_sub_domin()}/api/v1/accounts/set_username/', headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions}, data={"username": user},proxies=self.proxy())
                     futures.i = i
                     future.append(futures)
                 for futures in as_completed(future):
