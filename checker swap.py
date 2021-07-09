@@ -62,7 +62,7 @@ dude = """
     * Checker Instagram * 
 
         Targrt Mode + list mode 
-        ./ Made By FD § FBI for test
+        ./ Made By FD § FBI 
 
 """
 
@@ -155,7 +155,7 @@ class Auto():
             # print(a)
             # print(self.user)
             input(f"{INPUT2}{red} Error Session id")
-            exit()
+            pass
     def checkkblock(self):
         self.userxx = lambda len: ''.join(choices(list(ascii_lowercase + digits), k=len))
         self.kk = self.userxx(7)
