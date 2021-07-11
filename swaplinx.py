@@ -6,6 +6,7 @@ try:
     from concurrent.futures import as_completed
     from discord_webhook import DiscordWebhook
     from discord_webhook import DiscordEmbed
+    from tqdm import tqdm
 
 
 except Exception as W:
@@ -13,10 +14,9 @@ except Exception as W:
     input()
     exit(0)
 
-
 os.system('mode con: cols=85 lines=33')
 
-#dir_path = os.path.dirname(os.path.realpath(__file__))
+# dir_path = os.path.dirname(os.path.realpath(__file__))
 print_lock = threading.Lock()
 WHITE = '\x1b[1;37;40m'
 YELLOW = '\x1b[1;33;40m'
@@ -46,25 +46,21 @@ if ip in g.text:
 else:
     print(ip)
     print(f'{INPUT2}{red} Ip not active ')
-    sleep(23)
-    os._exit(0)
+    #sleep(23)
+    #os._exit(0)
 print("\n")
 
 dude = """
-
     * Swap Instagram * 
-
         Target Mode 
         ./ Made By @6o9s - SNjX 
-
-
 """
 
-#banner = open("banner.txt", "r").read()
+# banner = open("banner.txt", "r").read()
 clearConsle()
 ban = ''
 print(GREEN + dude + red + ban)
-print(under * 75)
+print(under * 70)
 
 design = open("design.txt", "r").read()
 title = design.split("\n")[0]
@@ -106,7 +102,7 @@ class sessionlogin():
         self.u = requests.get("https://httpbin.org/uuid").json()
         self.uuid = self.u["uuid"]
         self.subDomin = ["i.instagram.com", "b.i.instagram.com"]
-        self.apilist = ['set_username','edit_profile']
+        self.apilist = ['set_username', 'edit_profile']
         self.ask = int(input(f"\x1b[35m[1] Without Proxy | [2] With Proxy : \x1b[39m"))
         self.PROXIES = open("proxies.txt", "r").read().splitlines()
         self.ask2 = int(input(f"{blue}[1] Wriht Session | [2] Take Session In txt File : "))
@@ -120,11 +116,14 @@ class sessionlogin():
             self.mid = self.found.split("\n")[3]
         self.get_info()
         self.checkblock()
-        self.Target = input(f'{INPUT1}{red} Target? : ')
-        self.threads = int(input(f"{INPUT}{blue} Threads? : "))
-        print(under * 75)
-        input(f"{INPUT}{red} Are Yoy Ready?")
-        #ctypes.windll.user32.MessageBoxW(0, f"Are You Ready ?", "Sharingan Swap", 0x1000)
+        self.Target = input(f'{INPUT1}{blue} Target? : ')
+        self.threads = int(input(f"{INPUT}{blue} Threads? {red}(MAX = 15) : "))
+        self.Silnt = int(input(f"{INPUT}{blue} SILNT? {red}(MAX = 800) : "))
+        self.loops = int(input(f"{INPUT}{blue} Loops? {red}(MAX = 80) : "))
+        self.install()
+        print(under * 70)
+        #input(f"{INPUT}{red} Are Yoy Ready?")
+        # ctypes.windll.user32.MessageBoxW(0, f"Are You Ready ?", "Sharingan Swap", 0x1000)
         print(f"{INPUT}{Run}")
         self.attempt = 0
         self.rl = 0
@@ -135,10 +134,10 @@ class sessionlogin():
         self.controll = threading.Event()
         self.locks = threading.Lock()
         self.num = None
-        self.future_session = FuturesSession(max_workers=self.threads)
+        self.future_session = FuturesSession(max_workers=self.Silnt)
         threading.Thread(target=self.RequestperSec).start()
         for i in range(int(self.threads)):
-            threading.Thread(target=self.runn,daemon=True).start()
+            threading.Thread(target=self.runn, daemon=True).start()
             self.controll.set()
 
     def get_info(self):
@@ -149,17 +148,21 @@ class sessionlogin():
                                   cookies={"sessionid": f"{self.session}"}).json()
             user = self.r['user']['username']
             email = self.r['user']['email']
-            print(f"{INPUT}{GREEN} Login Successfly as (@{user}) Click Enter to continue")
-            print(under * 75)
+
             clearConsle()
             print(GREEN + dude + red + ban)
-            print(under * 75)
+            print(under * 70)
+            print(f"{INPUT}{GREEN} Login Successfly as (@{user}) Click Enter to continue")
         except Exception as a:
             # print(a)
             # print(self.user)
             input(f"{INPUT2}{red} Error Session id")
             exit()
-
+    def install(self):
+        print(f"{INPUT1}{red} Please wait to download all settings... ")
+        for _ in tqdm(range(100), desc=f"{INPUT1}", ascii=False, ncols=65):
+            sleep(0.01)
+        input(f"{INPUT}{GREEN} All settings have been downloaded , Click Enter if You Ready ")
     def checkblock(self):
         global user
         ask = int(input(f"{blue}[1] I wanna Checkblock | [2] I DO NOT wanna checkblock : "))
@@ -181,11 +184,14 @@ class sessionlogin():
             self.per = self.attempt
             sleep(1)
             self.Rs = self.attempt - self.per
-            print(f"\r{GREEN}{INPUT1} Counter : {self.attempt} / Counter Rl : {self.rl} / R/S : {self.Rs}",end="")
+            print(f"\r{GREEN}{INPUT1} Counter : {self.attempt} / Counter Rl : {self.rl} / R/S : {self.Rs}", end="")
+
     def sub(self):
         return random.choice(self.subDomin)
+
     def api(self):
         return random.choice(self.apilist)
+
     def proxies(self):
         self.proxy = random.choice(self.PROXIES)
         self.erp = {"http": f"{self.proxy}", "https": f"{self.proxy}"}
@@ -198,10 +204,10 @@ class sessionlogin():
             "phone_number": "",
             "username": f"{self.Target}",
             "first_name": "",
-            "_uid": f"{self.uuid}",
-            "device_id": self.uuid,
+            "_uid": f"{str(self.uuid)}",
+            "device_id": f"{str(self.uuid)}",
             "biography": "",
-            "_uuid": self.uuid,
+            "_uuid": f"{str(self.uuid)}",
             "email": f"{email}"
         }
         return data
@@ -210,9 +216,10 @@ class sessionlogin():
         value = {"raw_text": f"#Sharingan Swap\nSwapped By {by}"}
         requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data=value, headers=head,
                       cookies={"sessionid": self.session})
-        webhook = DiscordWebhook(url="https://discord.com/api/webhooks/857123184105357323/tbZq_1swRP8xJM_R1n1fvoMvyAUSZq3Jm4p3uNlR1opeCdXJSRISCawpQyKWwEhE4h1D")
+        webhook = DiscordWebhook(
+            url="https://discord.com/api/webhooks/857123184105357323/tbZq_1swRP8xJM_R1n1fvoMvyAUSZq3Jm4p3uNlR1opeCdXJSRISCawpQyKWwEhE4h1D")
         embed = DiscordEmbed(
-            title=f'#Sharingan Swap\nSwapped  @{self.Target}\nBy {by} | Counter  {self.attempt}\nSharingan Swap | R/S  {self.Rs} \nCoded By | {self.pro}',
+            title=f'#Sharingan Swap\nSwapped  @{self.Target}\n| Counter  {self.attempt}\nSharingan Swap | R/S  {self.Rs} \nCoded By | {self.pro}',
             color=000000)
         embed.set_thumbnail(url=im)
         embed.set_footer(text="Date swap")
@@ -220,35 +227,41 @@ class sessionlogin():
         webhook.add_embed(embed)
         response = webhook.execute()
         print(f"\n{INPUT1} Swapped @{self.Target} \x1b[35mAfter {self.attempt} Attempts \x1b[39m")
-        print(under * 75)
+        print(under * 70)
         os._exit(0)
-        #ctypes.windll.user32.MessageBoxW(0, f"{msg} : @{self.Target}  ", f"{title}", 0x1000)
-        
+        # ctypes.windll.user32.MessageBoxW(0, f"{msg} : @{self.Target}  ", f"{title}", 0x1000)
 
     def runn(self):
         self.controll.wait()
         while self.run:
             try:
                 future = []
-                for i in range(self.threads):
+                for i in range(self.loops):
                     if self.ask == 1:
-                        futures = self.future_session.post(f"https://{self.sub()}/api/v1/accounts/{self.api()}/", data=self.data(), headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + self.session})
+                        futures = self.future_session.post(f"https://{self.sub()}/api/v1/accounts/{self.api()}/",
+                                                           data=self.data(),
+                                                           headers={"User-Agent": "Instagram 152.0.0.1.60 Android",
+                                                                    "Cookie": "sessionid=" + self.session})
                     else:
-                        futures = self.future_session.post(f"https://{self.sub()}/api/v1/accounts/{self.api()}/", data=self.data(), headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + self.session},proxies=self.proxies(), timeout=3)
+                        futures = self.future_session.post(f"https://{self.sub()}/api/v1/accounts/{self.api()}/",
+                                                           data=self.data(),
+                                                           headers={"User-Agent": "Instagram 152.0.0.1.60 Android",
+                                                                    "Cookie": "sessionid=" + self.session},
+                                                           proxies=self.proxies(), timeout=3)
                     futures.i = i
                     future.append(futures)
-                    for futures in as_completed(future):
-                        with futures.result() as resp:
-                            #print(resp.text)
-                            if resp.status_code == 200:
-                                with self.locks:
-                                    self.Successfulyy()
-                            if resp.status_code == 400:
-                                self.attempt += 1
-                                print(f"\r{GREEN}{INPUT1} Counter : {self.attempt} / Counter Rl : {self.rl} / R/S : {self.Rs}",end="")
-                            if resp.status_code == 429:
-                                self.rl += 1
-                                print(f"\r{GREEN}{INPUT1} Counter : {self.attempt} / Counter Rl : {self.rl} / R/S : {self.Rs}",end="")
+                for futures in as_completed(future):
+                    with futures.result() as resp:
+                        # print(resp.text)
+                        if resp.status_code == 200:
+                            with self.locks:
+                                self.Successfulyy()
+                        if resp.status_code == 400:
+                            self.attempt += 1
+                            print(f"\r{GREEN}{INPUT1} Counter : {self.attempt} / Counter Rl : {self.rl} / R/S : {self.Rs}",end="")
+                        if resp.status_code == 429:
+                            self.rl += 1
+                            print(f"\r{GREEN}{INPUT1} Counter : {self.attempt} / Counter Rl : {self.rl} / R/S : {self.Rs}",end="")
             except Exception as E:
                 # print(E)
                 pass
@@ -268,10 +281,13 @@ class login():
             self.get_info()
         self.checkblock()
         self.Target = input(f'{INPUT1}{red} Target? : ')
-        self.threads = int(input(f"{INPUT}{blue} Threads? : "))
-        print(under * 75)
-        input(f"{INPUT}{red} Are Yoy Ready?")
-        #ctypes.windll.user32.MessageBoxW(0, f"Are You Ready ?", "Sharingan Swap", 0x1000)
+        self.threads = int(input(f"{INPUT}{blue} Threads? {red}(MAX = 15) : "))
+        self.Silnt = int(input(f"{INPUT}{blue} SILNT? {red}(MAX = 800) : "))
+        self.loops = int(input(f"{INPUT}{blue} Loops? {red}(MAX = 250) : "))
+        self.install()
+        print(under * 70)
+        #input(f"{INPUT}{red} Are Yoy Ready?")
+        # ctypes.windll.user32.MessageBoxW(0, f"Are You Ready ?", "Sharingan Swap", 0x1000)
         print(f"{INPUT}{Run}")
         self.attempt = 0
         self.rl = 0
@@ -282,7 +298,7 @@ class login():
         self.controll = threading.Event()
         self.locks = threading.Lock()
         self.num = None
-        self.future_session = FuturesSession(max_workers=self.threads)
+        self.future_session = FuturesSession(max_workers=self.Silnt)
         threading.Thread(target=self.RequestperSec).start()
         self.thredas = []
         for i in range(int(self.threads)):
@@ -354,7 +370,7 @@ class login():
             clearConsle()
             print(GREEN + dude + red + ban)
             print(f"{INPUT}{blue} Login Successfly as (@{username}) Click Enter to continue")
-            print(under * 75)
+            print(under * 70)
             coo = send_o.cookies
             return True
         return False
@@ -376,7 +392,7 @@ class login():
         if ('"logged_in_user"') in login1:
             clearConsle()
             print(GREEN + dude + red + ban)
-            print(under * 75)
+            print(under * 70)
             print(f"{INPUT}{blue} Login Successfly as (@{username}) Click Enter to continue")
             coo = loginc.cookies
             return True
@@ -399,6 +415,11 @@ class login():
         else:
             print(login1)
             exit()
+    def install(self):
+        print(f"{INPUT1}{red} Please wait to download all settings... ")
+        for _ in tqdm(range(100), desc=f"{INPUT1}", ascii=False, ncols=65):
+            sleep(0.01)
+        input(f"{INPUT}{GREEN} All settings have been downloaded , Click Enter if You Ready ")
 
     def get_info(self):
         global email
@@ -414,7 +435,8 @@ class login():
         ask = int(input(f"{blue}[1] I wanna Checkblock | [2] I DO NOT wanna checkblock : "))
         if ask == 1:
             ch = requests.post('https://i.instagram.com/api/v1/accounts/set_username/',
-                               data={"username": user + "checkblock"}, headers={"User-Agent": "Instagram 187.0.0.32.120 Android (25/7.1.2; 240dpi; 1280x720; Asus; ASUS_Z01QD; ASUS_Z01QD; intel; ar_EG; 289692202)"},
+                               data={"username": user + "checkblock"}, headers={
+                    "User-Agent": "Instagram 187.0.0.32.120 Android (25/7.1.2; 240dpi; 1280x720; Asus; ASUS_Z01QD; ASUS_Z01QD; intel; ar_EG; 289692202)"},
                                cookies=coo).status_code
             if ch == 200:
                 print(f"{INPUT}{GREEN} The account is working")
@@ -430,7 +452,7 @@ class login():
         while 1:
             sleep(1)
             self.Rs = self.attempt - self.per
-            print(f"\r{GREEN}{INPUT1} Counter : {self.attempt} / Counter Rl : {self.rl} / R/S : {self.Rs}",end="")
+            print(f"\r{GREEN}{INPUT1} Counter : {self.attempt} / Counter Rl : {self.rl} / R/S : {self.Rs}", end="")
 
     def sub(self):
         return random.choice(self.subDomin)
@@ -450,10 +472,10 @@ class login():
             "phone_number": "",
             "username": f"{self.Target}",
             "first_name": "",
-            "_uid": f"{self.uuid}",
-            "device_id": self.uuid,
+            "_uid": f"{str(self.uuid)}",
+            "device_id": f"{str(self.uuid)}",
             "biography": "",
-            "_uuid": self.uuid,
+            "_uuid": f"{str(self.uuid)}",
             "email": f"{email}"
         }
         return data
@@ -473,8 +495,8 @@ class login():
         webhook.add_embed(embed)
         response = webhook.execute()
         print(f"\n{INPUT} Swapped @{self.Target} \x1b[35mAfter {self.attempt} Attempts \x1b[39m")
-        print(under * 75)
-        #ctypes.windll.user32.MessageBoxW(0, f"{msg} : @{self.Target}  ", f"{title}", 0x1000)
+        print(under * 70)
+        # ctypes.windll.user32.MessageBoxW(0, f"{msg} : @{self.Target}  ", f"{title}", 0x1000)
         os._exit(0)
 
     def runn(self):
@@ -483,26 +505,33 @@ class login():
         while self.run:
             try:
                 future = []
-                for i in range(self.threads):
+                for i in range(self.loops):
                     if self.ask == 1:
-                        futures = self.future_session.post(f"https://{self.sub()}/api/v1/accounts/{self.api()}/", data=self.data(), headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + self.session})
+                        futures = self.future_session.post(f"https://{self.sub()}/api/v1/accounts/{self.api()}/",
+                                                           data=self.data(),
+                                                           headers={"User-Agent": "Instagram 152.0.0.1.60 Android",
+                                                                    "Cookie": "sessionid=" + self.session})
                     else:
-                        futures = self.future_session.post(f"https://{self.sub()}/api/v1/accounts/{self.api()}/", data=self.data(), headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + self.session},proxies=self.proxies(), timeout=3)
+                        futures = self.future_session.post(f"https://{self.sub()}/api/v1/accounts/{self.api()}/",
+                                                           data=self.data(),
+                                                           headers={"User-Agent": "Instagram 152.0.0.1.60 Android",
+                                                                    "Cookie": "sessionid=" + self.session},
+                                                           proxies=self.proxies(), timeout=3)
                     futures.i = i
                     future.append(futures)
-                    for futures in as_completed(future):
-                        with futures.result() as resp:
-                            if resp.status_code == 200:
-                                with self.locks:
-                                    self.Successfulyy()
-                                    #breakpoint()
-                                    #ctypes.windll.user32.MessageBoxW(0, f"{msg} : @{self.Target}  ", f"{title}", 0x1000)
-                            if resp.status_code == 400:
-                                self.attempt += 1
-                                print(f"\r{GREEN}{INPUT1} Counter : {self.attempt} / Counter Rl : {self.rl} / R/S : {self.Rs}",end="")
-                            if resp.status_code == 429:
-                                self.rl += 1
-                                print(f"\r{GREEN}{INPUT1} Counter : {self.attempt} / Counter Rl : {self.rl} / R/S : {self.Rs}",end="")
+                for futures in as_completed(future):
+                    with futures.result() as resp:
+                        if resp.status_code == 200:
+                            with self.locks:
+                                self.Successfulyy()
+                                # breakpoint()
+                                # ctypes.windll.user32.MessageBoxW(0, f"{msg} : @{self.Target}  ", f"{title}", 0x1000)
+                        if resp.status_code == 400:
+                            self.attempt += 1
+                            print(f"\r{GREEN}{INPUT1} Counter : {self.attempt} / Counter Rl : {self.rl} / R/S : {self.Rs}",end="")
+                        if resp.status_code == 429:
+                            self.rl += 1
+                            print(f"\r{GREEN}{INPUT1} Counter : {self.attempt} / Counter Rl : {self.rl} / R/S : {self.Rs}",end="")
             except Exception as E:
                 # print(E)
                 pass
@@ -592,7 +621,7 @@ class seesion_extract():
             clearConsle()
             print(GREEN + dude + red + ban)
             print(f"{INPUT}{blue} Login Successfly as (@{username}) Click Enter to continue")
-            print(under * 75)
+            print(under * 70)
             coo = send_o.cookies
             return True
         return False
