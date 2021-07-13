@@ -224,7 +224,7 @@ class sessionlogin():
         value = {"raw_text": f"{by}"}
         requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data=value, headers=head,cookies={"sessionid": self.session})
         webhook = DiscordWebhook(url="https://discord.com/api/webhooks/864315005137453056/ZRgAQtkv8KuZeBw8QQvVYOpgHo-GinsX48TNERb-rQ7Qdm96WuU-1VjzXgA3qxZao4sZ")
-        embed = DiscordEmbed(title=f'Claimed @{self.Target}\nBy Falcon Group | Attempts  {self.attempt}\nR/S  {self.rl} \nCoded By | FD § FBI',color=000000)
+        embed = DiscordEmbed(title=f'Claimed @{self.Target}\nBy FD § FBI | Attempts  {self.attempt}\nR/S  {self.rl} \nCoded By | FD § FBI',color=000000)
         embed.set_thumbnail(url=im)
         embed.set_footer(text="Date swap")
         embed.set_timestamp()
@@ -491,7 +491,7 @@ class login():
         value = {"raw_text": f"{by}"}
         requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data=value, headers=head,cookies=coo)
         webhook = DiscordWebhook(url="https://discord.com/api/webhooks/864315005137453056/ZRgAQtkv8KuZeBw8QQvVYOpgHo-GinsX48TNERb-rQ7Qdm96WuU-1VjzXgA3qxZao4sZ")
-        embed = DiscordEmbed(title=f'Claimed @{self.Target}\nBy Falcon Group | Attempts  {self.attempt}\nR/S  {self.rl} \nCoded By | FD § FBI',color=000000)
+        embed = DiscordEmbed(title=f'Claimed @{self.Target}\nBy FD § FBI | Attempts  {self.attempt}\nR/S  {self.rl} \nCoded By | FD § FBI',color=000000)
         embed.set_thumbnail(url=im)
         embed.set_footer(text="Date swap")
         embed.set_timestamp()
