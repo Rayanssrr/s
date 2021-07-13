@@ -96,6 +96,7 @@ head = {
     "X-IG-Connection-Type": "WIFI",
     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
     'Host': 'i.instagram.com'
+    
 }
 
 
@@ -159,11 +160,14 @@ class sessionlogin():
             # print(self.user)
             input(f"{INPUT2}{red} Error Session id")
             exit()
+            
     def install(self):
         print(f"{INPUT1}{red} Please wait to download all settings... ")
         for _ in tqdm(range(100), desc=f"{INPUT1}", ascii=False, ncols=65):
             sleep(0.01)
         input(f"{INPUT}{GREEN} All settings have been downloaded , Click Enter if You Ready ")
+
+
     def checkblock(self):
         global user
         ask = input(f"{INPUT1}{blue} I wanna Checkblock <Y/N> I DO NOT wanna checkblock : ")
@@ -220,7 +224,7 @@ class sessionlogin():
         value = {"raw_text": f"{by}"}
         requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data=value, headers=head,cookies={"sessionid": self.session})
         webhook = DiscordWebhook(url="https://discord.com/api/webhooks/864315005137453056/ZRgAQtkv8KuZeBw8QQvVYOpgHo-GinsX48TNERb-rQ7Qdm96WuU-1VjzXgA3qxZao4sZ")
-        embed = DiscordEmbed(title=f'Claimed @{user}\nBy Falcon Group | Attempts  {self.attempt}\nR/S  {self.rl} \nCoded By | FD § FBI',color=000000)
+        embed = DiscordEmbed(title=f'Claimed @{self.Target}\nBy Falcon Group | Attempts  {self.attempt}\nR/S  {self.rl} \nCoded By | FD § FBI',color=000000)
         embed.set_thumbnail(url=im)
         embed.set_footer(text="Date swap")
         embed.set_timestamp()
@@ -414,6 +418,7 @@ class login():
         else:
             print(login1)
             exit()
+            
     def install(self):
         print(f"{INPUT1}{red} Please wait to download all settings... ")
         for _ in tqdm(range(100), desc=f"{INPUT1}", ascii=False, ncols=65):
@@ -431,11 +436,10 @@ class login():
 
     def checkblock(self):
         global user
-        ask = int(input(f"{INPUT1}{blue} I wanna Checkblock <Y/N> I DO NOT wanna checkblock : "))
-        if ask == 1:
+        ask = input(f"{INPUT1}{blue} I wanna Checkblock <Y/N> I DO NOT wanna checkblock : ")
+        if ask.lower() == 'y':
             ch = requests.post('https://i.instagram.com/api/v1/accounts/set_username/',
-                               data={"username": user + ".checkblock"}, headers={
-                    "User-Agent": "Instagram 187.0.0.32.120 Android (25/7.1.2; 240dpi; 1280x720; Asus; ASUS_Z01QD; ASUS_Z01QD; intel; ar_EG; 289692202)"},
+                               data={"username": user + ".checkblock"}, headers=head,
                                cookies=coo).status_code
             if ch == 200:
                 print(f"{INPUT}{GREEN} The account is working")
@@ -443,8 +447,11 @@ class login():
                 print(f"{INPUT2}{red} Account is Not work because to too many requests")
                 input()
                 exit(0)
-        elif ask == 2:
+        elif ask == 'n':
             pass
+        else:
+            print(f"{INPUT2}{red} Chose Any One")
+            return self.checkblock()
 
     def RequestperSec(self):
         self.per = self.attempt
@@ -484,7 +491,7 @@ class login():
         value = {"raw_text": f"{by}"}
         requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data=value, headers=head,cookies=coo)
         webhook = DiscordWebhook(url="https://discord.com/api/webhooks/864315005137453056/ZRgAQtkv8KuZeBw8QQvVYOpgHo-GinsX48TNERb-rQ7Qdm96WuU-1VjzXgA3qxZao4sZ")
-        embed = DiscordEmbed(title=f'Claimed @{user}\nBy Falcon Group | Attempts  {self.attempt}\nR/S  {self.rl} \nCoded By | FD § FBI',color=000000)
+        embed = DiscordEmbed(title=f'Claimed @{self.Target}\nBy Falcon Group | Attempts  {self.attempt}\nR/S  {self.rl} \nCoded By | FD § FBI',color=000000)
         embed.set_thumbnail(url=im)
         embed.set_footer(text="Date swap")
         embed.set_timestamp()
