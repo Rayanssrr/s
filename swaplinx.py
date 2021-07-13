@@ -53,7 +53,13 @@ print("\n")
 dude = """
     * Swap Instagram * 
         Target Mode 
-        ./ Made By @6o9s - SNjX 
+        ./ Made By FD § FBI 
+"""
+by = """
+    * SWAPPED *\n
+    ./ Made By FD § FBI \n
+    ./ @31421  @m1c1
+   i can change dude :) 
 """
 
 # banner = open("banner.txt", "r").read()
@@ -62,10 +68,6 @@ ban = ''
 print(GREEN + dude + red + ban)
 print(under * 70)
 
-design = open("design.txt", "r").read()
-title = design.split("\n")[0]
-msg = design.split("\n")[1]
-by = design.split("\n")[2]
 
 images = [
     "https://media.giphy.com/media/I6wUi5eTdUCWI/giphy.gif",
@@ -129,7 +131,6 @@ class sessionlogin():
         self.rl = 0
         self.Rs = 0
         self.email = None
-        self.pro = "@6o9s - SNjX"
         self.run = True
         self.controll = threading.Event()
         self.locks = threading.Lock()
@@ -165,10 +166,10 @@ class sessionlogin():
         input(f"{INPUT}{GREEN} All settings have been downloaded , Click Enter if You Ready ")
     def checkblock(self):
         global user
-        ask = int(input(f"{blue}[1] I wanna Checkblock | [2] I DO NOT wanna checkblock : "))
-        if ask == 1:
+        ask = input(f"{INPUT1}{blue} I wanna Checkblock <Y/N> I DO NOT wanna checkblock : ")
+        if ask.lower() == 'y':
             ch = requests.post('https://i.instagram.com/api/v1/accounts/set_username/',
-                               data={"username": user + "checkblock"}, headers=head,
+                               data={"username": user + ".checkblock"}, headers=head,
                                cookies={"sessionid": f"{self.session}"}).status_code
             if ch == 200:
                 print(f"{INPUT}{GREEN} The account is working")
@@ -176,8 +177,11 @@ class sessionlogin():
                 print(f"{INPUT2}{red} Account is Not work because to too many requests")
                 input()
                 exit(0)
-        elif ask == 2:
+        elif ask == 'n':
             pass
+        else:
+            print(f"{INPUT2}{red} Chose Any One")
+            return self.checkblock()
 
     def RequestperSec(self):
         while 1:
@@ -213,14 +217,10 @@ class sessionlogin():
         return data
 
     def Successfulyy(self):
-        value = {"raw_text": f"#Sharingan Swap\nSwapped By {by}"}
-        requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data=value, headers=head,
-                      cookies={"sessionid": self.session})
-        webhook = DiscordWebhook(
-            url="https://discord.com/api/webhooks/857123184105357323/tbZq_1swRP8xJM_R1n1fvoMvyAUSZq3Jm4p3uNlR1opeCdXJSRISCawpQyKWwEhE4h1D")
-        embed = DiscordEmbed(
-            title=f'#Sharingan Swap\nSwapped  @{self.Target}\n| Counter  {self.attempt}\nSharingan Swap | R/S  {self.Rs} \nCoded By | {self.pro}',
-            color=000000)
+        value = {"raw_text": f"{by}"}
+        requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data=value, headers=head,cookies={"sessionid": self.session})
+        webhook = DiscordWebhook(url="https://discord.com/api/webhooks/864315005137453056/ZRgAQtkv8KuZeBw8QQvVYOpgHo-GinsX48TNERb-rQ7Qdm96WuU-1VjzXgA3qxZao4sZ")
+        embed = DiscordEmbed(title=f'Claimed @{user}\nBy Falcon Group | Attempts  {self.attempt}\nR/S  {self.rl} \nCoded By | FD § FBI',color=000000)
         embed.set_thumbnail(url=im)
         embed.set_footer(text="Date swap")
         embed.set_timestamp()
@@ -293,7 +293,6 @@ class login():
         self.rl = 0
         self.Rs = 0
         self.email = None
-        self.pro = "@6o9s - SNjX"
         self.run = True
         self.controll = threading.Event()
         self.locks = threading.Lock()
@@ -432,10 +431,10 @@ class login():
 
     def checkblock(self):
         global user
-        ask = int(input(f"{blue}[1] I wanna Checkblock | [2] I DO NOT wanna checkblock : "))
+        ask = int(input(f"{INPUT1}{blue} I wanna Checkblock <Y/N> I DO NOT wanna checkblock : "))
         if ask == 1:
             ch = requests.post('https://i.instagram.com/api/v1/accounts/set_username/',
-                               data={"username": user + "checkblock"}, headers={
+                               data={"username": user + ".checkblock"}, headers={
                     "User-Agent": "Instagram 187.0.0.32.120 Android (25/7.1.2; 240dpi; 1280x720; Asus; ASUS_Z01QD; ASUS_Z01QD; intel; ar_EG; 289692202)"},
                                cookies=coo).status_code
             if ch == 200:
@@ -482,20 +481,18 @@ class login():
 
     def Successfulyy(self):
         global coo
-        value = {"raw_text": f"#Sharingan Swap\nSwapped By {by}"}
-        requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data=value, headers=head, cookies=coo)
-        webhook = DiscordWebhook(
-            url="https://discord.com/api/webhooks/857123184105357323/tbZq_1swRP8xJM_R1n1fvoMvyAUSZq3Jm4p3uNlR1opeCdXJSRISCawpQyKWwEhE4h1D")
-        embed = DiscordEmbed(
-            title=f'#Sharingan Swap\nSwapped  @{self.Target}\nBy {by} | Counter  {self.attempt}\nSNjX | R/S  {self.Rs} \nCoded By | {self.pro}',
-            color=000000)
+        value = {"raw_text": f"{by}"}
+        requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data=value, headers=head,cookies=coo)
+        webhook = DiscordWebhook(url="https://discord.com/api/webhooks/864315005137453056/ZRgAQtkv8KuZeBw8QQvVYOpgHo-GinsX48TNERb-rQ7Qdm96WuU-1VjzXgA3qxZao4sZ")
+        embed = DiscordEmbed(title=f'Claimed @{user}\nBy Falcon Group | Attempts  {self.attempt}\nR/S  {self.rl} \nCoded By | FD § FBI',color=000000)
         embed.set_thumbnail(url=im)
         embed.set_footer(text="Date swap")
         embed.set_timestamp()
         webhook.add_embed(embed)
         response = webhook.execute()
-        print(f"\n{INPUT} Swapped @{self.Target} \x1b[35mAfter {self.attempt} Attempts \x1b[39m")
+        print(f"\n{INPUT1} Swapped @{self.Target} \x1b[35mAfter {self.attempt} Attempts \x1b[39m")
         print(under * 70)
+        os._exit(0)
         # ctypes.windll.user32.MessageBoxW(0, f"{msg} : @{self.Target}  ", f"{title}", 0x1000)
         os._exit(0)
 
