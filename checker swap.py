@@ -62,7 +62,7 @@ dude = """
     * Checker Instagram * 
 
         Targrt Mode + list mode 
-        ./ Made By FD § FBII
+        ./ Made By FD § FBI 
 
 """
 
@@ -140,7 +140,6 @@ class Auto():
             t.start()
         for i in self.thr:
             i.join()
-            self.contorlthreads.set()
 
     def for_login(self):
         global username
@@ -357,7 +356,6 @@ class Auto():
         global email
         global coo
         global num
-        self.contorlthreads.wait()
         while self.run:
              user = random.choice(self.usernames)
              user2 = random.choice(self.usernames)
@@ -459,7 +457,6 @@ class ch():
             t.start()
         for i in self.thr:
             i.join()
-            self.contorlthreads.set()
 
 
     def RequestPerSecounD(self):
@@ -583,7 +580,6 @@ class ch():
     def check(self):
         global email
         global num
-        self.contorlthreads.wait()
         while self.run:
             user = random.choice(self.usernames)
             user2 = random.choice(self.usernames)
