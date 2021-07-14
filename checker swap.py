@@ -62,7 +62,7 @@ dude = """
     * Checker Instagram * 
 
         Targrt Mode + list mode 
-        ./ Made By FD § FBI 
+        ./ Made By FD § FBII
 
 """
 
@@ -133,8 +133,13 @@ class Auto():
         threading.Thread(target=self.RequestPerSecounD).start()
         self.future_session = FuturesSession(max_workers=self.Silnt)
         print(f"{INPUT}{red} Priavte Checker  © {INPUT}")
+        self.thr = []
         for i in range(self.threads):
-            threading.Thread(target=self.check,daemon=True).start()
+            t = threading.Thread(target=self.check)
+            self.thr.append(t)
+            t.start()
+        for i in self.thr:
+            i.join()
             self.contorlthreads.set()
 
     def for_login(self):
@@ -352,7 +357,7 @@ class Auto():
         global email
         global coo
         global num
-        self.contorlthreads.wait(5)
+        self.contorlthreads.wait()
         while self.run:
              user = random.choice(self.usernames)
              user2 = random.choice(self.usernames)
@@ -447,8 +452,13 @@ class ch():
         threading.Thread(target=self.RequestPerSecounD).start()
         self.future_session = FuturesSession(max_workers=self.Silnt)
         print(f"{INPUT}{red} Priavte Checker  © {INPUT}")
+        self.thr = []
         for i in range(self.threads):
-            threading.Thread(target=self.check,daemon=True).start()
+            t = threading.Thread(target=self.check)
+            self.thr.append(t)
+            t.start()
+        for i in self.thr:
+            i.join()
             self.contorlthreads.set()
 
 
@@ -573,7 +583,7 @@ class ch():
     def check(self):
         global email
         global num
-        self.contorlthreads.wait(5)
+        self.contorlthreads.wait()
         while self.run:
             user = random.choice(self.usernames)
             user2 = random.choice(self.usernames)
