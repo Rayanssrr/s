@@ -57,7 +57,7 @@ SUCCESS = '\x1b[31m Successfulyy moved \x1b[31m'
 Run = '\x1b[36m Started Running...\x1b[31m'
 under = '\x1b[35m_\x1b[39m'
 skip = '\x1b[31m (defult Thread = 300) \x1b[31m'
-
+clearConsle = lambda: os.system('cls')
 banner = """
 
               ___       _                  _____            _         
@@ -84,7 +84,7 @@ im = random.choice(images)
 os.system('mode con: cols=85 lines=33')
 
 
-clearConsle = lambda: os.system('cls')
+
 
 
 class FalconCheckr(object):
@@ -314,8 +314,6 @@ if __name__ == "__main__":
     except Exception as ex:
         print(ex)
         exit(1)
-
-    os.system("cls")
     #threads = int(input("  {}{} Threads: ".format(WHITE, INPUT)))
     for _ in range(threads):
         thread = open_up(faclon)
