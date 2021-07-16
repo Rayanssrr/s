@@ -293,7 +293,7 @@ class RequestPerSecounD(Thread):
         super(RequestPerSecounD, self).__init__()
         self.Faclon = faclon
 
-    def Go(self):
+    def run(self):
         while self.Faclon.run:
             before = self.Faclon.attempts
             sleep(1)
