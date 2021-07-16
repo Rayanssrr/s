@@ -3,6 +3,7 @@ from threading import Thread
 from random import *
 from string import *
 from requests_futures.sessions import FuturesSession
+from concurrent.futures import as_completed
 from discord_webhook import DiscordWebhook
 from discord_webhook import DiscordEmbed
 from tqdm import tqdm
@@ -67,7 +68,7 @@ banner = """
 
 """
 lool = dude + banner
-print(f"{blue}  {lool}")
+
 images = [
     "https://media.giphy.com/media/I6wUi5eTdUCWI/giphy.gif",
     "https://media.giphy.com/media/3fNmJ20ErpkjK/giphy.gif",
@@ -128,13 +129,12 @@ class FalconCheckr(object):
             input(f"{INPUT2}{red} Error Session id")
             exit(0)
     def checkkblock(self):
-        global coo
         global email
         global usern
         global num
         ask = input(f"{INPUT1}{blue} I wanna Checkblock <Y/N> I DO NOT wanna checkblock : ")
         if ask.lower() == "y":
-            ch = requests.post('https://i.instagram.com/api/v1/accounts/edit_profile/',headers=head,data={"external_url": "","phone_number": f"{num}","username": f"{usern}","first_name": "","_uid": f"47641699268","device_id": "android-d595db3f5c276071","biography": f"{by}","_uuid": str(uuid.uuid4()),"email": f"{email}"},cookies=coo).status_code
+            ch = requests.post('https://i.instagram.com/api/v1/accounts/edit_profile/',headers=head,data={"external_url": "","phone_number": f"{num}","username": f"{usern}","first_name": "","_uid": f"47641699268","device_id": "android-d595db3f5c276071","biography": f"{by}","_uuid": str(uuid.uuid4()),"email": f"{email}"},cookies={"sessionid": self.session}).status_code
             if ch == 200:
                 print(f"{INPUT}{GREEN} The account is working")
             elif ch == 429:
@@ -175,35 +175,7 @@ class FalconCheckr(object):
 
     def headers(self):
         head = {}
-        head['X-Ig-App-Locale'] = 'en_US'
-        head['X-Ig-Device-Locale'] = "en_US"
-        head["X-Pigeon-Session-Id"] = "e7a9a8b1-8ed1-47ab-9211-b83195c7f398"
-        head["X-Pigeon-Rawclienttime"] = "1619296670.654"
-        head["X-Ig-Bandwidth-Speed-Kbps"] = "-1.000"
-        head["X-Ig-Bandwidth-Totalbytes-B"] = "0"
-        head["X-Ig-Bandwidth-Totaltime-Ms"] = "0"
-        head["X-Ig-App-Startup-Country"] = "unknown"
-        head["X-Bloks-Version-Id"] = "befa8522d3a650f9592e33e4540d527c5b93babbdd6233a1bd40e955c9567f30"
-        head["X-Ig-Www-Claim"] = "0"
-        head["X-Bloks-Is-Layout-Rtl"] = "false"
-        head["X-Bloks-Is-Panorama-Enabled"] = "true"
-        head["X-Ig-Device-Id"] = "bd76a155-e663-4192-b610-f6a1d5190d3d"
-        head["X-Ig-Android-Id"] = "android-7a74997eee76b904"
-        head["X-Ig-Timezone-Offset"] = "72000"
-        head['X-IG-Connection-Type'] = 'WIFI'
-        head['X-IG-Capabilities'] = '3brTBw=='
-        head["X-Ig-App-Id"] = "567067343352427"
         head["User-Agent"] = "Instagram 133.0.0.34.124 Android (18/4.3; 320dpi; 720x1280; Xiaomi; HM 1SW; armani; qcom; en_US)"
-        head["Accept-Language"] = "en-US"
-        head["X-Mid"] = "YIR9qQABAAGBErx-6UqG4MXIsQLY"
-        head["Ig-Intended-User-Id"] = "0"
-        head["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8"
-        head["Content-Length"] = "1698"
-        head["Accept-Encoding"] = "gzip, deflate"
-        head["X-Fb-Http-Engine"] = "Liger"
-        head["X-Fb-Client-Ip"] = "True"
-        head["X-Fb-Server-Cluster"] = "True"
-        head["Connection"] = "close"
         return head
     def cookies(self):
         self.ds = lambda len: ''.join(choices(list(ascii_lowercase)))
@@ -221,49 +193,52 @@ class FalconCheckr(object):
         user2 = random.choice(self.usernames)
         #print(user)
         try:
-                #print(username)
-            futures = self.future_session.post("https://b.i.instagram.com/api/v1/accounts/username_suggestions/", data={"name":f"{user}","email":f"{user2}@gmail.com"},proxies=self.proxy(), headers=self.headers(),timeout=self.skip,cookies=self.cookies())
-            response = futures.result()
-            #print(response.text)
-            if (f'"username":"{user}","prototype":"last"') in response.text:
-                resp = self.future_session.post("https://i.instagram.com/api/v1/accounts/edit_profile/",
-                                                headers={"User-Agent": "Instagram 152.0.0.1.60 Android",
-                                                         "Cookie": "sessionid=" + self.session},
-                                                data={"external_url": "", "phone_number": f"{num}",
-                                                      "username": f"{user}", "first_name": "FD § FBI",
-                                                      "_uid": f"47641699268", "device_id": "android-d595db3f5c276071",
-                                                      "biography": f"{by}", "_uuid": str(uuid.uuid4()),
-                                                      "email": f"{email}"})
-                res = resp.result()
-                if res.status_code == 200:
-                    with self.Locks:
-                        self.Successfully_Claimed(user)
-                        return self.claim_username()
-                else:
-                    with self.Locks:
-                        print(f"RESPONSE > ({res.text})")
+            future = []
+            for i in range(self.skip):
+                futures = self.future_session.post("https://i.instagram.com/api/v1/accounts/username_suggestions/", data={"name":f"{user}","email":f"{user2}@gmail.com"},proxies=self.proxy(), headers=self.headers())
+                futures.i = i
+                future.append(futures)
+                for futures in as_completed(future):
+                    with futures.result() as response:
+                        if (f'"username":"{user}","prototype":"last"') in response.text:
+                            resp = self.future_session.post("https://i.instagram.com/api/v1/accounts/edit_profile/",
+                                                            headers={"User-Agent": "Instagram 152.0.0.1.60 Android",
+                                                                     "Cookie": "sessionid=" + self.session},
+                                                            data={"external_url": "", "phone_number": f"{num}",
+                                                                  "username": f"{user}", "first_name": "FD § FBI",
+                                                                  "_uid": f"47641699268", "device_id": "android-d595db3f5c276071",
+                                                                  "biography": f"{by}", "_uuid": str(uuid.uuid4()),
+                                                                  "email": f"{email}"})
+                            res = resp.result()
+                            if res.status_code == 200:
+                                with self.Locks:
+                                    self.Successfully_Claimed(user)
+                                    return self.claim_username()
+                            else:
+                                with self.Locks:
+                                    print(f"RESPONSE > ({res.text})")
 
-            if (f'"username":"{user2}","prototype":"email"') in response.text:
-                resp = self.future_session.post("https://i.instagram.com/api/v1/accounts/edit_profile/",
-                                                headers={"User-Agent": "Instagram 152.0.0.1.60 Android",
-                                                         "Cookie": "sessionid=" + self.session},
-                                                data={"external_url": "", "phone_number": f"{num}",
-                                                      "username": f"{user2}", "first_name": "FD § FBI",
-                                                      "_uid": f"47641699268", "device_id": "android-d595db3f5c276071",
-                                                      "biography": f"{by}", "_uuid": str(uuid.uuid4()),
-                                                      "email": f"{email}"})
-                res = resp.result()
-                if res.status_code == 200:
-                    with self.Locks:
-                        self.Successfully_Claimed(user2)
-                        return self.claim_username()
-                else:
-                    with self.Locks:
-                        print(f"RESPONSE > ({res.text})")
-            if response.status_code == 429:
-                self.rl  +=1
-            elif '"status":"ok"' in response.text:
-                self.attempts +=1
+                        if (f'"username":"{user2}","prototype":"email"') in response.text:
+                            resp = self.future_session.post("https://i.instagram.com/api/v1/accounts/edit_profile/",
+                                                            headers={"User-Agent": "Instagram 152.0.0.1.60 Android",
+                                                                     "Cookie": "sessionid=" + self.session},
+                                                            data={"external_url": "", "phone_number": f"{num}",
+                                                                  "username": f"{user2}", "first_name": "FD § FBI",
+                                                                  "_uid": f"47641699268", "device_id": "android-d595db3f5c276071",
+                                                                  "biography": f"{by}", "_uuid": str(uuid.uuid4()),
+                                                                  "email": f"{email}"})
+                            res = resp.result()
+                            if res.status_code == 200:
+                                with self.Locks:
+                                    self.Successfully_Claimed(user2)
+                                    return self.claim_username()
+                            else:
+                                with self.Locks:
+                                    print(f"RESPONSE > ({res.text})")
+                        if response.status_code == 429:
+                            self.rl  +=1
+                        elif '"status":"ok"' in response.text:
+                            self.attempts +=1
         except requests.Timeout:
                  self.timeout +=1
         except:
@@ -302,6 +277,7 @@ class RequestPerSecounD(Thread):
 
 if __name__ == "__main__":
     try:
+        print(f"{blue}  {lool}")
         session = input(f"{INPUT1} Session : ")
         clearConsle()
         print(f"{blue}  {lool}")
