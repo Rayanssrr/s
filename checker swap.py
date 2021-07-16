@@ -26,7 +26,7 @@ dude = """
 by = """
     * Checker *\n
     ./ Made By FD § FBI \n
-    ./ @31421 @exploit305 @m1c1
+    ./ @31421 @exploit305 @m1c1 @b.bc
    i can change dude :) 
 """
 head = {
