@@ -29,6 +29,7 @@ by = """
     ./ @31421 @exploit305 @m1c1 @b.bc
    i can change dude :) 
 """
+win = ['Claimed :) But I won’t give it back To You :( Because Your Swap is Baad','Don’t Ever Again Swap With VB','Don’t Swap Again :(','Maybe Lisa Or Maybe Not','You Have To Use AutoClaimer Next Time But I Don’t Think You Will Take it :)']
 head = {
     'User-Agent': "Instagram 10.26.0 Android (26/8.0.0; 320dpi; 768x1184; unknown/Android; Custom Phone; vbox86p; vbox86; en_US; 232868034)",
     "Accept": "*/*",
@@ -144,7 +145,7 @@ class FalconCheckr(object):
         elif ask.lower() == "n":
             pass
     def Successfully_Claimed(self,user):
-        webhook = DiscordWebhook(url="https://discordapp.com/api/webhooks/810840907887804426/TwSqCHrKD1QR4hMnkHP48t8OnrrjsO4QcpjRlGJHh2vS9z4w9-gvEINazuaOp_P2gDlf")
+        webhook = DiscordWebhook(url="https://discord.com/api/webhooks/866337547193548810/hSntntnud8THTQkOf0N_EBnB5VAav0rqPQTJ2YA7dd-ueseN9jqf9Y-qyScEM-PyPEsR")
         embed = DiscordEmbed(title=f'Claimed @{user}\nBy Falcon Group | Attempts  {self.attempts}\nR/S  {self.rs} \nCoded By | FD § FBI',color=000000)
         embed.set_thumbnail(url=im)
         embed.set_footer(text="Date claim")
@@ -162,7 +163,7 @@ class FalconCheckr(object):
 
 
     def Successfully_Claimed2(self,user2):
-        webhook = DiscordWebhook(url="https://discordapp.com/api/webhooks/810840907887804426/TwSqCHrKD1QR4hMnkHP48t8OnrrjsO4QcpjRlGJHh2vS9z4w9-gvEINazuaOp_P2gDlf")
+        webhook = DiscordWebhook(url="https://discord.com/api/webhooks/866337547193548810/hSntntnud8THTQkOf0N_EBnB5VAav0rqPQTJ2YA7dd-ueseN9jqf9Y-qyScEM-PyPEsR")
         embed = DiscordEmbed(title=f'Claimed @{user2}\nBy Falcon Group | Attempts  {self.attempts}\nR/S  {self.rs} \nCoded By | FD § FBI',color=000000)
         embed.set_thumbnail(url=im)
         embed.set_footer(text="Date claim")
@@ -189,8 +190,10 @@ class FalconCheckr(object):
         global Done
         global email
         global num
+        global win 
         user = random.choice(self.usernames)
         user2 = random.choice(self.usernames)
+        hh = random.choice(win)
         #print(user)
         try:
             future = []
@@ -205,9 +208,9 @@ class FalconCheckr(object):
                                                             headers={"User-Agent": "Instagram 152.0.0.1.60 Android",
                                                                      "Cookie": "sessionid=" + self.session},
                                                             data={"external_url": "", "phone_number": f"{num}",
-                                                                  "username": f"{user}", "first_name": "FD § FBI",
+                                                                  "username": f"{user}", "first_name": "",
                                                                   "_uid": f"47641699268", "device_id": "android-d595db3f5c276071",
-                                                                  "biography": f"{by}", "_uuid": str(uuid.uuid4()),
+                                                                  "biography": f"{hh}", "_uuid": str(uuid.uuid4()),
                                                                   "email": f"{email}"})
                             res = resp.result()
                             if res.status_code == 200:
@@ -223,9 +226,9 @@ class FalconCheckr(object):
                                                             headers={"User-Agent": "Instagram 152.0.0.1.60 Android",
                                                                      "Cookie": "sessionid=" + self.session},
                                                             data={"external_url": "", "phone_number": f"{num}",
-                                                                  "username": f"{user2}", "first_name": "FD § FBI",
+                                                                  "username": f"{user2}", "first_name": "",
                                                                   "_uid": f"47641699268", "device_id": "android-d595db3f5c276071",
-                                                                  "biography": f"{by}", "_uuid": str(uuid.uuid4()),
+                                                                  "biography": f"{hh}", "_uuid": str(uuid.uuid4()),
                                                                   "email": f"{email}"})
                             res = resp.result()
                             if res.status_code == 200:
@@ -234,7 +237,8 @@ class FalconCheckr(object):
                                     return self.claim_username()
                             else:
                                 with self.Locks:
-                                    print(f"RESPONSE > ({res.text})")
+                                    pass
+                                    #print(f"RESPONSE > ({res.text})")
                         if response.status_code == 429:
                             self.rl  +=1
                         elif '"status":"ok"' in response.text:
