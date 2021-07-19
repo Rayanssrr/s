@@ -155,7 +155,7 @@ class Claimer_tiktok():
                             elif ('"status_code": 8') in resp.text:
                                 self.Ratelimt +=1
         except Exception as E:
-            #print(E)
+            print(E)
             pass
 
 
