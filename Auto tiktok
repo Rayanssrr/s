@@ -35,7 +35,8 @@ dude = """
 
     * AutoClaimer tiktok * 
 
-        Targrt Mode + list mode 
+        Targrt Mode + list Mode 
+        
         ./ Made By Rayan@m1c1
 
 """
@@ -135,7 +136,7 @@ class Claimer_tiktok():
                 while 1:
                     user = random.choice(self.usernames)
                     session = random.choice(self.sessions)
-                    futures = self.future_session.post(f"https://www.tiktok.com/api/commit/user/?tt_csrf_token=UxruDQNT5r0Dmf_nPoeMzRTe&secret=1&unique_id={user}", headers=self.headers(),cookies={"tt_csrf_token":"UxruDQNT5r0Dmf_nPoeMzRTe","sessionid":f"{session}"})
+                    futures = self.future_session.post(f"https://www.tiktok.com/api/commit/user/?tt_csrf_token=UxruDQNT5r0Dmf_nPoeMzRTe&secret=1&unique_id={user}", headers=self.headers(),cookies={"tt_csrf_token":"UxruDQNT5r0Dmf_nPoeMzRTe","sessionid":f"{session}"},proxies=self.proxies())
                     futures.i = i
                     future.append(futures)
                     for futures in as_completed(future):
