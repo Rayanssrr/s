@@ -36,7 +36,7 @@ dude = """
     * AutoClaimer tiktok * 
 
         Targrt Mode + list mode 
-        ./ Made By Rayan@m1c1
+        ./ Made By Rayan
 
 """
 banner = """
@@ -140,7 +140,7 @@ class Claimer_tiktok():
                     future.append(futures)
                     for futures in as_completed(future):
                         with futures.result() as resp:
-                            print(resp.text)
+                            #print(resp.text)
                             if ('"status_code": 0') in resp.text:
                                 with self.Locks:
                                     self.Done(session,user)
