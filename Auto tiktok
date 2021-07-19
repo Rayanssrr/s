@@ -35,8 +35,7 @@ dude = """
 
     * AutoClaimer tiktok * 
 
-        Targrt Mode + list Mode 
-        
+        Targrt Mode + list mode 
         ./ Made By Rayan@m1c1
 
 """
@@ -141,6 +140,7 @@ class Claimer_tiktok():
                     future.append(futures)
                     for futures in as_completed(future):
                         with futures.result() as resp:
+                            print(resp.text)
                             if ('"status_code": 0') in resp.text:
                                 with self.Locks:
                                     self.Done(session,user)
@@ -154,7 +154,8 @@ class Claimer_tiktok():
                                 self.Ratelimt +=1
                             elif ('"status_code": 8') in resp.text:
                                 self.Ratelimt +=1
-        except:
+        except Exception as E:
+            #print(E)
             pass
 
 
