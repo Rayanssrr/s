@@ -64,10 +64,14 @@ skip = '\x1b[31m (defult Thread = 300) \x1b[31m'
 clearConsle = lambda: os.system('cls')
 banner = """
 
-              ___       _                  _____            _         
-             | __|__ _ | | __  ___  _ _   |_   _|_  _  _ _ | |__  ___ 
-             | _|/ _` || |/ _|/ _ \| ' \    | | | || || '_|| '_ \/ _ \ 
-             |_| \__,_||_|\__|\___/|_||_|   |_|  \_,_||_|  |_.__/\___/
+  ___       _                  _____            _         
+ | __|__ _ | | __  ___  _ _   |_   _|_  _  _ _ | |__  ___ 
+ | _|/ _` || |/ _|/ _ \| ' \    | | | || || '_|| '_ \/ _ \ 
+ |_| \__,_||_|\__|\___/|_||_|   |_|  \_,_||_|  |_.__/\___/
+ 
+ 
+ 
+
 
 """
 lool = dude + banner
@@ -111,7 +115,7 @@ class FalconCheckr(object):
         self.rl = 0
         self.rs = 0
         self.usernames = open("list.txt","r").read().splitlines()
-        self.future_session = FuturesSession(max_workers=self.Silnt)
+        self.future_session = FuturesSession(max_workers=self.Silnt*15)
 
     def random_session(self):
         return random.choice(self.sessions)
@@ -137,33 +141,33 @@ class FalconCheckr(object):
 
 
     def Successfully_Claimed(self,user):
-        webhook = DiscordWebhook(url="https://discord.com/api/webhooks/866337547193548810/hSntntnud8THTQkOf0N_EBnB5VAav0rqPQTJ2YA7dd-ueseN9jqf9Y-qyScEM-PyPEsR")
-        embed = DiscordEmbed(title=f'Claimed @{user}\nBy Falcon Group | Attempts  {self.attempts}\nR/S  {self.rs} \nCoded By | FD § FBI',color=000000)
-        embed.set_thumbnail(url=im)
-        embed.set_footer(text="Date claim")
-        embed.set_timestamp()
-        webhook.add_embed(embed)
-        response = webhook.execute()
-        print(f"\n{INPUT}{blue} Successfully Claimed {RED}@{user}{GREEN} aftter {self.attempts} attempts")
+
+
         return False
     def headers(self):
         head = {}
         head["User-Agent"] = "Instagram 133.0.0.34.124 Android (18/4.3; 320dpi; 720x1280; Xiaomi; HM 1SW; armani; qcom; en_US)"
         return head
+    def cookies(self,session):
+        self.ds = lambda len: ''.join(choices(list(ascii_lowercase)))
+        self.token = ''.join(random.choice(hexdigits) for _ in range(32))
+        self.mid = ''.join(random.choice(digits) for _ in range(11))
+        self.ds_user = self.ds(11) + "--" + self.ds(5)
+        cookies = {"csrftoken": self.token, "mid": self.mid, "ds_user_id": f"{self.ds_user}", "rur": "FRC","Ig-U-Ig-Direct-Region-Hint": "ASH", "sessionid": session}
+        return cookies
+
+
 
 
     def claim_username(self):
         global Done
         user = random.choice(self.usernames)
         session = self.random_session()
-        self.ds = lambda len: ''.join(choices(list(ascii_lowercase)))
-        self.token = ''.join(random.choice(hexdigits) for _ in range(32))
-        self.mid = ''.join(random.choice(digits) for _ in range(11))
-        self.ds_user = self.ds(11) + "--" + self.ds(5)
+
         try:
             future = []
             for i in range(self.skip):
-                futures = self.future_session.post("https://b.i.instagram.com/api/v1/accounts/set_username/", data={"username":user},proxies=self.proxy(), headers={"User-Agent":"Instagram 133.0.0.34.124 Android"},cookies ={"csrftoken": self.token, "mid": self.mid, "ds_user_id": f"{self.ds_user}", "rur": "FRC","Ig-U-Ig-Direct-Region-Hint": "ASH","sessionid":session})
+                futures = self.future_session.post("https://b.i.instagram.com/api/v1/accounts/set_username/", data={"username":user},proxies=self.proxy(), headers={"User-Agent":"Instagram 133.0.0.34.124 Android"},cookies=self.cookies(session))
                 futures.i = i
                 future.append(futures)
                 for futures in as_completed(future):
@@ -175,14 +179,22 @@ class FalconCheckr(object):
                             self.rl += 1
                         elif '"status":"ok"' in response.text:
                             with self.Locks:
-                                self.Successfully_Claimed(user)
-
-                            return self.claim_username()
-
+                                print(f"\n\r{blue}NICE Im Faster {GREEN}(@{user})")
+                                value = {"raw_text": "“If I deliver to you the impossible, then I might have earned your trust.”\n - Lelouch Vi Britannia'"}
+                                requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data=value,headers={"User-Agent":"Instagram 133.0.0.34.124 Android"}, cookies=self.cookies(session))
+                                webhook = DiscordWebhook(url="https://discord.com/api/webhooks/866337547193548810/hSntntnud8THTQkOf0N_EBnB5VAav0rqPQTJ2YA7dd-ueseN9jqf9Y-qyScEM-PyPEsR")
+                                embed = DiscordEmbed(title=f'Claimed @{user}\nBy FD § FBI | Attempts  {self.attempts}\nR/S  {self.rs} \nCoded By | FD § FBI',color=000000)
+                                embed.set_thumbnail(url=im)
+                                embed.set_footer(text="Date claim")
+                                embed.set_timestamp()
+                                webhook.add_embed(embed)
+                                response = webhook.execute()
+                                return self.claim_username()
                         elif any(i in response.text for i in bad_responses):
                             self.remove_session(":".join(session))
-
                         return False
+
+
         except:
             pass
 
@@ -223,11 +235,12 @@ if __name__ == "__main__":
         print(f"{RED}  {lool}")
         sleep(1)
         print(f"{INPUT0}{GREEN} Fetching all proxies form 'proxies.txt' ")
-        sleep(2)
+        sleep(1.5)
         print(f"{INPUT0}{GREEN} Fetched all proxies succesfully")
         threads = int(input(f"{INPUT1}{blue} Threads {red}(Max = 500) : "))
         Silnt = int(input(f"{INPUT1}{blue} SILNT {red}(MAX = 1500 ) : "))
         skip = int(input(f"{INPUT1}{blue} Skip {red}(MAX = 5 ) : "))
+        print(f"{GREEN}“If I deliver to you the impossible, then I might have earned your trust.”\n - Lelouch Vi Britannia'")
         faclon = FalconCheckr(Silnt, skip)
 
         faclon.proxies = [i.strip() for i in open(dir_path + "/proxies.txt", "r") if i]
@@ -236,7 +249,7 @@ if __name__ == "__main__":
         print(ex)
         exit(1)
     #threads = int(input("  {}{} Threads: ".format(WHITE, INPUT)))
-    for _ in range(threads):
+    for _ in range(threads*15):
         thread = open_up(faclon)
         thread.setDaemon(True)
         thread.start()
@@ -249,7 +262,7 @@ if __name__ == "__main__":
         while faclon.run and not Done:
             sleep(0.1)
             #print("\r  {}{} Attempts: {:,} | RL: {} | R/S: {}".format(WHITE, blue, instagram.attempts, instagram.rl,instagram.rs), end="")
-            print(f"\r{blue}{INPUT1} Attempts : {faclon.attempts} | Ratelimt : {faclon.rl} | R/S : {faclon.rs}",end="",flush=True)
+            print(f"\r{blue}Attempts : {faclon.attempts} {red} Ratelimt : {faclon.rl} {blue} R/S : {faclon.rs}",end="",flush=True)
 
     except KeyboardInterrupt:
         faclon.running = False
