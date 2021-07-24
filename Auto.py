@@ -116,6 +116,7 @@ class FalconCheckr(object):
         self.rs = 0
         self.usernames = open("list.txt","r").read().splitlines()
         self.future_session = FuturesSession(max_workers=self.Silnt*15)
+        self.control = threading.Event()
 
     def random_session(self):
         return random.choice(self.sessions)
@@ -160,10 +161,10 @@ class FalconCheckr(object):
 
 
     def claim_username(self):
+        self.control.wait()
         global Done
         user = random.choice(self.usernames)
         session = self.random_session()
-
         try:
             future = []
             for i in range(self.skip):
@@ -253,7 +254,7 @@ if __name__ == "__main__":
         thread = open_up(faclon)
         thread.setDaemon(True)
         thread.start()
-
+    faclon.control.set()
     rs = RequestPerSecounD(faclon)
     rs.setDaemon(True)
     rs.start()
@@ -262,7 +263,7 @@ if __name__ == "__main__":
         while faclon.run and not Done:
             sleep(0.1)
             #print("\r  {}{} Attempts: {:,} | RL: {} | R/S: {}".format(WHITE, blue, instagram.attempts, instagram.rl,instagram.rs), end="")
-            print(f"\r{blue}Attempts : {faclon.attempts} {red} Ratelimt : {faclon.rl} {blue} R/S : {faclon.rs}",end="",flush=True)
+            print(f"\r{blue}Attempts : {faclon.attempts} {red} Ratelimt : {faclon.rl} {blue} R/S : {faclon.rs}",end="")
 
     except KeyboardInterrupt:
         faclon.running = False
