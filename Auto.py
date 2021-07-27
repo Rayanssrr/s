@@ -1,9 +1,11 @@
 import time
 
 try:
+
     from random import *
     from string import *
-    import random, os, requests, threading
+    import random, os, requests, threading,pycurl,certifi
+    from io import BytesIO
     from time import sleep
     from termcolor import colored
     from requests_futures.sessions import FuturesSession
@@ -12,6 +14,7 @@ try:
     from discord_webhook import DiscordEmbed
 
 except Exception as Error:
+    os.system("pip3 install pycurl")
     print(Error)
     input()
     exit()
@@ -34,7 +37,7 @@ s1 = '\x1b[36m1\x1b[31m'
 s2 = '\x1b[36m2\x1b[31m'
 one = f"\x1b[31m[{s1}]\x1b[31m"
 tow = f"\x1b[31m[{s2}]\x1b[31m"
-eq = '\x1b[36m≈\x1b[31m'
+eq = '\x1b[36m-\x1b[31m'
 eq1 = f"\x1b[31m[{eq}]\x1b[31m"
 equl = '\x1b[36m=\x1b[31m'
 equl1 = f"\x1b[31m[{equl}]\x1b[31m"
@@ -69,27 +72,17 @@ dude = """
 
 
 """
-
-by1 = """
-
-
-    * AutoClaimer *
-    \n
-        ./ Made By FD § FBI\n
-
-
-"""
 by = "#DayLight"
 
 banner = """
-    
+
         __               ___       __    __ 
   ____/ /___ ___  __   / (_)___ _/ /_  / /_
  / __  / __ `/ / / /  / / / __ `/ __ \/ __/
 / /_/ / /_/ / /_/ /  / / / /_/ / / / / /_  
 \__,_/\__,_/\__, /  /_/_/\__, /_/ /_/\__/  
            /____/       /____/             
-       
+
 
 
 """
@@ -110,13 +103,13 @@ images = [
 im = random.choice(images)
 
 
-
 class Auto():
     def __init__(self, session):
         self.attempts = 0
         self.Ratelimt = 0
         self.sessionid = session
-        turbo = int(input(f"{one} {GREEN}->{blue} To Target \n{tow} {GREEN}->{blue} To List\n{eq1} {GREEN}->{blue} Choice? :  "))
+        turbo = int(input(
+            f"{one} {GREEN}->{blue} To Target \n{tow} {GREEN}->{blue} To List\n{eq1} {GREEN}->{blue} Choice? :  "))
         self.run = 1
         self.usernames = open("list.txt", "r").read().splitlines()
         self.proxies = open("proxies.txt", "r").read().splitlines()
@@ -126,7 +119,6 @@ class Auto():
         print(f"{equl1}{GREEN} ->{blue} Sessions : {red}{len(self.sessionid)}")
         print(f"{equl1}{GREEN} ->{blue} Proxies : {red}{len(self.proxies)}")
         self.ask = input(f"{du1} {GREEN}-> {blue}Do you want print Counter In console {red}(Y/N){blue} :  ")
-        #print(RED + "[+] Priavte Auto Claimer Â© [+]")
         if turbo == 1:
             self.q = input(f"{du1} {GREEN}-> {blue}Do you want Auto settings  {red}(Y/N){blue} :  ")
             if self.q.lower() == "y":
@@ -167,6 +159,31 @@ class Auto():
                 os.system(f"title {INPUT} Attempts {self.attempts}  Rate {self.Ratelimt}")
                 sleep(0.05)
 
+    def pycurl_Req(self,url, headers, data=None, proxy=None):
+        self.curl = pycurl.Curl()
+        self.response = BytesIO()
+        self.curl.setopt(pycurl.URL, url)
+        self.curl.setopt(pycurl.ENCODING, '')
+        self.curl.setopt(pycurl.WRITEDATA, self.response)
+        self.curl.setopt(pycurl.HTTPHEADER, headers)
+        self.curl.setopt(pycurl.CAINFO, certifi.where())
+        if data:
+            self.curl.setopt(pycurl.POST, True)
+            self.curl.setopt(pycurl.POSTFIELDS, data)
+        if proxy:
+            self.curl.setopt(pycurl.PROXY, proxy)
+            self.curl.setopt(pycurl.CONNECTTIMEOUT, 1)
+            self.curl.setopt(pycurl.PROXYTYPE, pycurl.PROXYTYPE_HTTP)
+        try:
+            try:
+                self.curl.perform()
+            except:
+                pass
+
+        finally:
+            self.curl.close()
+
+        return self.response.getvalue().decode('utf-8')
 
     def random_session(self):
         return random.choice(self.sessionid)
@@ -182,39 +199,25 @@ class Auto():
             print("\n".join(self.sessionid), file=open(dir_path + "/sessions.txt", "w"))
 
     def proxy(self):
-        self.erp = {"http": f"http://{random.choice(self.proxies)}",'https': f'http://{random.choice(self.proxies)}'}
+        self.erp = {"http": f"http://{random.choice(self.proxies)}", 'https': f'http://{random.choice(self.proxies)}'}
         return self.erp
-    def cookies(self,Sessions):
+
+    def cookies(self, Sessions):
         self.ds = lambda len: ''.join(choices(list(ascii_lowercase)))
         self.token = ''.join(random.choice(hexdigits) for _ in range(32))
         self.mid = ''.join(random.choice(digits) for _ in range(11))
         self.ds_user = self.ds(11) + "--" + self.ds(5)
-        cookies = {"csrftoken": self.token, "mid": self.mid, "ds_user_id": f"{self.ds_user}", "rur": "FRC","Ig-U-Ig-Direct-Region-Hint": "ASH", "sessionid": Sessions}
+        cookies = {"csrftoken": self.token, "mid": self.mid, "ds_user_id": f"{self.ds_user}", "rur": "FRC",
+                   "Ig-U-Ig-Direct-Region-Hint": "ASH", "sessionid": Sessions}
         return cookies
 
     def Done(self, Sessions, user):
         requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"{by}"},
                       headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + Sessions})
-        webhook = DiscordWebhook(url="https://discord.com/api/webhooks/866337547193548810/hSntntnud8THTQkOf0N_EBnB5VAav0rqPQTJ2YA7dd-ueseN9jqf9Y-qyScEM-PyPEsR")
-        embed = DiscordEmbed(title=f'Claimed @{user}\nBy FD § FBI | Attempts  {self.attempts}\nCoded By | FD § FBI',color=000000)
-        embed.set_thumbnail(url=im)
-        embed.set_footer(text="Date claim")
-        embed.set_timestamp()
-        webhook.add_embed(embed)
-        webhook.execute()
-        if len(user)  < 5:
-            webhook = DiscordWebhook(
-                url="https://discord.com/api/webhooks/808399883945902112/Mpp7d6fp2ocbLM4sUshNKgPlpahYOomgAxcHmIyDsqSXs36J2SMttOtyy5LbBMHBeKr_")
-            embed = DiscordEmbed(
-                title=f'Claimed @{user}\nBy By FD § FBI | Attempts  {self.attempts}\n \nCoded By | By FD § FBI',
-                color=000000)
-            embed.set_thumbnail(url=im)
-            embed.set_footer(text="Date claim")
-            embed.set_timestamp()
-            webhook.add_embed(embed)
-            webhook.execute()
         print(f"\n{du1}{GREEN} -> {blue}NICE Im Faster {red}@{user}")
-        get_data = requests.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true",headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions})
+        get_data = requests.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true",
+                                headers={"User-Agent": "Instagram 152.0.0.1.60 Android",
+                                         "Cookie": "sessionid=" + Sessions})
         try:
             jeson = get_data.json()
 
@@ -235,7 +238,6 @@ class Auto():
         with open(f"{user}.txt", "a") as wr:
             wr.write(user + ":" + Sessions + "\n" + f"{Email}:{Phone_number}")
 
-
     def Clim(self):
         self.contorlthreads.wait()
         self.reader = -1
@@ -248,68 +250,53 @@ class Auto():
                 target = self.usernames[self.reader]
             except:
                 self.reader = -1
-            try:
-                save_respon = []
-                for i in range(self.loops):
-                    try:
-                        req = self.future_session.post(f'https://{self.sub}/api/v1/accounts/set_username/',
-                                                       headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions},
-                                                       data={"username": target}, proxies=self.proxy())
-                        save_respon.append(req)
-                    except requests.Timeout:
-                        print("[-] Time Out [-]")
-                for self.req in as_completed(save_respon):
-                    with self.req.result() as self.response:
-                        #print(self.response.text)
-                        if self.response.status_code == 200:
-                            with self.Locks:
-                                self.Done(Sessions, target)
-                                return self.Clim()
-                        if "isn't" in self.response.text:
-                            self.attempts += 1
-                        elif "few minutes" in self.response.text:
-                            self.Ratelimt += 1
-                        elif any(i in self.response.text for i in bad):
-                            self.remove_session(":".join(Sessions))
-                if len(self.sessionid) == 0:
-                    print(f"\r  {INPUT2} Ran out of accounts after \x1b[31m{self.attempts}\x1b[37m attempts")
-            except Exception as Err:
-                #print(Err)
-                pass
+            response = self.pycurl_Req(f'https://{self.sub}/api/v1/accounts/set_username/', [
+                "Accept: */*",
+                "Accept-Language: en-US",
+                f'Connection: keep-alive=false',
+                "User-Agent: Instagram 85.0.0.21.100 Android (28/9; 380dpi; 1080x2147; OnePlus; HWEVA; OnePlus6T; qcom; en_US; 146536611)",
+                "Content-Type: application/x-www-form-urlencoded; charset=UTF-8",
+                f"Cookie: sessionid={Sessions}"
+            ], "username=" + self.target, random.choice(self.proxies))
+            if not response:
+                return False
+            if "isn't" in response:
+                    self.attempts += 1
+            elif "few minutes" in response:
+                self.Ratelimt +=1
+            elif '"status":"ok"' in response:
+                self.Done(Sessions,target)
+            elif any(i in response for i in bad):
+                self.remove_session("".join(Sessions))
 
     def Clim_target(self):
         self.contorlthreads.wait()
         while self.run:
             Sessions = self.random_session()
             self.sub = random.choice(self.subDomin)
-            try:
-                save_respon = []
-                for i in range(self.loops):
-                    try:
-                        req = self.future_session.post(f'https://{self.sub}/api/v1/accounts/set_username/',data={"username": self.target}, proxies=self.proxy(),headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + Sessions})
-                        save_respon.append(req)
-                    except requests.Timeout:
-                        print("[-] Time Out [-]")
+            response = self.pycurl_Req('https://b.i.instagram.com/api/v1/accounts/set_username/', [
+                "Accept: */*",
+                "Accept-Language: en-US",
+                f'Connection: keep-alive=false',
+                "User-Agent: Instagram 85.0.0.21.100 Android (28/9; 380dpi; 1080x2147; OnePlus; HWEVA; OnePlus6T; qcom; en_US; 146536611)",
+                "Content-Type: application/x-www-form-urlencoded; charset=UTF-8",
+                f"Cookie: sessionid={Sessions}"
+            ], "username=" + self.target, random.choice(self.proxies))
+            if not response:
+                return False
+            print(response)
 
-                for self.req in as_completed(save_respon):
-                    with self.req.result() as self.response:
-                        # print(self.response.text)
-                        if self.response.status_code == 200:
-                            with self.Locks:
-                                self.Done(Sessions, self.target)
-                                return self.Clim()
-                        if "isn't" in self.response.text:
-                            self.attempts += 1
-                        elif "few minutes" in self.response.text:
-                            self.Ratelimt += 1
-                        elif any(i in self.response.text for i in bad):
+            if "isn't" in response:
+                self.attempts += 1
+            elif "few minutes" in response:
+                self.Ratelimt += 1
+            elif '"status":"ok"' in response:
+                self.Done(Sessions, self.target)
+            elif any(i in response for i in bad):
+                self.remove_session("".join(Sessions))
+        if len(self.sessionid) == 0:
+            print(f"\r  {INPUT2} Ran out of accounts after \x1b[31m{self.attempts}\x1b[37m attempts")
 
-                            self.remove_session(":".join(Sessions))
-                if len(self.sessionid) == 0:
-                    print(f"\r  {INPUT2} Ran out of accounts after \x1b[31m{self.attempts}\x1b[37m attempts")
-            except Exception as Err:
-                pass
-                #print(Err)
 
 
 session = open("sessions.txt", "r").read().splitlines()
