@@ -18,7 +18,7 @@ clearConsle = lambda: os.system('cls')
 dude = """
 
     * checker Instagram * 
-        ./ Made By b.bc & Rayan 
+        ./ Made By Hatim , Rayan 
 
 
 """
@@ -49,14 +49,14 @@ class Auto():
         self.ask = input(f"Do you want print Counter In console (Y/N) :  ")
         self.q = input(f"Do you want Auto settings  (Y/N) :  ")
         if self.q.lower() == "y":
-            threading.Thread(target=self.PRINT).run()
-            threading.Thread(target=self.requestpersec).run()
+            threading.Thread(target=self.PRINT).start()
+            threading.Thread(target=self.requestpersec).start()
             self.thr = []
             for i in range(500):
                 t = threading.Thread(target=self.Clim)
                 t.daemon = True
                 self.thr.append(t)
-                t.run()
+                t.start()
             for i in self.thr:
                 i.join()
         else:
@@ -65,10 +65,9 @@ class Auto():
             threading.Thread(target=self.requestpersec).run()
             self.thr = []
             for i in range(self.threads):
-                t = threading.Thread(target=self.Clim)
+                t = threading.Thread(target=self.Clim).start()
                 self.thr.append(t)
             for i in self.thr:
-                i.run()
                 i.join()
 
 
