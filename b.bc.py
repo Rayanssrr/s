@@ -126,8 +126,8 @@ class Auto():
         self.prox = random.choice(self.proxies)
         self.erp = {
 
-            "http":f'socks4://{self.prox}',
-            "https":f'socks4://{self.prox}'
+            "http":f'http://{self.prox}',
+            "https":f'https://{self.prox}'
 
         }
         return self.erp
