@@ -54,21 +54,23 @@ class Auto():
             self.thr = []
             for i in range(500):
                 t = threading.Thread(target=self.Clim)
-                t.daemon = True
+                self.thr.append(t)
+                t.start()
+            for i in self.thr:
+                i.join(timeout=1)
+                i.run()
+        else:
+            self.threads = int(input(f"Threads (Max = 1000) : "))
+            threading.Thread(target=self.PRINT).start()
+            threading.Thread(target=self.requestpersec).start()
+            self.thr = []
+            for i in range(self.threads):
+                t = threading.Thread(target=self.Clim)
                 self.thr.append(t)
                 t.start()
             for i in self.thr:
                 i.join()
-        else:
-            self.threads = int(input(f"Threads (Max = 1000) : "))
-            threading.Thread(target=self.PRINT).run()
-            threading.Thread(target=self.requestpersec).run()
-            self.thr = []
-            for i in range(self.threads):
-                t = threading.Thread(target=self.Clim).start()
-                self.thr.append(t)
-            for i in self.thr:
-                i.join()
+                i.run()
 
 
     def PRINT(self):
@@ -78,6 +80,7 @@ class Auto():
                 print(f"Attempts {self.attempt}  Rate {self.Ratelimt}  R/s {self.Rs} ", end="\r", flush=True)
             else:
                 os.system(f"title Attempts {self.attempt}  Rate {self.Ratelimt}  R/s {self.Rs} ")
+            sleep(0.005)
 
 
     def requestpersec(self):
@@ -123,12 +126,7 @@ class Auto():
         return cookies
     def proxy(self):
         self.prox = random.choice(self.proxies)
-        self.erp = {
-
-            "http":f'http://{self.prox}',
-            "https":f'https://{self.prox}'
-
-        }
+        self.erp = {"http": f"{self.prox}", "https": f"{self.prox}"}
         return self.erp
     def headers(self):
         head = {}
@@ -172,9 +170,11 @@ class Auto():
                             pass
 
                 elif Response.status_code == 429:
-                    self.Ratelimt += 1
+                    with self.Locks:
+                        self.Ratelimt += 1
                 else:
-                    self.attempt += 1
+                    with self.Locks:
+                        self.attempt += 1
             except:
                 self.reader =-1
                 pass
