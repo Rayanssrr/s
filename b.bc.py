@@ -11,20 +11,19 @@ except Exception as Error:
     input()
     exit()
 os.system('mode con: cols=75 lines=10')
-
 dir_path = os.path.dirname(os.path.realpath(__file__))
-
 clearConsle = lambda: os.system('cls')
-
 dude = """
 
+
+
+
+
+
+
     * checker Instagram * 
-        ./ Made By b.bc & Rayan 
-
-
+        ./ Made By b.bc & Rayan      
 """
-
-
 images = [
     "https://media.giphy.com/media/I6wUi5eTdUCWI/giphy.gif",
     "https://media.giphy.com/media/3fNmJ20ErpkjK/giphy.gif",
@@ -65,9 +64,6 @@ class generate():
             thread_join.join()
 
 
-
-
-
 class Auto():
     def __init__(self, session):
         self.attempt = 0
@@ -87,16 +83,20 @@ class Auto():
         if self.q.lower() == "y":
             threading.Thread(target=self.PRINT).start()
             threading.Thread(target=self.requestpersec).start()
-            gen = generate(self.Clim)
-            gen.Generate_threds(350)
-            gen.started()
+            for i in range(1,500):
+                gen = generate(self.Clim)
+                gen.Generate_threds(1000)
+                gen.started()
+
         else:
             self.threads = int(input(f"Threads (Max = 1000) : "))
+            self.loops = int(input(f"loops (Max = 200) : "))
             threading.Thread(target=self.PRINT).start()
             threading.Thread(target=self.requestpersec).start()
-            gen = generate(self.Clim)
-            gen.Generate_threds(self.threads)
-            gen.started()
+            for i in range(0,self.loops):
+                gen = generate(self.Clim)
+                gen.Generate_threds(self.threads)
+                gen.started()
     def PRINT(self):
         print(f'Started Running = True\n')
         while self.run:
@@ -147,7 +147,6 @@ class Auto():
             self.erp = {f"http":f"socks4://{self.prox}","https":f"socks4://{self.prox}"}
         else:
             print("NOTHING CHOICE PROXY")
-
         return self.erp
     def swap_with_proxy(self,Sessions,user):
         res = requests.post("https://i.instagram.com/api/v1/accounts/set_username/",headers={"User-Agent": "Instagram 152.0.0.1.60 Android"},cookies={"sessionid": Sessions},data={"username": f"{user}"},proxies=self.proxy()).text
@@ -163,31 +162,15 @@ class Auto():
             requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"im Faster"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + Sessions})
             self.remove_session("".join(Sessions))
             return False
-
-
-
     def headers(self):
         cookie = secrets.token_hex(16) * 2
         num = random.randint(10000000, 9999999999)
-        head = {
-            "authority": "www.instagram.com",
-            "method": "POST",
-            "path": "/accounts/username_suggestions/",
-            "scheme": "https",
-            "accept": "*/*",
-            "accept-encoding": "gzip, deflate, br",
-            "accept-language": "ar,en-US;q=0.9,en;q=0.8",
-            "content-length": "39",
-            "content-type": "application/x-www-form-urlencoded",
-            "cookie": f'mid={cookie}; ig_did={str(uuid.uuid4).upper()}; ig_nrcb=1; datr=JUqyYNZAXmJNE4HpggCahOkI; csrftoken={cookie}; ds_user_id={num};',
-            "dnt": "1",
-            "origin": "https://www.instagram.com",
-            "referer": "https://www.instagram.com/accounts/signup/birthday",
-            "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1",
-            "x-csrftoken": f"{cookie}",
-        }
+        head = {}
+        head["Host"] = "i.instagram.com"
+        head["cookie"] = cookie
+        head["user-agent"] = "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1"
+        head["x-csrftoken"] = cookie
         return head
-
     def Clim(self):
         while self.run:
             Sessions = self.random_session()
@@ -196,6 +179,10 @@ class Auto():
                     user = random.choice(self.usernames)
                     user2 = random.choice(self.usernames)
                 Response = requests.post(secrets.choice(self.url),data={"name": f"{user}","email": f"{user2}@gmail.com"},cookies=self.cookiess(),headers=self.headers(),proxies=self.proxy(),timeout=10000)
+                if Response.text.__contains__("wait") or Response.text.__contains__("spam"):
+                    with self.Locks:
+                        self.Ratelimt += 1
+                #print(Response.text)
                 if Response.json()['suggestions'].__contains__(user):
                     if self.askpr.lower() == "y":
                         self.swap_with_proxy(Sessions,user)
@@ -246,7 +233,6 @@ class Auto():
                             with open(f"{user2}.txt", "a") as wr:
                                 wr.write(f"New user : {user2}\nSession : {Sessions}")
                                 self.remove_user("".join(user2))
-
                     else:
                         self.swap_without_proxy(Sessions, user2)
                         if len(user2) < 5:
@@ -263,14 +249,16 @@ class Auto():
                             with open(f"{user2}.txt", "a") as wr:
                                 wr.write(f"New user : {user2}\nSession : {Sessions}")
                                 self.remove_user("".join(user2))
-                elif Response.text.__contains__("wait") or Response.text.__contains__("spam"):
-                    with self.Locks:
-                        self.Ratelimt += 1
+
                 else:
                     with self.Locks:
                         self.attempt += 1
             except:
                 pass
+
+
+
+
 
 
 
