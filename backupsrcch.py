@@ -3,8 +3,7 @@ try:
     from string import *
     import secrets
     import uuid
-    import random, os, requests, threading,json,pycurl,certifi
-    from io import BytesIO
+    import random, os, requests, threading,json
     from time import sleep
     from discord_webhook import DiscordWebhook,DiscordEmbed
 except Exception as Error:
