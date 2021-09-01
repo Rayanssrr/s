@@ -14,18 +14,17 @@ else:
     exit(0)
 
 
-import requests,uuid,random,re,ctypes
-from time import sleep
 
 
 
 
 
-print("v2")
 
 
 
-uu = uuid.uuid4()
+
+uu = '83f2000a-4b95-4811-bc8d-0f3539ef07cf'
+
 
 
 class open_tikt():
@@ -37,7 +36,6 @@ class open_tikt():
         self.uuid = uuid.uuid4()
         self.login()
         self.choice()
-        self.confirm()
         self.change_password()
     def headers_login(self):
         head = {}
@@ -95,34 +93,31 @@ class open_tikt():
         print(f'code sent to : {contact_point}')
         return self.get_code()
     def get_code(self):
-        try:
-            code = input("code : ")
-
-            data = {}
-            data['security_code'] = code,
-            data['_uuid'] = uu,
-            data['_uid'] = uu,
-            data['_csrftoken'] = 'massing'
-            path = self.req.json()['challenge']['api_path']
-            send_code = requests.post(f"https://i.instagram.com/api/v1{path}", self.headers_login(), data=data, cookies=self.coo)
-            if "logged_in_user" in send_code.text:
-                print(f'Login Successfully as @{self.username}')
-                self.coo = self.req.cookies
-                self.token = self.coo.get("csrftoken")
-                self.mid = self.coo.get("mid")
-                self.sessionid = self.coo.get("sessionid")
-                return self.Account_recovery()
-            else:
-                print(send_code.text)
-                input()
-                exit()
-        except:
+        code = input("code : ")
+        data = {}
+        data['security_code'] = str(code),
+        data['_uuid'] = uu,
+        data['_uid'] = uu,
+        data['_csrftoken'] = 'massing'
+        path = self.req.json()['challenge']['api_path']
+        send_code = requests.post(f"https://i.instagram.com/api/v1{path}", headers=self.headers_login(), data=data, cookies=self.coo)
+        if "logged_in_user" in send_code.text:
+            print(f'Login Successfully as @{self.username}')
+            self.coo = self.req.cookies
+            self.token = self.coo.get("csrftoken")
+            self.mid = self.coo.get("mid")
+            self.sessionid = self.coo.get("sessionid")
+            return self.Account_recovery()
+        else:
+            regx_error = re.search(r'"message":"(.*?)",', send_code).group(1)
+            print(regx_error)
             ask = input("Code is Not Work Do You Want Try Agin [Y/N] : ")
             if ask.lower() == "y":
                 sleep(1)
                 return self.get_code()
             else:
                 exit()
+
 
 
     def login(self):
@@ -309,9 +304,7 @@ class open_tikt():
         data["challenge_context"] = f"{self.jsondata}",
         data["bloks_versioning_id"] = 'e097ac2261d546784637b3df264aa3275cb6281d706d91484f43c207d6661931'
 
-
         Response = requests.post("https://instagram.com/api/v1/bloks/apps/com.instagram.challenge.navigation.take_challenge/", headers=self.head, data=data).text
-
 
         if Response.__contains__("Add New Phone Number") or Response.__contains__("Confirm Your Phone Number") or Response.__contains__("Confirm Your Phone Number"):
             print(f"{contact} Confirmed")
@@ -323,6 +316,7 @@ class open_tikt():
         data["_csrftoken"] = f"{self.token}"
         data["is_bloks_web"] = 'False'
         data["skip"] = '1'
+        data["contact_point"] = ''
         data["bk_client_context"] = '{"bloks_version":"e097ac2261d546784637b3df264aa3275cb6281d706d91484f43c207d6661931","styles_id":"instagram"}'
         data["nest_data_manifest"] = 'true'
         data["challenge_context"] = f"{self.jsondata}",
@@ -387,7 +381,8 @@ class open_tikt():
             input()
             exit()
         else:
-            print(f"'change_password'")
+            print(Respone)
+            print(f"change_password")
             input()
             exit()
 
@@ -434,14 +429,3 @@ class open_tikt():
 
 open_tikt()
 
-
-
-
-
-
-
-
-
-
-
-open_tikt()
