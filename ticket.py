@@ -157,7 +157,7 @@ class open_tikt():
     def headers(self):
         self.head = {}
         self.head["Host"] = "i.instagram.com"
-        self.head["User-Agent"] = 'Instagram 187.0.0.32.120 Android (25/7.1.2; 192dpi; 720x1280; google; G011A; G011A; intel; en_US; 289692181'
+        self.head["User-Agent"] = 'Instagram 187.0.0.32.120 Android (21/5.0.2; 240dpi; 540x960; samsung; SM-G530H; fortuna3g; qcom; ar_AE; 154400379)'
         self.head["Accept-Language"] = "en-US"
         self.head["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8"
         self.head["Connection"] = "keep-alive"
