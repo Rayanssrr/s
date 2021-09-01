@@ -14,7 +14,14 @@ else:
     exit(0)
 
 
+import requests,uuid,random,re,ctypes
+from time import sleep
 
+
+
+
+
+print("v2")
 
 
 
@@ -254,7 +261,7 @@ class open_tikt():
         request_code = requests.post("https://instagram.com/api/v1/bloks/apps/com.instagram.challenge.navigation.take_challenge/", headers=self.head, data=data).text
         if request_code.__contains__("user_id"):
             print("Code Is True ")
-            return self.confirm()
+            return self.informations()
 
 
         elif request_code.__contains__("Please check the code we sent you and try again"):
@@ -276,12 +283,18 @@ class open_tikt():
         try:
 
             self.email = info.json()["step_data"]["contact_point"]
+
             self.phone = info.json()["step_data"]["contact_point"]
 
         except:
             print("Nothing Info")
             input()
             exit()
+        try:
+            self.confirm_mode_email = input(f"Confirm {self.email} [Y/N] : ")
+        except:
+            self.confirm_mode_email = input(f"Confirm New Email [Y/N] : ")
+        return self.confirm()
 
 
     def confirmed(self, contact):
@@ -324,12 +337,6 @@ class open_tikt():
             input()
             exit()
     def confirm(self):
-        try:
-            self.confirm_mode_email = input(f"Confirm {self.email} [Y/N] : ")
-        except:
-            self.confirm_mode_email = input(f"Confirm New Email [Y/N] : ")
-
-
         if self.confirm_mode_email.lower() == 'y':
             self.type = "email"
             self.skip("phone_number Skipped")
@@ -415,6 +422,18 @@ class open_tikt():
     def save(self):
         with open(f"@{self.new_username}.txt","a") as Save:
             Save.write(f"old username : @{self.username}\nnew Username : @{self.new_username}\nold password : {self.passwordd}\nnew_password : {self.new_password}")
+
+
+
+
+
+
+
+
+
+
+open_tikt()
+
 
 
 
