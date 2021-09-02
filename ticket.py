@@ -1,5 +1,9 @@
-import requests,uuid,random,re,ctypes
+import requests,uuid,random,re,ctypes,json,urllib,hashlib,hmac,urllib.parse,base64,os
 from time import sleep
+from Crypto.Cipher import AES, PKCS1_v1_5
+from Crypto.PublicKey import RSA
+from Crypto.Random import get_random_bytes
+import time
 
 
 
@@ -23,8 +27,43 @@ else:
 
 
 
+
+
+
+
+
+
+def password_publickeys():
+    resp = requests.get('https://i.instagram.com/api/v1/qe/sync/')
+    publickeyid = int(resp.headers.get('ig-set-password-encryption-key-id'))
+    publickey = resp.headers.get('ig-set-password-encryption-pub-key')
+    return publickeyid, publickey
+def password_encrypt(password):
+    publickeyid, publickey = password_publickeys()
+    session_key = get_random_bytes(32)
+    iv = get_random_bytes(12)
+    timestamp = str(int(time.time()))
+    decoded_publickey = base64.b64decode(publickey.encode())
+    recipient_key = RSA.import_key(decoded_publickey)
+    cipher_rsa = PKCS1_v1_5.new(recipient_key)
+    rsa_encrypted = cipher_rsa.encrypt(session_key)
+    cipher_aes = AES.new(session_key, AES.MODE_GCM, iv)
+    cipher_aes.update(timestamp.encode())
+    aes_encrypted, tag = cipher_aes.encrypt_and_digest(password.encode("utf8"))
+    size_buffer = len(rsa_encrypted).to_bytes(2, byteorder='little')
+    payload = base64.b64encode(b''.join([b"\x01", publickeyid.to_bytes(1, byteorder='big'), iv, size_buffer, rsa_encrypted, tag, aes_encrypted]))
+    return f"#PWD_INSTAGRAM:4:{timestamp}:{payload.decode()}"
+
+
+
+
+
+
+
 uu = '83f2000a-4b95-4811-bc8d-0f3539ef07cf'
 
+print("Version 3 ")
+sleep(2)
 
 
 class open_tikt():
@@ -145,11 +184,15 @@ class open_tikt():
             self.sessionid = self.coo.get("sessionid")
             return self.checkpoint()
         else:
-            regx_error = re.search(r'"message":"(.*?)",', self.req.text).group(1)
-            print(regx_error)
+            try:
+                regx_error = re.search(r'"message":"(.*?)",', self.req.text).group(1)
+                print(regx_error)
+            except:
+                print(self.req.text)
             ask = input("Something has gone wrong Do You Want Try Agin [Y/N] : ")
             if ask.lower() == "y":
                 sleep(1)
+                os.system("cls")
                 return self.login()
             else:
                 input()
@@ -179,13 +222,16 @@ class open_tikt():
         self.head["X-Mid"] = "YMXJVQABAAGa6Frp6LAbn3r6iCWR"
         return self.head
 
+
     def Account_recovery(self):
         data = {}
         data["source"] = "login_help"
-        data["_csrftoken"] = self.token
+        data["_csrftoken"] = ""
         data["guid"] = uu
         data["device_id"] = f"android-psycho@m1c1"
         data["query"] = self.username
+        sleep(1)
+
         Accountt = requests.post("https://i.instagram.com/api/v1/accounts/assisted_account_recovery/", data=data,headers=self.headers())
         Account = Accountt.text
         b = Accountt.json()
@@ -223,16 +269,16 @@ class open_tikt():
 
     def choice(self):
         choice = input("Choice : ")
-        data = {
-            "choice": choice,
-            "_csrftoken": self.token,
-            "is_bloks_web": 'False',
-            "bk_client_context": '{"bloks_version":"e097ac2261d546784637b3df264aa3275cb6281d706d91484f43c207d6661931","styles_id":"instagram"}',
-            "nest_data_manifest": 'true',
-            "challenge_context": f"{self.jsondata}",
-            "bloks_versioning_id": 'e097ac2261d546784637b3df264aa3275cb6281d706d91484f43c207d6661931'
-        }
-        req = requests.post("https://instagram.com/api/v1/bloks/apps/com.instagram.challenge.navigation.take_challenge/", headers=self.head, data=data).text
+        data = {}
+        data["choice"] = choice
+        data["_csrftoken"] = ""
+        data["is_bloks_web"] = 'False'
+        data["bk_client_context"] = '{"bloks_version":"e097ac2261d546784637b3df264aa3275cb6281d706d91484f43c207d6661931","styles_id":"instagram"}'
+        data["nest_data_manifest"] = 'true'
+        data["challenge_context"] = f"{self.jsondata}"
+        data["bloks_versioning_id"] = 'e097ac2261d546784637b3df264aa3275cb6281d706d91484f43c207d6661931'
+        sleep(1.5)
+        req = requests.post("https://instagram.com/api/v1/bloks/apps/com.instagram.challenge.navigation.take_challenge/",data=data,headers=self.headers()).text
         if req.__contains__("It may take up to a minute for you to receive this code"):
             print(f"Code Sent To {self.contact_point}")
             return self.put_code()
@@ -244,7 +290,7 @@ class open_tikt():
         self.code = input("Code : ")
         data = {}
         data["security_code"] = self.code
-        data["_csrftoken"] = f"{self.token}"
+        data["_csrftoken"] = ""
         data["is_bloks_web"] = "False"
         data["bk_client_context"] = '{"bloks_version":"e097ac2261d546784637b3df264aa3275cb6281d706d91484f43c207d6661931","styles_id":"instagram"}'
         data["nest_data_manifest"] = "true"
@@ -253,7 +299,7 @@ class open_tikt():
 
 
 
-        request_code = requests.post("https://instagram.com/api/v1/bloks/apps/com.instagram.challenge.navigation.take_challenge/", headers=self.head, data=data).text
+        request_code = requests.post("https://instagram.com/api/v1/bloks/apps/com.instagram.challenge.navigation.take_challenge/", data=data,headers=self.headers()).text
         if request_code.__contains__("user_id"):
             print("Code Is True ")
             return self.informations()
@@ -294,7 +340,7 @@ class open_tikt():
 
     def confirmed(self, contact):
         data = {}
-        data["_csrftoken"] = f"{self.token}"
+        data["_csrftoken"] = ""
         data["is_bloks_web"] = 'False'
         data["skip"] = '0'
         data["type"] = self.type
@@ -303,8 +349,8 @@ class open_tikt():
         data["nest_data_manifest"] = 'true',
         data["challenge_context"] = f"{self.jsondata}",
         data["bloks_versioning_id"] = 'e097ac2261d546784637b3df264aa3275cb6281d706d91484f43c207d6661931'
-
-        Response = requests.post("https://instagram.com/api/v1/bloks/apps/com.instagram.challenge.navigation.take_challenge/", headers=self.head, data=data).text
+        sleep(1.5)
+        Response = requests.post("https://instagram.com/api/v1/bloks/apps/com.instagram.challenge.navigation.take_challenge/",data=data, headers=self.headers()).text
 
         if Response.__contains__("Add New Phone Number") or Response.__contains__("Confirm Your Phone Number") or Response.__contains__("Confirm Your Phone Number"):
             print(f"{contact} Confirmed")
@@ -313,7 +359,7 @@ class open_tikt():
 
     def skip(self, contact):
         data = {}
-        data["_csrftoken"] = f"{self.token}"
+        data["_csrftoken"] = ""
         data["is_bloks_web"] = 'False'
         data["skip"] = '1'
         data["contact_point"] = ''
@@ -321,10 +367,10 @@ class open_tikt():
         data["nest_data_manifest"] = 'true'
         data["challenge_context"] = f"{self.jsondata}",
         data["bloks_versioning_id"] = 'e097ac2261d546784637b3df264aa3275cb6281d706d91484f43c207d6661931'
+        sleep(1.5)
+        Response = requests.post("https://instagram.com/api/v1/bloks/apps/com.instagram.challenge.navigation.take_challenge/", data=data,headers=self.headers() ).text
 
-        Response = requests.post("https://instagram.com/api/v1/bloks/apps/com.instagram.challenge.navigation.take_challenge/", headers=self.head, data=data).text
-
-        if Response.__contains__("Add New Phone Number") or Response.__contains__("Confirm Your Phone Number") or Response.__contains__("Confirm Your Phone Number"):
+        if Response.__contains__("Add New Phone Number") or Response.__contains__("Confirm Your Phone Number") or Response.__contains__("Change Your Password"):
             print(f"{contact}")
         else:
             print(f"Something has gone wrong")
@@ -333,16 +379,17 @@ class open_tikt():
     def confirm(self):
         if self.confirm_mode_email.lower() == 'y':
             self.type = "email"
-            self.skip("phone_number Skipped")
+
             try:
                 self.confirmed(self.email)
+                self.skip("phone_number Skipped")
             except:
                 self.email = input("New Email : ")
-                self.confirmed(self.email)
 
+                self.confirmed(self.email)
         elif self.confirm_mode_email.lower() == 'n':
             self.type = "phone_number"
-            self.skip("email Skipped")
+            self.skip("email")
             try:
                 self.confirmed(self.phone)
             except:
@@ -352,27 +399,23 @@ class open_tikt():
             print(f"nothing choice")
             input()
             exit()
-
     def change_password(self):
         ask = input("Do You Want Random password [Y/N] : ")
         if ask.lower() == "y":
             self.new_password = ''.join(random.choice("qwertyuiopasdfghjklzxcvbnm1234567890!@#$%^&*")for i in range(15))
         else:
             self.new_password = input("New Password : ")
-        data = {}
-        data["_csrftoken"] = f"{self.token}"
-        data["is_bloks_web"] = 'False'
-        data["bk_client_context"] = '{"bloks_version":"e097ac2261d546784637b3df264aa3275cb6281d706d91484f43c207d6661931","styles_id":"instagram"}'
-        data["nest_data_manifest"] =  'true'
-        data["challenge_context"] = f"{self.jsondata}"
-        data["bloks_versioning_id"] = 'e097ac2261d546784637b3df264aa3275cb6281d706d91484f43c207d6661931'
-        data["enc_new_password1"] = f'#PWD_INSTAGRAM:0:0:{self.new_password}'
-        data["enc_new_password2"] = f'#PWD_INSTAGRAM:0:0:{self.new_password}'
-
-
-
-        Respone = requests.post("https://instagram.com/api/v1/bloks/apps/com.instagram.challenge.navigation.take_challenge/", headers=self.head, data=data).text
-
+        data_password = {}
+        data_password["_csrftoken"] = ""
+        data_password["is_bloks_web"] = 'False'
+        data_password["bk_client_context"] = '{"bloks_version":"e097ac2261d546784637b3df264aa3275cb6281d706d91484f43c207d6661931","styles_id":"instagram"}'
+        data_password["nest_data_manifest"] =  'true'
+        data_password["challenge_context"] = f"{self.jsondata}"
+        data_password["bloks_versioning_id"] = 'e097ac2261d546784637b3df264aa3275cb6281d706d91484f43c207d6661931'
+        data_password["enc_new_password1"] = f'{password_encrypt(self.new_password)}'
+        data_password["enc_new_password2"] = f'{password_encrypt(self.new_password)}'
+        sleep(1)
+        Respone = requests.post("https://instagram.com/api/v1/bloks/apps/com.instagram.challenge.navigation.take_challenge/",data=data_password,headers=self.headers()).text
         if Respone.__contains__(self.username):
             print("Password Changed")
             return self.changeUsername()
@@ -390,7 +433,7 @@ class open_tikt():
         self.new_username = input("New Username : ")
         data = {}
         data["external_url"] = ''
-        data["_csrftoken"] = f"{self.token}"
+        data["_csrftoken"] = f""
         data['username'] = self.new_username
         data["is_bloks_web"] = 'False'
         data["first_name"] = ''
@@ -400,14 +443,10 @@ class open_tikt():
         data["challenge_context"] = f"{self.jsondata}"
         data["bloks_versioning_id"] = 'e097ac2261d546784637b3df264aa3275cb6281d706d91484f43c207d6661931'
         ctypes.windll.user32.MessageBoxW(0, "Are You Ready ?  ", f"change user with ticket", 0x1000)
-
-
-
-
-        change_username = requests.post("https://instagram.com/api/v1/bloks/apps/com.instagram.challenge.navigation.take_challenge/", headers=self.head, data=data).text
+        change_username = requests.post("https://instagram.com/api/v1/bloks/apps/com.instagram.challenge.navigation.take_challenge/",data=data, headers=self.headers()).text
         if change_username.__contains__(self.new_username):
             print("Username Changed ")
-
+            self.save()
             input()
             exit()
         else:
