@@ -95,7 +95,6 @@ class open_tikt():
         head["X-Ig-Www-Claim"] = "0"
         head["X-Bloks-Is-Layout-Rtl"] = "false"
         head["X-Bloks-Is-Panorama-Enabled"] = "true"
-        head["X-Ig-Device-Id"] = "bd76a155-e663-4192-b610-f6a1d5190d3d"
         head["X-Mid"] = "YMXJVQABAAGa6Frp6LAbn3r6iCWR"
         return head
     def checkpoint(self):
@@ -208,7 +207,6 @@ class open_tikt():
         self.head["Connection"] = "keep-alive"
         self.head['X-Ig-App-Locale'] = 'en_US'
         self.head['X-Ig-Device-Locale'] = "en_US"
-        self.head["X-Pigeon-Session-Id"] = "e7a9a8b1-8ed1-47ab-9211-b83195c7f398"
         self.head["X-Pigeon-Rawclienttime"] = "1619296670.654"
         self.head["X-Ig-Bandwidth-Speed-Kbps"] = "-1.000"
         self.head["X-Ig-Bandwidth-Totalbytes-B"] = "0"
@@ -218,7 +216,6 @@ class open_tikt():
         self.head["X-Ig-Www-Claim"] = "0"
         self.head["X-Bloks-Is-Layout-Rtl"] = "false"
         self.head["X-Bloks-Is-Panorama-Enabled"] = "true"
-        self.head["X-Ig-Device-Id"] = "bd76a155-e663-4192-b610-f6a1d5190d3d"
         self.head["X-Mid"] = "YMXJVQABAAGa6Frp6LAbn3r6iCWR"
         return self.head
 
