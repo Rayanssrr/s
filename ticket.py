@@ -84,18 +84,6 @@ class open_tikt():
         head["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8"
         head["Connection"] = "keep-alive"
         head['X-Ig-App-Locale'] = 'en_US'
-        head['X-Ig-Device-Locale'] = "en_US"
-        head["X-Pigeon-Session-Id"] = "e7a9a8b1-8ed1-47ab-9211-b83195c7f398"
-        head["X-Pigeon-Rawclienttime"] = "1619296670.654"
-        head["X-Ig-Bandwidth-Speed-Kbps"] = "-1.000"
-        head["X-Ig-Bandwidth-Totalbytes-B"] = "0"
-        head["X-Ig-Bandwidth-Totaltime-Ms"] = "0"
-        head["X-Ig-App-Startup-Country"] = "unknown"
-        head["X-Bloks-Version-Id"] = "befa8522d3a650f9592e33e4540d527c5b93babbdd6233a1bd40e955c9567f30"
-        head["X-Ig-Www-Claim"] = "0"
-        head["X-Bloks-Is-Layout-Rtl"] = "false"
-        head["X-Bloks-Is-Panorama-Enabled"] = "true"
-        head["X-Mid"] = "YMXJVQABAAGa6Frp6LAbn3r6iCWR"
         return head
     def checkpoint(self):
         info = requests.get(f"https://i.instagram.com/api/v1{self.req.json()['challenge']['api_path']}", headers=self.headers_login(), cookies=self.coo)
@@ -165,7 +153,7 @@ class open_tikt():
 
         data = {}
         data['guid'] = uu
-        data['enc_password'] = f'#PWD_INSTAGRAM:0:0:{self.passwordd}'
+        data['enc_password'] = f'{password_encrypt(self.passwordd)}'
         data['username'] = self.username
         data['device_id'] = f"android-psycho@m1c1"
         data['login_attempt_count'] = '0'
