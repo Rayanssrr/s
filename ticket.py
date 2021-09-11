@@ -60,10 +60,13 @@ def password_encrypt(password):
 
 
 
+
+
+
 uu = '83f2000a-4b95-4811-bc8d-0f3539ef07cf'
 
-print("Version 3 ")
-sleep(2)
+print("Version 4 ")
+sleep(1)
 
 
 class open_tikt():
@@ -71,20 +74,13 @@ class open_tikt():
         self.coo = None
         self.token = None
         self.mid = None
+        self.UserAgent = self.generateUSER_AGENT()
+        self.DeviceID = None
         self.sessionid = None
-        self.uuid = uuid.uuid4()
         self.login()
         self.choice()
         self.change_password()
-    def headers_login(self):
-        head = {}
-        head["Host"] = "i.instagram.com"
-        head["User-Agent"] = 'Instagram 135.0.0.34.124 Android (21/5.0.2; 240dpi; 540x960; samsung; SM-G530H; fortuna3g; qcom; ar_AE; 154400379)'
-        head["Accept-Language"] = "en-US"
-        head["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8"
-        head["Connection"] = "keep-alive"
-        head['X-Ig-App-Locale'] = 'en_US'
-        return head
+
     def checkpoint(self):
         info = requests.get(f"https://i.instagram.com/api/v1{self.req.json()['challenge']['api_path']}", headers=self.headers_login(), cookies=self.coo)
         step_data = info.json()["step_data"]
@@ -144,18 +140,53 @@ class open_tikt():
             else:
                 exit()
 
+    def generateUSER_AGENT(self):
+        Devices_menu = ['HUAWEI', 'Xiaomi', 'samsung', 'OnePlus']
+        DPIs = [
+            '480', '320', '640', '515', '120', '160', '240', '800'
+        ]
+        randResolution = random.randrange(2, 9) * 180
+        lowerResolution = randResolution - 180
+        DEVICE_SETTINTS = {
+            'system': "Android",
+            'Host': "Instagram",
+            'manufacturer': f'{random.choice(Devices_menu)}',
+            'model': f'{random.choice(Devices_menu)}-{randomStringWithChar(4).upper()}',
+            'android_version': random.randint(18, 25),
+            'android_release': f'{random.randint(1, 7)}.{random.randint(0, 7)}',
+            "cpu": f"{RandomStringChars(2)}{random.randrange(1000, 9999)}",
+            'resolution': f'{randResolution}x{lowerResolution}',
+            'randomL': f"{RandomString(6)}",
+            'dpi': f"{random.choice(DPIs)}"
+        }
+        return '{Host} 155.0.0.37.107 {system} ({android_version}/{android_release}; {dpi}dpi; {resolution}; {manufacturer}; {model}; {cpu}; {randomL}; en_US)'.format(
+            **DEVICE_SETTINTS)
+    def generate_DeviceId(self , ID):
+        volatile_ID = "12345"
+        m = hashlib.md5()
+        m.update(ID.encode('utf-8') + volatile_ID.encode('utf-8'))
+        return 'android-' + m.hexdigest()[:16]
+    def headers_login(self):
+        headers = {}
+        headers['User-Agent'] = self.UserAgent
+        headers['Host'] = 'i.instagram.com'
+        headers['content-type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
+        headers['accept-encoding'] = 'gzip, deflate'
+        headers['x-fb-http-engine'] = 'Liger'
+        headers['Connection'] = 'close'
+        return headers
 
 
     def login(self):
         self.username = input(f'UserName? : ')
-
+        self.DeviceID = generateDeviceId(self.username)
         self.passwordd = input(f'Password? : ')
 
         data = {}
         data['guid'] = uu
         data['enc_password'] = f'{password_encrypt(self.passwordd)}'
         data['username'] = self.username
-        data['device_id'] = f"android-psycho@m1c1"
+        data['device_id'] = self.DeviceID
         data['login_attempt_count'] = '0'
 
         self.req = requests.post("https://i.instagram.com/api/v1/accounts/login/", headers=self.headers_login(), data=data)
@@ -165,10 +196,10 @@ class open_tikt():
             return self.Account_recovery()
         elif 'checkpoint_challenge_required' in self.req.text:
             self.coo = self.req.cookies
-            self.coo = self.req.cookies
             self.token = self.coo.get("csrftoken")
             self.mid = self.coo.get("mid")
             self.sessionid = self.coo.get("sessionid")
+            print("SCURE FOUND ")
             return self.checkpoint()
         else:
             try:
@@ -184,6 +215,51 @@ class open_tikt():
             else:
                 input()
                 exit()
+
+
+
+
+    def generate_device_id(self, seed):
+        volatile_seed = "12345"
+        m = hashlib.md5()
+        m.update(seed.encode('utf-8') + volatile_seed.encode('utf-8'))
+        return 'android-' + m.hexdigest()[:16]
+
+    def randDevice(self) -> str:
+
+        dpi = [
+            '480', '320', '640', '515', '120', '160', '240', '800'
+        ]
+        manufacturer = [
+            'HUAWEI', 'Xiaomi', 'samsung', 'OnePlus', 'LGE/lge', 'ZTE', 'HTC',
+            'LENOVO', 'MOTOROLA', 'NOKIA', 'OPPO', 'SONY', 'VIVO', 'LAVA'
+        ]
+
+        randResolution = random.randrange(2, 9) * 180
+        lowerResolution = randResolution - 180
+
+        DEVICE = {
+            'android_version': random.randrange(18, 25),
+            'android_release': f'{random.randrange(1, 7)}.{random.randrange(0, 7)}',
+            'dpi': f'{random.choice(dpi)}dpi',
+            'resolution': f'{lowerResolution}x{randResolution}',
+            'manufacturer': random.choice(manufacturer),
+            'device': f'{random.choice(manufacturer)}-{RandomStringUpper(5)}',
+            'model': f'{randomStringWithChar(4)}',
+            'cpu': f'{RandomStringChars(2)}{random.randrange(1000, 9999)}'
+        }
+
+        if random.randrange(0, 2):
+            DEVICE['android_release'] = f'{random.randrange(1, 7)}.{random.randrange(0, 7)}.{random.randrange(1, 7)}'
+
+        USER_AGENT_BASE = (
+            'Instagram (VERSION) '
+            'Android ({android_version}/{android_release}; '
+            '{dpi}; {resolution}; {manufacturer}; '
+            '{device}; {model}; {cpu}; en_US)'
+        )
+
+        return USER_AGENT_BASE.format(**DEVICE)
 
 
     def headers(self):
@@ -213,7 +289,7 @@ class open_tikt():
         data["source"] = "login_help"
         data["_csrftoken"] = ""
         data["guid"] = uu
-        data["device_id"] = f"android-psycho@m1c1"
+        data["device_id"] = self.DeviceID
         data["query"] = self.username
         sleep(1)
 
@@ -282,13 +358,10 @@ class open_tikt():
         data["challenge_context"] = f"{self.jsondata}"
         data["bloks_versioning_id"] = 'e097ac2261d546784637b3df264aa3275cb6281d706d91484f43c207d6661931'
 
-
-
         request_code = requests.post("https://instagram.com/api/v1/bloks/apps/com.instagram.challenge.navigation.take_challenge/", data=data,headers=self.headers()).text
         if request_code.__contains__("user_id"):
             print("Code Is True ")
             return self.informations()
-
 
         elif request_code.__contains__("Please check the code we sent you and try again"):
             print(" Please check the code we sent you and try again.")
@@ -432,8 +505,8 @@ class open_tikt():
         if change_username.__contains__(self.new_username):
             print("Username Changed ")
             self.save()
-            input()
-            exit()
+            sleep(3)
+            self.back_user()
         else:
             print(f"'Something has gone wrong' ")
             input()
@@ -441,6 +514,17 @@ class open_tikt():
     def save(self):
         with open(f"@{self.new_username}.txt","a") as Save:
             Save.write(f"old username : @{self.username}\nnew Username : @{self.new_username}\nold password : {self.passwordd}\nnew_password : {self.new_password}")
+    def back_user(self):
+        back = requests.post("https://i.instagram.com/api/v1/accounts/set_username/",data={"username":self.username},headers=self.headers_login()).status_code
+        if back == 200:
+            print("Sucssfully back user")
+            input()
+            exit()
+        else:
+            print("'Something has gone wrong' ")
+            input()
+            exit()
+
 
 
 
@@ -452,4 +536,3 @@ class open_tikt():
 
 
 open_tikt()
-
