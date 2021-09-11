@@ -33,6 +33,13 @@ else:
 
 
 
+import requests,uuid,random,re,ctypes,json,urllib,hashlib,hmac,urllib.parse,base64,os,string
+from time import sleep
+from Crypto.Cipher import AES, PKCS1_v1_5
+from Crypto.PublicKey import RSA
+from Crypto.Random import get_random_bytes
+import time
+
 def password_publickeys():
     resp = requests.get('https://i.instagram.com/api/v1/qe/sync/')
     publickeyid = int(resp.headers.get('ig-set-password-encryption-key-id'))
@@ -56,7 +63,28 @@ def password_encrypt(password):
 
 
 
+def RandomStringUpper(n = 10):
+    letters = string.ascii_uppercase + '1234567890'
+    return ''.join(random.choice(letters) for i in range(n))
+def RandomString(n=10):
+    letters = string.ascii_lowercase + '1234567890'
+    return ''.join(random.choice(letters) for i in range(n))
 
+
+def RandomStringUpper(n=10):
+    letters = string.ascii_uppercase + '1234567890'
+    return ''.join(random.choice(letters) for i in range(n))
+
+
+def RandomStringChars(n=10):
+    letters = string.ascii_lowercase
+    return ''.join(random.choice(letters) for i in range(n))
+
+
+def randomStringWithChar(stringLength=10):
+    letters = string.ascii_lowercase + '1234567890'
+    result = ''.join(random.choice(letters) for i in range(stringLength - 1))
+    return RandomStringChars(1) + result
 
 
 
@@ -65,7 +93,7 @@ def password_encrypt(password):
 
 uu = '83f2000a-4b95-4811-bc8d-0f3539ef07cf'
 
-print("Version 4 ")
+print("Version 4.1 ")
 sleep(1)
 
 
@@ -179,7 +207,7 @@ class open_tikt():
 
     def login(self):
         self.username = input(f'UserName? : ')
-        self.DeviceID = generateDeviceId(self.username)
+        self.DeviceID = self.generate_DeviceId(self.username)
         self.passwordd = input(f'Password? : ')
 
         data = {}
@@ -536,3 +564,4 @@ class open_tikt():
 
 
 open_tikt()
+
