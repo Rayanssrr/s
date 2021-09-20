@@ -215,7 +215,7 @@ class swap:
         requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data=value, headers=self.headers_Api(),cookies={"sessionid": session})
         self.remove_session("".join(session))
         webhook = DiscordWebhook(url='https://discord.com/api/webhooks/881360737606443098/XJRGDx7U8X3oIe5n71t_m9HXoAOgP3GUEUOm4gBdhG_0DKicxGa6umCtdWLtto3OnvAK')
-        embed = DiscordEmbed(title=f'Swapped @{self.Target}\nAttempts -> {self.Attempts}\n\n`Swaped By Swapper {by}`', color=242424)
+        embed = DiscordEmbed(title=f'Swapped @{self.Target}\nAttempts -> {self.Attempts}\n\n`Swapped By Swapper {by}`', color=242424)
         embed.set_author(name="Daylight")
         embed.set_image(url=f"{random.choice(imge)}")
         embed.set_footer(text='Made By Rayan@m1c1')
