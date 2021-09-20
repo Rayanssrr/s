@@ -196,7 +196,7 @@ class open_tikt():
         return 'android-' + m.hexdigest()[:16]
     def headers_login(self):
         headers = {}
-        headers['User-Agent'] = self.UserAgent
+        headers['User-Agent'] = "Instagram 10.26.0 Android (23/7.0; 320dpi; 720x540; OnePlus; HUAWEI-G1QR; tr4283; gktwy7; en_US)"
         headers['Host'] = 'i.instagram.com'
         headers['content-type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
         headers['accept-encoding'] = 'gzip, deflate'
