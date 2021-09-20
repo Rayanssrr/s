@@ -1,18 +1,12 @@
 
 import random, os, requests, threading, ctypes,string,json,hashlib,hmac,urllib,urllib.parse,uuid,re
 from time import sleep
+from requests.sessions import session
 from requests_futures.sessions import FuturesSession
 from concurrent.futures import as_completed
 from colorama import init
 from termcolor import colored
 from discord_webhook import DiscordWebhook , DiscordEmbed
-
-
-
-
-
-
-
 
 init()
 def RandomStringUpper(n = 10):
@@ -39,7 +33,7 @@ def randomStringWithChar(stringLength=10):
     return RandomStringChars(1) + result
 
 
-
+dir_path = os.path.dirname(os.path.realpath(__file__))
 
 
 
@@ -65,8 +59,6 @@ class THRIDING():
     
     
 class Design:
-    os.system('mode con: cols=85 lines=33')
-    dir_path = os.path.dirname(os.path.realpath(__file__))
     WHITE = '\x1b[1;37;40m'
     YELLOW = '\x1b[1;33;40m'
     RED = '\x1b[1;31;40m'
@@ -149,16 +141,21 @@ def inputc(mark,color,text):
 class swap:
     def __init__(self):
         print("\n\n")
-        inputc("?",Design.green, f"seesion : ");self.sessionid = input()
+        #inputc("?",Design.green, f"seesion : ");self.sessionid = input()
         self.Lock = threading.Lock()
         self.uuid = uuid.uuid4()
+        self.sessions = open("sessions.txt","r").read().splitlines()
+        print(f"[{Design.GREEN} + {Design.WHITE}] session count : {len(self.sessions)}\n[{Design.GREEN} + {Design.WHITE}] press Enter To continue ");input()
+        Design.clearConsle()
+        print(colored(f"{Design.banner}","red"))
+        print(colored(f"\tWelcome Sir {by} To Daylight Swap \n\tBy Rayan Insta  @m1c1",Design.cyan))
+        print("\n\n")
         self.Attempts = 0
         self.Rate_limited = 0
         self.Rs = 0
         self.Running = True
         self.email = None
         self.phone = None
-        self.get_info()
         inputc("?",Design.red,f"Target  : ");self.Target = str(input())
         inputc("+", Design.green, f"{Design.blueq}Do You Want Auto settings [Y/N] : ");self.settings = input()
         if self.settings.lower() == "y":
@@ -189,17 +186,36 @@ class swap:
             'dpi': f"{random.choice(DPIs)}"
         }
         return '{Host} 10.26.0 {system} ({android_version}/{android_release}; {dpi}dpi; {resolution}; {manufacturer}; {model}; {cpu}; {randomL}; en_US)'.format(**DEVICE_SETTINTS)
+    def random_session(self):
+        return random.choice(self.sessions)
+
+    def remove_session(self, session):
+        if session not in self.sessions:
+            return
+
+        self.sessions.remove(session)
+
+        if len(self.sessions) == 0:
+            self.running = False
+            return
+
+        print("\n".join(self.sessions), file=open(dir_path + "/sessions.txt", "w"))
 
         
 
 
     
-    def Successfulyy(self):
+    def Successfulyy(self,session):
         self.Running = False
+        get = requests.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true",headers=self.headers_Api(),cookies={"sessionid":session}).text
+        self.user = re.search(r'"username":"(.*?)",',get).group(1)
+        self.email = re.search(r'"email":"(.*?)",',get).group(1)
+        open(f"@{self.Target}.txt","a").write(f"Username : {self.Target}\nemail : {self.email}\nsession : {session}")
         value = {"raw_text": f"Daylight"}
-        requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data=value, headers=self.headers_Api(),cookies={"sessionid": self.sessionid})
+        requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data=value, headers=self.headers_Api(),cookies={"sessionid": session})
+        self.remove_session("".join(session))
         webhook = DiscordWebhook(url='https://discord.com/api/webhooks/881360737606443098/XJRGDx7U8X3oIe5n71t_m9HXoAOgP3GUEUOm4gBdhG_0DKicxGa6umCtdWLtto3OnvAK')
-        embed = DiscordEmbed(title=f'Swapped @{self.Target}\n\n`Swaped By Swapper {by}`', color=242424)
+        embed = DiscordEmbed(title=f'Swapped @{self.Target}\nAttempts -> {self.Attempts}\n\n`Swaped By Swapper {by}`', color=242424)
         embed.set_author(name="Daylight")
         embed.set_image(url=f"{random.choice(imge)}")
         embed.set_footer(text='Made By Rayan@m1c1')
@@ -221,61 +237,40 @@ class swap:
                 sleep(0.1)
                 
     
-
-
-    def get_info(self):
-        try:
-            get = requests.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true",headers={"User-Agent": self.generateUSER_AGENT()},cookies={"sessionid":self.sessionid}).text
-            self.user = re.search(r'"username":"(.*?)",',get).group(1)
-            self.email = re.search(r'"email":"(.*?)",',get).group(1)            
-            inputc("+",Design.green,f"{Design.GREEN}Loged in to @{self.user}")
-            input()
-            Design.clearConsle()
-            print(colored(f"{Design.banner}", "red"))
-            print(colored(f"\tWelcome Sir {by} To Daylight Swap \n\tBy Rayan Insta  @m1c1",Design.cyan))
-            print("\n\n")
-
-        except:
-            inputc("-", Design.red, f"{Design.reda} Bad session")
-            input()
-            exit()
-    def hweb(self):
-        head_web = {
-        'accept':'*/*', 
-        'accept-encoding':'gzip, deflate, br', 
-        'accept-language':'ar,en-US;q=0.9,en;q=0.8', 
-        'content-length':'135', 
-        'content-type':'application/x-www-form-urlencoded', 
-        'cookie':f'ig_did=; ig_nrcb=1; mid=YNt8YQALAAHpMfzMX5-nq-UvVpPv; csrftoken=missing; ds_user_id={RandomString(3)}-@-{RandomStringUpper(2)}#;sessionid={self.sessionid}; rur="VLL"', 
-        'origin':'https://www.instagram.com', 
-        'referer':'https://www.instagram.com/accounts/edit/', 
-        'sec-ch-ua':'" Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"', 
-        'sec-ch-ua-mobile':'?0', 
-        'sec-fetch-dest':'empty', 
-        'sec-fetch-mode':'cors', 
-        'sec-fetch-site':'same-origin', 
-        'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', 
-        'x-asbd-id':'437806', 
-        'x-csrftoken':f"missing", 
-        'x-ig-app-id':'936619743392459', 
-        'x-ig-www-claim':'hmac.AR04gdj-gOnKqDQw6vN3YPIMMgsN3x-s19fgRfD8YFAz17sN', 
-        'x-instagram-ajax':'1cb3c391e22f', 
-        'x-requested-with':'XMLHttpRequest'}
-        return head_web
-        
     def sent_Faster_web_Request(self):
         while self.Running:
+            session = self.random_session()
             future = []
             for i in range(self.Threads):
                 try:
-                    futures = self.future_session.post('https://www.instagram.com/accounts/edit/', data={'first_name':"", 'email':self.email, 'username':self.Target, 'phone_number':self.phone, 'biography':f"", 'external_url':'', 'chaining_enabled':'on'}, headers=self.hweb(),timeout=5)
+                    futures = self.future_session.post('https://www.instagram.com/accounts/edit/', data={'first_name':"", 'email':self.email, 'username':self.Target, 'phone_number':self.phone, 'biography':f"", 'external_url':'', 'chaining_enabled':'on'}, headers={
+                            'accept':'*/*', 
+                            'accept-encoding':'gzip, deflate, br', 
+                            'accept-language':'ar,en-US;q=0.9,en;q=0.8', 
+                            'content-length':'135', 
+                            'content-type':'application/x-www-form-urlencoded', 
+                            'cookie':f'ig_did=; ig_nrcb=1; mid=YNt8YQALAAHpMfzMX5-nq-UvVpPv; csrftoken=missing; ds_user_id={RandomString(3)}-@-{RandomStringUpper(2)}#;sessionid={session}; rur="VLL"', 
+                            'origin':'https://www.instagram.com', 
+                            'referer':'https://www.instagram.com/accounts/edit/', 
+                            'sec-ch-ua':'" Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"', 
+                            'sec-ch-ua-mobile':'?0', 
+                            'sec-fetch-dest':'empty', 
+                            'sec-fetch-mode':'cors', 
+                            'sec-fetch-site':'same-origin', 
+                            'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', 
+                            'x-asbd-id':'437806', 
+                            'x-csrftoken':f"missing", 
+                            'x-ig-app-id':'936619743392459', 
+                            'x-ig-www-claim':'hmac.AR04gdj-gOnKqDQw6vN3YPIMMgsN3x-s19fgRfD8YFAz17sN', 
+                            'x-instagram-ajax':'1cb3c391e22f', 
+                            'x-requested-with':'XMLHttpRequest'},timeout=5)
                     futures.i = i
                     future.append(futures)
                     for futures in as_completed(future):
                         with futures.result() as resp:
                             if resp.status_code == 200:
                                 with self.Lock:
-                                    self.Successfulyy()
+                                    self.Successfulyy(session)
                                     break 
                             elif resp.status_code == 400:
                                 with self.Lock:
@@ -317,17 +312,18 @@ class swap:
             
     def sent_edit_profile_Request(self):
         while self.Running:
+            session = self.random_session()
             future = []
             for i in range(self.Threads):
                 try:
-                    futures = self.future_session.post('https://i.instagram.com/api/v1/accounts/edit_profile/', data=self.data_edit_profile(), headers=self.headers_Api(),cookies={"sessionid":self.sessionid},timeout=5)
+                    futures = self.future_session.post('https://i.instagram.com/api/v1/accounts/edit_profile/', data=self.data_edit_profile(), headers=self.headers_Api(),cookies={"sessionid":session},timeout=5)
                     futures.i = i
                     future.append(futures)
                     for futures in as_completed(future):
                         with futures.result() as resp:
                             if resp.status_code == 200:
                                 with self.Lock:
-                                    self.Successfulyy()
+                                    self.Successfulyy(session)
                                     break
                             elif resp.status_code == 400:
                                 with self.Lock:
@@ -345,17 +341,19 @@ class swap:
                                     
     def sent_set_username_REQUEST(self):
         while self.Running:
+            session = self.random_session()
             future = []
             for i in range(self.Threads):
                 try:
-                    futures = self.future_session.post('https://i.instagram.com/api/v1/accounts/set_username/', data={"username":self.Target}, headers=self.headers_Api(),cookies={"sessionid":self.sessionid},timeout=5)
+                    futures = self.future_session.post('https://i.instagram.com/api/v1/accounts/set_username/', data={"username":self.Target}, headers=self.headers_Api(),cookies={"sessionid":session},timeout=5)
                     futures.i = i
                     future.append(futures)
                     for futures in as_completed(future):
                         with futures.result() as resp:
                             if resp.status_code == 200:
                                 with self.Lock:
-                                    self.Successfulyy()
+                                    self.Successfulyy(session)
+                                    
                                     break
                             elif resp.status_code == 400:
                                 with self.Lock:
@@ -385,6 +383,7 @@ if __name__ == '__main__':
         pass
     if ip in scan:
         print(colored(f"\tWelcome Sir {by} To Daylight Swap \n\tBy Rayan Insta  @m1c1",Design.cyan))
+        
 
     else:
         print(f"{Design.reda}{ip} This ip is not active")
@@ -394,6 +393,7 @@ if __name__ == '__main__':
 
     
     s = swap()
+    
     ctypes.windll.user32.MessageBoxW(0, f"Are You Ready?  ", f"Daylight", 0x1000)
     threading.Thread(target=s.request_per_sec).start()
     threading.Thread(target=s.LOOP).start()
