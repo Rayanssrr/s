@@ -1,3 +1,4 @@
+
 import random, os, requests, threading, ctypes,string,json,hashlib,hmac,urllib,urllib.parse,uuid,re
 from time import sleep
 from requests.sessions import session
@@ -116,14 +117,6 @@ def inputc(mark,color,text):
 
 
 
-
-
-
-
-
-    
-
-
 class swap:
     def __init__(self):
         print("\n\n")
@@ -142,17 +135,18 @@ class swap:
         self.Running = True
         self.email = None
         self.phone = None
-        inputc("?",Design.red,f"{Design.blueq}If You want open file proxy Click Yes [Y/n] : ");self.ask_proxy = input()
-        if self.ask_proxy.lower() == "y":
-            self.file_proxies = open("proxies.txt","r").read().splitlines()
-            self.ask1 = "y"
-            inputc("?",Design.red,f" 1 -> http/s | 2 -> socks4 | 3 -> socks5 : ");self.ask_proxy_mode = int(input())
-            inputc("$",Design.green,f"{Design.GREEN}Proxies = True");print("\n")
-        else:
-            self.file_proxies = False
-            inputc("-",Design.red,f"{Design.reda}Proxies = False");print("\n")
-            self.ask1 = "n"
-            self.ask_proxy_mode = False
+        #inputc("?",Design.red,f"{Design.blueq}If You want open file proxy Click Yes [Y/n] : ");self.ask_proxy = input()
+        #if self.ask_proxy.lower() == "y":
+            #self.file_proxies = open("proxies.txt","r").read().splitlines()
+            #self.ask1 = "y"
+            #inputc("?",Design.red,f" 1 -> http/s | 2 -> socks4 | 3 -> socks5 : ");self.ask_proxy_mode = int(input())
+            #inputc("$",Design.green,f"{Design.GREEN}Proxies = True");print("\n")
+        #else:
+            #self.file_proxies = False
+            #inputc("-",Design.red,f"{Design.reda}Proxies = False");print("\n")
+            #self.ask1 = "n"
+            #self.ask_proxy_mode = False
+        inputc("-",Design.red,f"{Design.reda}Proxies = False");print("\n")
         inputc("?",Design.red,f"Target  : ");self.Target = str(input())
         inputc("+", Design.green, f"{Design.blueq}Do You Want Auto settings [Y/N] : ");self.settings = input()
         if self.settings.lower() == "y":
@@ -196,15 +190,15 @@ class swap:
             return
 
         print("\n".join(self.sessions), file=open(dir_path + "/sessions.txt", "w"))
-    
-    def proxies(self):
-        if self.ask_proxy_mode == 1:
-                erp = {"http": f"{random.choice(self.file_proxies)}", "https": f"{random.choice(self.file_proxies)}"}
-        elif self.ask_proxy_mode == 2:
-                erp = {"http":"socks4://"f"{random.choice(self.file_proxies)}", "https":"socks4://"f"{random.choice(self.file_proxies)}"}
-        elif self.ask_proxy_mode == 3:
-                erp = {"http": "socks5://"f"{random.choice(self.file_proxies)}", "https":"socks5://"f"{random.choice(self.file_proxies)}"}
-        return erp
+        
+    #def proxies(self):
+        #if self.ask_proxy_mode == 1:
+                #erp = {"http": f"{random.choice(self.file_proxies)}", "https": f"{random.choice(self.file_proxies)}"}
+        #elif self.ask_proxy_mode == 2:
+               # erp = {"http":"socks4://"f"{random.choice(self.file_proxies)}", "https":"socks4://"f"{random.choice(self.file_proxies)}"}
+        #elif self.ask_proxy_mode == 3:
+                #erp = {"http": "socks5://"f"{random.choice(self.file_proxies)}", "https":"socks5://"f"{random.choice(self.file_proxies)}"}
+        #return erp
     def get_email(self,session):
         get = requests.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true",headers=self.headers_Api(),cookies={"sessionid":session}).text
         try:
@@ -250,7 +244,8 @@ class swap:
                 print(f"\r[ {Design.GREEN}{q}{Design.WHITE} ] Attempt : {self.Attempts} / Rate_Limit : {self.Rate_limited} / R/S : {self.Rs}",end="",flush=True)
                 sleep(0.1)
                 
-    
+                
+                
     def sent_Faster_web_Request(self):
         while self.Running:
             session = self.random_session()
@@ -259,30 +254,7 @@ class swap:
             future = []
             for i in range(self.Threads):
                 try:
-                    if self.ask1 == "y":
-                        futures = self.future_session.post('https://www.instagram.com/accounts/edit/', data={'first_name':"", 'email':email, 'username':self.Target, 'phone_number':phone, 'biography':f"", 'external_url':'', 'chaining_enabled':'on'}, headers={
-                                'accept':'*/*', 
-                                'accept-encoding':'gzip, deflate, br', 
-                                'accept-language':'ar,en-US;q=0.9,en;q=0.8', 
-                                'content-length':'135', 
-                                'content-type':'application/x-www-form-urlencoded', 
-                                'cookie':f'ig_did=; ig_nrcb=1; mid=YNt8YQALAAHpMfzMX5-nq-UvVpPv; csrftoken=missing; ds_user_id={RandomString(3)}-@-{RandomStringUpper(2)}#;sessionid={session}; rur="VLL"', 
-                                'origin':'https://www.instagram.com', 
-                                'referer':'https://www.instagram.com/accounts/edit/', 
-                                'sec-ch-ua':'" Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"', 
-                                'sec-ch-ua-mobile':'?0', 
-                                'sec-fetch-dest':'empty', 
-                                'sec-fetch-mode':'cors', 
-                                'sec-fetch-site':'same-origin', 
-                                'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', 
-                                'x-asbd-id':'437806', 
-                                'x-csrftoken':f"missing", 
-                                'x-ig-app-id':'936619743392459', 
-                                'x-ig-www-claim':'hmac.AR04gdj-gOnKqDQw6vN3YPIMMgsN3x-s19fgRfD8YFAz17sN', 
-                                'x-instagram-ajax':'1cb3c391e22f', 
-                                'x-requested-with':'XMLHttpRequest'},timeout=5,proxies=self.proxies())
-                    else:
-                        futures = self.future_session.post('https://www.instagram.com/accounts/edit/', data={'first_name':"", 'email':self.email, 'username':self.Target, 'phone_number':self.phone, 'biography':f"", 'external_url':'', 'chaining_enabled':'on'}, headers={
+                    futures = self.future_session.post('https://www.instagram.com/accounts/edit/', data={'first_name':"", 'email':email, 'username':self.Target, 'phone_number':phone, 'biography':f"", 'external_url':'', 'chaining_enabled':'on'}, headers={
                                 'accept':'*/*', 
                                 'accept-encoding':'gzip, deflate, br', 
                                 'accept-language':'ar,en-US;q=0.9,en;q=0.8', 
@@ -358,10 +330,7 @@ class swap:
             future = []
             for i in range(self.Threads):
                 try:
-                    if self.ask1:
-                        futures = self.future_session.post('https://i.instagram.com/api/v1/accounts/edit_profile/', data=self.data_edit_profile(email,phone), headers=self.headers_Api(),cookies={"sessionid":session},timeout=5,proxies=self.proxies())
-                    else:
-                        futures = self.future_session.post('https://i.instagram.com/api/v1/accounts/edit_profile/', data=self.data_edit_profile(email,phone), headers=self.headers_Api(),cookies={"sessionid":session},timeout=5) 
+                    futures = self.future_session.post('https://i.instagram.com/api/v1/accounts/edit_profile/', data=self.data_edit_profile(email,phone), headers=self.headers_Api(),cookies={"sessionid":session},timeout=5) 
                     futures.i = i
                     future.append(futures)
                     for futures in as_completed(future):
@@ -390,10 +359,7 @@ class swap:
             future = []
             for i in range(self.Threads):
                 try:
-                    if self.ask1:
-                        futures = self.future_session.post('https://i.instagram.com/api/v1/accounts/set_username/', data={"username":self.Target}, headers=self.headers_Api(),cookies={"sessionid":session},timeout=5,proxies=self.proxies())
-                    else:
-                        futures = self.future_session.post('https://i.instagram.com/api/v1/accounts/set_username/', data={"username":self.Target}, headers=self.headers_Api(),cookies={"sessionid":session},timeout=5)
+                    futures = self.future_session.post('https://i.instagram.com/api/v1/accounts/set_username/', data={"username":self.Target}, headers=self.headers_Api(),cookies={"sessionid":session},timeout=5)
                     futures.i = i
                     future.append(futures)
                     for futures in as_completed(future):
