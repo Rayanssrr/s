@@ -1,4 +1,3 @@
-
 import random, os, requests, threading, ctypes,string,json,hashlib,hmac,urllib,urllib.parse,uuid,re
 from time import sleep
 from requests.sessions import session
@@ -36,27 +35,6 @@ def randomStringWithChar(stringLength=10):
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
 
-
-class THRIDING():
-    def __init__(self, fuc):
-        self.TARGET = fuc
-        self.threads_list = []
-
-    def Generate_threads(self, Attack):
-        for i in range(Attack):
-            threads = threading.Thread(target=self.TARGET)
-            threads.setDaemon(True)
-            self.threads_list.append(threads)
-        return self.threads_list
-
-    def started(self):
-        for threads_Attack in self.threads_list:
-            threads_Attack.start()
-
-    def joined(self):
-        for thread_join in self.threads_list:
-            thread_join.join()
-    
     
 class Design:
     WHITE = '\x1b[1;37;40m'
@@ -120,8 +98,16 @@ class Design:
 
 imge = [
     "https://c.tenor.com/mD1iWcEHA6MAAAAC/anime-girl.gif",
-        "https://c.tenor.com/ynltIl-WTboAAAAC/anime-sad.gif",
-        "https://c.tenor.com/oaDTsvOKy20AAAAC/lightning-glitch.gif",
+    "https://c.tenor.com/ynltIl-WTboAAAAC/anime-sad.gif",
+    "https://c.tenor.com/oaDTsvOKy20AAAAC/lightning-glitch.gif",
+    "https://media.giphy.com/media/I6wUi5eTdUCWI/giphy.gif",
+    "https://media.giphy.com/media/3fNmJ20ErpkjK/giphy.gif",
+    "https://media.giphy.com/media/GLgPVZ5PLMOPe/giphy.gif",
+    "https://media.giphy.com/media/AkRFIhfAKHsyc/giphy.gif",
+    "https://media.giphy.com/media/A5KGHdmmxHdwk/giphy.gif",
+    "https://media.giphy.com/media/QCJlIDkOJDEIctfdzz/giphy.gif",
+    "https://media.giphy.com/media/if9niVFg4IwAE/giphy.gif",
+    "https://media.giphy.com/media/QLCWubleeNppS/giphy.gif"
         ]
         
 def inputc(mark,color,text):
@@ -156,6 +142,17 @@ class swap:
         self.Running = True
         self.email = None
         self.phone = None
+        inputc("?",Design.red,f"{Design.blueq}If You want open file proxy Click Yes [Y/n] : ");self.ask_proxy = input()
+        if self.ask_proxy.lower() == "y":
+            self.file_proxies = open("proxies.txt","r").read().splitlines()
+            self.ask1 = "y"
+            inputc("?",Design.red,f" 1 -> http/s | 2 -> socks4 | 3 -> socks5 : ");self.ask_proxy_mode = int(input())
+            inputc("$",Design.green,f"{Design.GREEN}Proxies = True");print("\n")
+        else:
+            self.file_proxies = False
+            inputc("-",Design.red,f"{Design.reda}Proxies = False");print("\n")
+            self.ask1 = "n"
+            self.ask_proxy_mode = False
         inputc("?",Design.red,f"Target  : ");self.Target = str(input())
         inputc("+", Design.green, f"{Design.blueq}Do You Want Auto settings [Y/N] : ");self.settings = input()
         if self.settings.lower() == "y":
@@ -165,7 +162,6 @@ class swap:
             inputc("?",Design.green,"Threads : "); self.Threads = int(input())
             print()
         self.future_session = FuturesSession(max_workers=self.Threads *4)
-    
     def generateUSER_AGENT(self):
         Devices_menu = ['HUAWEI', 'Xiaomi', 'samsung', 'OnePlus']
         DPIs = [
@@ -200,22 +196,40 @@ class swap:
             return
 
         print("\n".join(self.sessions), file=open(dir_path + "/sessions.txt", "w"))
-
-        
-
-
     
+    def proxies(self):
+        if self.ask_proxy_mode == 1:
+                erp = {"http": f"{random.choice(self.file_proxies)}", "https": f"{random.choice(self.file_proxies)}"}
+        elif self.ask_proxy_mode == 2:
+                erp = {"http":"socks4://"f"{random.choice(self.file_proxies)}", "https":"socks4://"f"{random.choice(self.file_proxies)}"}
+        elif self.ask_proxy_mode == 3:
+                erp = {"http": "socks5://"f"{random.choice(self.file_proxies)}", "https":"socks5://"f"{random.choice(self.file_proxies)}"}
+        return erp
+    def get_email(self,session):
+        get = requests.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true",headers=self.headers_Api(),cookies={"sessionid":session}).text
+        try:
+            self.email = re.search(r'"email":"(.*?)",',get).group(1)
+        except:
+            pass
+        return self.email
+    def get_phone(self,session):
+        get = requests.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true",headers=self.headers_Api(),cookies={"sessionid":session}).text
+        try:
+            self.phone = re.search(r'"phone_number":"(.*?)",',get).group(1)
+        except:
+            pass
+        return self.phone
+        
+        
     def Successfulyy(self,session):
         self.Running = False
         get = requests.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true",headers=self.headers_Api(),cookies={"sessionid":session}).text
         self.user = re.search(r'"username":"(.*?)",',get).group(1)
         self.email = re.search(r'"email":"(.*?)",',get).group(1)
         open(f"@{self.Target}.txt","a").write(f"Username : {self.Target}\nemail : {self.email}\nsession : {session}")
-        value = {"raw_text": f"Daylight"}
-        requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data=value, headers=self.headers_Api(),cookies={"sessionid": session})
         self.remove_session("".join(session))
         webhook = DiscordWebhook(url='https://discord.com/api/webhooks/881360737606443098/XJRGDx7U8X3oIe5n71t_m9HXoAOgP3GUEUOm4gBdhG_0DKicxGa6umCtdWLtto3OnvAK')
-        embed = DiscordEmbed(title=f'Swapped @{self.Target}\nAttempts -> {self.Attempts}\n\n`Swapped By Swapper {by}`', color=242424)
+        embed = DiscordEmbed(title=f'Swapped @{self.Target}\nAttempts -> {self.Attempts}\n\n`Swaped By Swapper {by}`', color=242424)
         embed.set_author(name="Daylight")
         embed.set_image(url=f"{random.choice(imge)}")
         embed.set_footer(text='Made By Rayan@m1c1')
@@ -223,8 +237,8 @@ class swap:
         webhook.add_embed(embed)
         webhook.execute()
         print("\n")
-        inputc("+",Design.green,f"{Design.GREEN}Swapped @{self.Target} \x1b[35mAfter {self.Attempts} Attempts \x1b[39m")
-        ctypes.windll.user32.MessageBoxW(0, f"Swapped : @{self.Target}  ", f"Daylight", 0x1000);os._exit(0)
+        inputc("+",Design.green,f"{Design.GREEN}Sucssfully Swapped @{self.Target} {Design.red}After {self.Attempts} Attempts ")
+        ctypes.windll.user32.MessageBoxW(0, f"Sucssfully Swapped by {by} : @{self.Target}  ", f"Daylight", 0x1000);os._exit(0)
     def request_per_sec(self):
         while self.Running:
             befor = self.Attempts
@@ -240,30 +254,56 @@ class swap:
     def sent_Faster_web_Request(self):
         while self.Running:
             session = self.random_session()
+            email = self.get_email(session)
+            phone = self.get_phone(session)
             future = []
             for i in range(self.Threads):
                 try:
-                    futures = self.future_session.post('https://www.instagram.com/accounts/edit/', data={'first_name':"", 'email':self.email, 'username':self.Target, 'phone_number':self.phone, 'biography':f"", 'external_url':'', 'chaining_enabled':'on'}, headers={
-                            'accept':'*/*', 
-                            'accept-encoding':'gzip, deflate, br', 
-                            'accept-language':'ar,en-US;q=0.9,en;q=0.8', 
-                            'content-length':'135', 
-                            'content-type':'application/x-www-form-urlencoded', 
-                            'cookie':f'ig_did=; ig_nrcb=1; mid=YNt8YQALAAHpMfzMX5-nq-UvVpPv; csrftoken=missing; ds_user_id={RandomString(3)}-@-{RandomStringUpper(2)}#;sessionid={session}; rur="VLL"', 
-                            'origin':'https://www.instagram.com', 
-                            'referer':'https://www.instagram.com/accounts/edit/', 
-                            'sec-ch-ua':'" Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"', 
-                            'sec-ch-ua-mobile':'?0', 
-                            'sec-fetch-dest':'empty', 
-                            'sec-fetch-mode':'cors', 
-                            'sec-fetch-site':'same-origin', 
-                            'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', 
-                            'x-asbd-id':'437806', 
-                            'x-csrftoken':f"missing", 
-                            'x-ig-app-id':'936619743392459', 
-                            'x-ig-www-claim':'hmac.AR04gdj-gOnKqDQw6vN3YPIMMgsN3x-s19fgRfD8YFAz17sN', 
-                            'x-instagram-ajax':'1cb3c391e22f', 
-                            'x-requested-with':'XMLHttpRequest'},timeout=5)
+                    if self.ask1 == "y":
+                        futures = self.future_session.post('https://www.instagram.com/accounts/edit/', data={'first_name':"", 'email':email, 'username':self.Target, 'phone_number':phone, 'biography':f"", 'external_url':'', 'chaining_enabled':'on'}, headers={
+                                'accept':'*/*', 
+                                'accept-encoding':'gzip, deflate, br', 
+                                'accept-language':'ar,en-US;q=0.9,en;q=0.8', 
+                                'content-length':'135', 
+                                'content-type':'application/x-www-form-urlencoded', 
+                                'cookie':f'ig_did=; ig_nrcb=1; mid=YNt8YQALAAHpMfzMX5-nq-UvVpPv; csrftoken=missing; ds_user_id={RandomString(3)}-@-{RandomStringUpper(2)}#;sessionid={session}; rur="VLL"', 
+                                'origin':'https://www.instagram.com', 
+                                'referer':'https://www.instagram.com/accounts/edit/', 
+                                'sec-ch-ua':'" Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"', 
+                                'sec-ch-ua-mobile':'?0', 
+                                'sec-fetch-dest':'empty', 
+                                'sec-fetch-mode':'cors', 
+                                'sec-fetch-site':'same-origin', 
+                                'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', 
+                                'x-asbd-id':'437806', 
+                                'x-csrftoken':f"missing", 
+                                'x-ig-app-id':'936619743392459', 
+                                'x-ig-www-claim':'hmac.AR04gdj-gOnKqDQw6vN3YPIMMgsN3x-s19fgRfD8YFAz17sN', 
+                                'x-instagram-ajax':'1cb3c391e22f', 
+                                'x-requested-with':'XMLHttpRequest'},timeout=5,proxies=self.proxies())
+                    else:
+                        futures = self.future_session.post('https://www.instagram.com/accounts/edit/', data={'first_name':"", 'email':self.email, 'username':self.Target, 'phone_number':self.phone, 'biography':f"", 'external_url':'', 'chaining_enabled':'on'}, headers={
+                                'accept':'*/*', 
+                                'accept-encoding':'gzip, deflate, br', 
+                                'accept-language':'ar,en-US;q=0.9,en;q=0.8', 
+                                'content-length':'135', 
+                                'content-type':'application/x-www-form-urlencoded', 
+                                'cookie':f'ig_did=; ig_nrcb=1; mid=YNt8YQALAAHpMfzMX5-nq-UvVpPv; csrftoken=missing; ds_user_id={RandomString(3)}-@-{RandomStringUpper(2)}#;sessionid={session}; rur="VLL"', 
+                                'origin':'https://www.instagram.com', 
+                                'referer':'https://www.instagram.com/accounts/edit/', 
+                                'sec-ch-ua':'" Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"', 
+                                'sec-ch-ua-mobile':'?0', 
+                                'sec-fetch-dest':'empty', 
+                                'sec-fetch-mode':'cors', 
+                                'sec-fetch-site':'same-origin', 
+                                'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', 
+                                'x-asbd-id':'437806', 
+                                'x-csrftoken':f"missing", 
+                                'x-ig-app-id':'936619743392459', 
+                                'x-ig-www-claim':'hmac.AR04gdj-gOnKqDQw6vN3YPIMMgsN3x-s19fgRfD8YFAz17sN', 
+                                'x-instagram-ajax':'1cb3c391e22f', 
+                                'x-requested-with':'XMLHttpRequest'},timeout=5)
+                        
                     futures.i = i
                     future.append(futures)
                     for futures in as_completed(future):
@@ -286,17 +326,17 @@ class swap:
                 except:
                     pass
             
-    def data_edit_profile(self):
+    def data_edit_profile(self,email,phone):
         data = {
             "external_url": "",
-            "phone_number": "",
+            "phone_number": f"{phone}",
             "username": f"{self.Target}",
             "first_name": "",
             "_uid": f"47641699268",
             "device_id": "android-d595db3f5c276071",
             "biography": "",
             "_uuid": str(uuid.uuid4()),
-            "email": f"{self.email}"}
+            "email": f"{email}"}
         return data
     def headers_Api(self):
         headers = {}
@@ -313,10 +353,15 @@ class swap:
     def sent_edit_profile_Request(self):
         while self.Running:
             session = self.random_session()
+            email = self.get_email(session)
+            phone = self.get_phone(session)
             future = []
             for i in range(self.Threads):
                 try:
-                    futures = self.future_session.post('https://i.instagram.com/api/v1/accounts/edit_profile/', data=self.data_edit_profile(), headers=self.headers_Api(),cookies={"sessionid":session},timeout=5)
+                    if self.ask1:
+                        futures = self.future_session.post('https://i.instagram.com/api/v1/accounts/edit_profile/', data=self.data_edit_profile(email,phone), headers=self.headers_Api(),cookies={"sessionid":session},timeout=5,proxies=self.proxies())
+                    else:
+                        futures = self.future_session.post('https://i.instagram.com/api/v1/accounts/edit_profile/', data=self.data_edit_profile(email,phone), headers=self.headers_Api(),cookies={"sessionid":session},timeout=5) 
                     futures.i = i
                     future.append(futures)
                     for futures in as_completed(future):
@@ -345,7 +390,10 @@ class swap:
             future = []
             for i in range(self.Threads):
                 try:
-                    futures = self.future_session.post('https://i.instagram.com/api/v1/accounts/set_username/', data={"username":self.Target}, headers=self.headers_Api(),cookies={"sessionid":session},timeout=5)
+                    if self.ask1:
+                        futures = self.future_session.post('https://i.instagram.com/api/v1/accounts/set_username/', data={"username":self.Target}, headers=self.headers_Api(),cookies={"sessionid":session},timeout=5,proxies=self.proxies())
+                    else:
+                        futures = self.future_session.post('https://i.instagram.com/api/v1/accounts/set_username/', data={"username":self.Target}, headers=self.headers_Api(),cookies={"sessionid":session},timeout=5)
                     futures.i = i
                     future.append(futures)
                     for futures in as_completed(future):
@@ -353,7 +401,6 @@ class swap:
                             if resp.status_code == 200:
                                 with self.Lock:
                                     self.Successfulyy(session)
-                                    
                                     break
                             elif resp.status_code == 400:
                                 with self.Lock:
@@ -372,7 +419,6 @@ class swap:
     
     
 if __name__ == '__main__':
-    
     print(colored(f"{Design.banner}","red"))
     active = requests.get("https://api.ipify.org/?format=json").json()
     ip = active["ip"]
@@ -393,7 +439,6 @@ if __name__ == '__main__':
 
     
     s = swap()
-    
     ctypes.windll.user32.MessageBoxW(0, f"Are You Ready?  ", f"Daylight", 0x1000)
     threading.Thread(target=s.request_per_sec).start()
     threading.Thread(target=s.LOOP).start()
