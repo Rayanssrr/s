@@ -559,7 +559,7 @@ class open_tikt():
         if change_username.__contains__(self.new_username):
             print("Username Changed ")
             self.save()
-            sleep(3)
+            input()
         else:
             print(f"'Something has gone wrong' ")
             input()
