@@ -31,8 +31,6 @@ else:
 
 
 
-
-
 import requests,uuid,random,re,ctypes,json,urllib,hashlib,hmac,urllib.parse,base64,os,string
 from time import sleep
 from Crypto.Cipher import AES, PKCS1_v1_5
@@ -40,28 +38,10 @@ from Crypto.PublicKey import RSA
 from Crypto.Random import get_random_bytes
 import time
 
-def password_publickeys():
-    resp = requests.get('https://i.instagram.com/api/v1/qe/sync/')
-    publickeyid = int(resp.headers.get('ig-set-password-encryption-key-id'))
-    publickey = resp.headers.get('ig-set-password-encryption-pub-key')
-    return publickeyid, publickey
-def password_encrypt(password):
-    publickeyid, publickey = password_publickeys()
-    session_key = get_random_bytes(32)
-    iv = get_random_bytes(12)
-    timestamp = str(int(time.time()))
-    decoded_publickey = base64.b64decode(publickey.encode())
-    recipient_key = RSA.import_key(decoded_publickey)
-    cipher_rsa = PKCS1_v1_5.new(recipient_key)
-    rsa_encrypted = cipher_rsa.encrypt(session_key)
-    cipher_aes = AES.new(session_key, AES.MODE_GCM, iv)
-    cipher_aes.update(timestamp.encode())
-    aes_encrypted, tag = cipher_aes.encrypt_and_digest(password.encode("utf8"))
-    size_buffer = len(rsa_encrypted).to_bytes(2, byteorder='little')
-    payload = base64.b64encode(b''.join([b"\x01", publickeyid.to_bytes(1, byteorder='big'), iv, size_buffer, rsa_encrypted, tag, aes_encrypted]))
-    return f"#PWD_INSTAGRAM:4:{timestamp}:{payload.decode()}"
 
 
+
+timestamp = str(int(time.time()))
 
 def RandomStringUpper(n = 10):
     letters = string.ascii_uppercase + '1234567890'
@@ -87,28 +67,100 @@ def randomStringWithChar(stringLength=10):
     return RandomStringChars(1) + result
 
 
-
-
-
-
 uu = '83f2000a-4b95-4811-bc8d-0f3539ef07cf'
 
-print("Version 4.1 ")
+print("Version 5 ")
 sleep(1)
 
+def password_publickeys():
+    resp = requests.get('https://i.instagram.com/api/v1/qe/sync/')
+    publickeyid = int(resp.headers.get('ig-set-password-encryption-key-id'))
+    publickey = resp.headers.get('ig-set-password-encryption-pub-key')
+    return publickeyid, publickey
+def password_encrypt(password):
+    publickeyid, publickey = password_publickeys()
+    session_key = get_random_bytes(32)
+    iv = get_random_bytes(12)
 
-class open_tikt():
+    decoded_publickey = base64.b64decode(publickey.encode())
+    recipient_key = RSA.import_key(decoded_publickey)
+    cipher_rsa = PKCS1_v1_5.new(recipient_key)
+    rsa_encrypted = cipher_rsa.encrypt(session_key)
+    cipher_aes = AES.new(session_key, AES.MODE_GCM, iv)
+    cipher_aes.update(timestamp.encode())
+    aes_encrypted, tag = cipher_aes.encrypt_and_digest(password.encode("utf8"))
+    size_buffer = len(rsa_encrypted).to_bytes(2, byteorder='little')
+    payload = base64.b64encode(b''.join([b"\x01", publickeyid.to_bytes(1, byteorder='big'), iv, size_buffer, rsa_encrypted, tag, aes_encrypted]))
+    return f"#PWD_INSTAGRAM:4:{timestamp}:{payload.decode()}"
+
+
+
+class sessting:
     def __init__(self):
+        pass
+    def headers_login(self):
+        headers = {}
+        headers['User-Agent'] = self.UserAgent
+        headers['Host'] = 'i.instagram.com'
+        headers['content-type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
+        headers['accept-encoding'] = 'gzip, deflate'
+        headers['x-fb-http-engine'] = 'Liger'
+        headers['Connection'] = 'close'
+        return headers
+    def generateUSER_AGENT(self):
+        Devices_menu = ['HUAWEI', 'Xiaomi', 'samsung', 'OnePlus']
+        DPIs = [
+            '480', '320', '640', '515', '120', '160', '240', '800'
+        ]
+        randResolution = random.randrange(2, 9) * 180
+        lowerResolution = randResolution - 180
+        DEVICE_SETTINTS = {
+            'system': "Android",
+            'Host': "Instagram",
+            'manufacturer': f'{random.choice(Devices_menu)}',
+            'model': f'{random.choice(Devices_menu)}-{randomStringWithChar(4).upper()}',
+            'android_version': random.randint(18, 25),
+            'android_release': f'{random.randint(1, 7)}.{random.randint(0, 7)}',
+            "cpu": f"{RandomStringChars(2)}{random.randrange(1000, 9999)}",
+            'resolution': f'{randResolution}x{lowerResolution}',
+            'randomL': f"{RandomString(6)}",
+            'dpi': f"{random.choice(DPIs)}"
+        }
+        return '{Host} 155.0.0.37.107 {system} ({android_version}/{android_release}; {dpi}dpi; {resolution}; {manufacturer}; {model}; {cpu}; {randomL}; en_US)'.format(
+            **DEVICE_SETTINTS)
+    def generate_DeviceId(self , ID):
+        volatile_ID = "12345"
+        m = hashlib.md5()
+        m.update(ID.encode('utf-8') + volatile_ID.encode('utf-8'))
+        return 'android-' + m.hexdigest()[:16]
+    
+
+
+
+class login:
+    def __init__(self):
+        self.sesstings = sessting()
         self.coo = None
         self.token = None
         self.mid = None
-        self.UserAgent = self.generateUSER_AGENT()
         self.DeviceID = None
         self.sessionid = None
-        self.login()
-        self.choice()
-        self.change_password()
-
+        self.Login()
+    
+    
+    def headers_login(self):
+        headers = {}
+        headers['User-Agent'] = self.sesstings.generateUSER_AGENT()
+        headers['Host'] = 'i.instagram.com'
+        headers['content-type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
+        headers['accept-encoding'] = 'gzip, deflate'
+        headers['x-fb-http-engine'] = 'Liger'
+        headers['Connection'] = 'close'
+        return headers
+        
+        
+        
+        
     def checkpoint(self):
         info = requests.get(f"https://i.instagram.com/api/v1{self.req.json()['challenge']['api_path']}", headers=self.headers_login(), cookies=self.coo)
         step_data = info.json()["step_data"]
@@ -143,76 +195,44 @@ class open_tikt():
         print(f'code sent to : {contact_point}')
         return self.get_code()
     def get_code(self):
-        code = input("code : ")
-        data = {}
-        data['security_code'] = str(code),
-        data['_uuid'] = uu,
-        data['_uid'] = uu,
-        data['_csrftoken'] = 'massing'
-        path = self.req.json()['challenge']['api_path']
-        send_code = requests.post(f"https://i.instagram.com/api/v1{path}", headers=self.headers_login(), data=data, cookies=self.coo)
-        if "logged_in_user" in send_code.text:
-            print(f'Login Successfully as @{self.username}')
-            self.coo = self.req.cookies
-            self.token = self.coo.get("csrftoken")
-            self.mid = self.coo.get("mid")
-            self.sessionid = self.coo.get("sessionid")
-            return self.Account_recovery()
-        else:
-            regx_error = re.search(r'"message":"(.*?)",', send_code).group(1)
-            print(regx_error)
-            ask = input("Code is Not Work Do You Want Try Agin [Y/N] : ")
-            if ask.lower() == "y":
-                sleep(1)
-                return self.get_code()
+        try:
+            code = input("code : ")
+            data = {}
+            data['security_code'] = str(code),
+            data['_uuid'] = uu,
+            data['_uid'] = uu,
+            data['_csrftoken'] = 'massing'
+            path = self.req.json()['challenge']['api_path']
+            send_code = requests.post(f"https://i.instagram.com/api/v1{path}", headers=self.headers_login(), data=data, cookies=self.coo)
+            if "logged_in_user" in send_code.text:
+                print(f'Login Successfully as @{self.username}')
+                self.coo = self.req.cookies
+                self.token = self.coo.get("csrftoken")
+                self.mid = self.coo.get("mid")
+                self.sessionid = self.coo.get("sessionid")
+                return self.Account_recovery()
             else:
-                exit()
+                regx_error = re.search(r'"message":"(.*?)",', send_code).group(1)
+                print(regx_error)
+                ask = input("Code is Not Work Do You Want Try Agin [Y/N] : ")
+                if ask.lower() == "y":
+                    sleep(1)
+                    return self.get_code()
+                else:
+                    exit()
+        except:
+            print("accepted Done")
+            return self.Login()
 
-    def generateUSER_AGENT(self):
-        Devices_menu = ['HUAWEI', 'Xiaomi', 'samsung', 'OnePlus']
-        DPIs = [
-            '480', '320', '640', '515', '120', '160', '240', '800'
-        ]
-        randResolution = random.randrange(2, 9) * 180
-        lowerResolution = randResolution - 180
-        DEVICE_SETTINTS = {
-            'system': "Android",
-            'Host': "Instagram",
-            'manufacturer': f'{random.choice(Devices_menu)}',
-            'model': f'{random.choice(Devices_menu)}-{randomStringWithChar(4).upper()}',
-            'android_version': random.randint(18, 25),
-            'android_release': f'{random.randint(1, 7)}.{random.randint(0, 7)}',
-            "cpu": f"{RandomStringChars(2)}{random.randrange(1000, 9999)}",
-            'resolution': f'{randResolution}x{lowerResolution}',
-            'randomL': f"{RandomString(6)}",
-            'dpi': f"{random.choice(DPIs)}"
-        }
-        return '{Host} 155.0.0.37.107 {system} ({android_version}/{android_release}; {dpi}dpi; {resolution}; {manufacturer}; {model}; {cpu}; {randomL}; en_US)'.format(
-            **DEVICE_SETTINTS)
-    def generate_DeviceId(self , ID):
-        volatile_ID = "12345"
-        m = hashlib.md5()
-        m.update(ID.encode('utf-8') + volatile_ID.encode('utf-8'))
-        return 'android-' + m.hexdigest()[:16]
-    def headers_login(self):
-        headers = {}
-        headers['User-Agent'] = "Instagram 10.26.0 Android (23/7.0; 320dpi; 720x540; OnePlus; HUAWEI-G1QR; tr4283; gktwy7; en_US)"
-        headers['Host'] = 'i.instagram.com'
-        headers['content-type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
-        headers['accept-encoding'] = 'gzip, deflate'
-        headers['x-fb-http-engine'] = 'Liger'
-        headers['Connection'] = 'close'
-        return headers
-
-
-    def login(self):
+        
+        
+    def Login(self):
         self.username = input(f'UserName? : ')
-        self.DeviceID = self.generate_DeviceId(self.username)
+        self.DeviceID = self.sesstings.generate_DeviceId(self.username)
         self.passwordd = input(f'Password? : ')
-
         data = {}
         data['guid'] = uu
-        data['enc_password'] = f'{password_encrypt(self.passwordd)}'
+        data['enc_password'] = f"#PWD_INSTAGRAM:0:{timestamp}:{self.passwordd}"
         data['username'] = self.username
         data['device_id'] = self.DeviceID
         data['login_attempt_count'] = '0'
@@ -221,7 +241,6 @@ class open_tikt():
         if "logged_in_user" in self.req.text:
             print(f'Login Successfully as @{self.username}')
             self.coo = self.req.cookies
-            return self.Account_recovery()
         elif 'checkpoint_challenge_required' in self.req.text:
             self.coo = self.req.cookies
             self.token = self.coo.get("csrftoken")
@@ -243,57 +262,38 @@ class open_tikt():
             else:
                 input()
                 exit()
+        
 
 
 
 
-    def generate_device_id(self, seed):
-        volatile_seed = "12345"
-        m = hashlib.md5()
-        m.update(seed.encode('utf-8') + volatile_seed.encode('utf-8'))
-        return 'android-' + m.hexdigest()[:16]
-
-    def randDevice(self) -> str:
-
-        dpi = [
-            '480', '320', '640', '515', '120', '160', '240', '800'
-        ]
-        manufacturer = [
-            'HUAWEI', 'Xiaomi', 'samsung', 'OnePlus', 'LGE/lge', 'ZTE', 'HTC',
-            'LENOVO', 'MOTOROLA', 'NOKIA', 'OPPO', 'SONY', 'VIVO', 'LAVA'
-        ]
-
-        randResolution = random.randrange(2, 9) * 180
-        lowerResolution = randResolution - 180
-
-        DEVICE = {
-            'android_version': random.randrange(18, 25),
-            'android_release': f'{random.randrange(1, 7)}.{random.randrange(0, 7)}',
-            'dpi': f'{random.choice(dpi)}dpi',
-            'resolution': f'{lowerResolution}x{randResolution}',
-            'manufacturer': random.choice(manufacturer),
-            'device': f'{random.choice(manufacturer)}-{RandomStringUpper(5)}',
-            'model': f'{randomStringWithChar(4)}',
-            'cpu': f'{RandomStringChars(2)}{random.randrange(1000, 9999)}'
-        }
-
-        if random.randrange(0, 2):
-            DEVICE['android_release'] = f'{random.randrange(1, 7)}.{random.randrange(0, 7)}.{random.randrange(1, 7)}'
-
-        USER_AGENT_BASE = (
-            'Instagram (VERSION) '
-            'Android ({android_version}/{android_release}; '
-            '{dpi}; {resolution}; {manufacturer}; '
-            '{device}; {model}; {cpu}; en_US)'
-        )
-
-        return USER_AGENT_BASE.format(**DEVICE)
-
+class open_tikt():
+    def __init__(self):
+        self.sessting = sessting()
+        self.coo = None
+        self.token = None
+        self.mid = None
+        self.DeviceID = None
+        self.sessionid = None
+        self.email = None
+        self.phone = None
+        self.confirm_mode_email = None
+        self.confirm_mode_phone = None
+        self.ask = int(input("1 -> Normal Login | 2 -> Login with Script in phone : "))
+        if self.ask == 1:
+            self.login = login()
+            self.username = self.login.username
+            self.DeviceID = self.login.DeviceID
+        else:
+            self.username = input("UserName? : ")
+            self.DeviceID = self.sessting.generate_DeviceId(self.username)
+        self.Account_recovery()
+            
 
     def headers(self):
         self.head = {}
         self.head["Host"] = "i.instagram.com"
-        self.head["User-Agent"] = 'Instagram 187.0.0.32.120 Android (21/5.0.2; 240dpi; 540x960; samsung; SM-G530H; fortuna3g; qcom; ar_AE; 154400379)'
+        self.head["User-Agent"] = 'Instagram 166.0.0.32.120 Android (21/5.0.2; 240dpi; 540x960; samsung; SM-G530H; fortuna3g; qcom; ar_AE; 154400379)'
         self.head["Accept-Language"] = "en-US"
         self.head["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8"
         self.head["Connection"] = "keep-alive"
@@ -320,7 +320,6 @@ class open_tikt():
         data["device_id"] = self.DeviceID
         data["query"] = self.username
         sleep(1)
-
         Accountt = requests.post("https://i.instagram.com/api/v1/accounts/assisted_account_recovery/", data=data,headers=self.headers())
         Account = Accountt.text
         b = Accountt.json()
@@ -329,33 +328,33 @@ class open_tikt():
             self.jsondata = b["challenge_context"]
             return self.print_info()
         else:
-            print(Account)
+            print("Error for open tickt , login or Accept Scure")
             input()
+
     def print_info(self):
-        req = requests.get(f'https://i.instagram.com/api/v1{self.path}', headers=self.headers())
+        self.req = requests.get(f'https://i.instagram.com/api/v1{self.path}', headers=self.headers())
         try:
-            pp = req.json()["step_data"]["options"][0]
+            pp = self.req.json()["step_data"]["options"][0]
             self.contact_point = pp["contact_point"]
             self.cho = pp["choice"]
             print(f'[{self.cho}] {self.contact_point}')
         except:
             pass
         try:
-            dd = req.json()["step_data"]["options"][1]
-            self.contact_point = dd["contact_point"]
-            self.cho = dd["choice"]
+            pp = self.req.json()["step_data"]["options"][1]
+            self.contact_point = pp["contact_point"]
+            self.cho = pp["choice"]
             print(f'[{self.cho}] {self.contact_point}')
         except:
             pass
         try:
-            dd = req.json()["step_data"]["options"][2]
-            self.contact_point = dd["contact_point"]
-            self.cho = dd["choice"]
+            pp = self.req.json()["step_data"]["options"][2]
+            self.contact_point = pp["contact_point"]
+            self.cho = pp["choice"]
             print(f'[{self.cho}] {self.contact_point}')
         except:
             pass
-
-
+        return self.choice()
     def choice(self):
         choice = input("Choice : ")
         data = {}
@@ -369,10 +368,11 @@ class open_tikt():
         sleep(1.5)
         req = requests.post("https://instagram.com/api/v1/bloks/apps/com.instagram.challenge.navigation.take_challenge/",data=data,headers=self.headers()).text
         if req.__contains__("It may take up to a minute for you to receive this code"):
-            print(f"Code Sent To {self.contact_point}")
+            self.req1 = requests.get(f'https://i.instagram.com/api/v1{self.path}', headers=self.headers())
+            print(f"Code Sent To {self.req1.json()['step_data']['contact_point']} ")
             return self.put_code()
         else:
-            print(req)
+            print("Error")
             input()
             exit()
     def put_code(self):
@@ -385,12 +385,10 @@ class open_tikt():
         data["nest_data_manifest"] = "true"
         data["challenge_context"] = f"{self.jsondata}"
         data["bloks_versioning_id"] = 'e097ac2261d546784637b3df264aa3275cb6281d706d91484f43c207d6661931'
-
         request_code = requests.post("https://instagram.com/api/v1/bloks/apps/com.instagram.challenge.navigation.take_challenge/", data=data,headers=self.headers()).text
         if request_code.__contains__("user_id"):
             print("Code Is True ")
             return self.informations()
-
         elif request_code.__contains__("Please check the code we sent you and try again"):
             print(" Please check the code we sent you and try again.")
             ask = input("Do You Want try Agin [Y/N] : ")
@@ -400,7 +398,6 @@ class open_tikt():
             else:
                 input()
                 exit()
-
         else:
             print(f"Error send_code")
             input()
@@ -408,11 +405,8 @@ class open_tikt():
     def informations(self):
         info = requests.get(f'https://i.instagram.com/api/v1{self.path}', headers=self.headers())
         try:
-
             self.email = info.json()["step_data"]["contact_point"]
-
-            self.phone = info.json()["step_data"]["contact_point"]
-
+            
         except:
             print("Nothing Info")
             input()
@@ -424,7 +418,7 @@ class open_tikt():
         return self.confirm()
 
 
-    def confirmed(self, contact):
+    def confirmed(self, contact,types):
         data = {}
         data["_csrftoken"] = ""
         data["is_bloks_web"] = 'False'
@@ -437,11 +431,21 @@ class open_tikt():
         data["bloks_versioning_id"] = 'e097ac2261d546784637b3df264aa3275cb6281d706d91484f43c207d6661931'
         sleep(1.5)
         Response = requests.post("https://instagram.com/api/v1/bloks/apps/com.instagram.challenge.navigation.take_challenge/",data=data, headers=self.headers()).text
-
-        if Response.__contains__("Add New Phone Number") or Response.__contains__("Confirm Your Phone Number") or Response.__contains__("Confirm Your Phone Number"):
+        if Response.__contains__("Add New Phone Number") or Response.__contains__("Confirm Your Phone Number") or Response.__contains__("Confirm Your Phone Number") or Response.__contains__("pwd_change_after_phone_after_email"):
             print(f"{contact} Confirmed")
+        elif Response.__contains__("Another account is using"):
+            print("Error confirmed Because Another account is using email or phone_number")
+            ask = input("Try agin? [Y/n] : ")
+            if ask.lower() == "y":
+                return self.choice()
+            else:
+                input("press Enter To close tickt");exit(0)
         elif Response.__contains__("It may take up to a minute for you to receive this code"):
             return self.put_code()
+        else:
+            print("Error confirmed")
+            input()
+            exit(0)
 
     def skip(self, contact):
         data = {}
@@ -455,34 +459,57 @@ class open_tikt():
         data["bloks_versioning_id"] = 'e097ac2261d546784637b3df264aa3275cb6281d706d91484f43c207d6661931'
         sleep(1.5)
         Response = requests.post("https://instagram.com/api/v1/bloks/apps/com.instagram.challenge.navigation.take_challenge/", data=data,headers=self.headers() ).text
-
-        if Response.__contains__("Add New Phone Number") or Response.__contains__("Confirm Your Phone Number") or Response.__contains__("Change Your Password"):
+        if Response.__contains__("Add New Phone Number") or Response.__contains__("Confirm Your Phone Number") or Response.__contains__("Change Your Password") or Response.__contains__("pwd_change_after_phone_after_email"):
             print(f"{contact}")
         else:
             print(f"Something has gone wrong")
             input()
             exit()
+    
     def confirm(self):
         if self.confirm_mode_email.lower() == 'y':
             self.type = "email"
-
-            try:
-                self.confirmed(self.email)
-                self.skip("phone_number Skipped")
-            except:
-                self.email = input("New Email : ")
-
-                self.confirmed(self.email)
+            self.confirmed(self.email,self.type)
+            self.skip("phone_number Skipped")
+            self.change_password()
         elif self.confirm_mode_email.lower() == 'n':
             self.type = "phone_number"
-            self.skip("email")
-            try:
-                self.confirmed(self.phone)
-            except:
-                self.phone = input("New PhoneNumber (ex : +966•••••••••) : ")
-                self.confirmed(self.phone)
+            self.skip("email Skipped")
+            infos = requests.get(f'https://i.instagram.com/api/v1{self.path}', headers=self.headers())
+            self.phone = infos.json()["step_data"]["contact_point"]
+            self.confirmed(self.phone,self.type)
+            self.change_password()
         else:
             print(f"nothing choice")
+            input()
+            exit()
+            
+    def change_password_email(self):
+        ask = input("Do You Want Random password [Y/N] : ")
+        if ask.lower() == "y":
+            self.new_password = ''.join(random.choice("qwertyuiopasdfghjklzxcvbnm1234567890!@#$%^&*")for i in range(15))
+        else:
+            self.new_password = input("New Password : ")
+        data_password = {}
+        data_password["_csrftoken"] = ""
+        data_password["is_bloks_web"] = 'False'
+        data_password["bk_client_context"] = '{"bloks_version":"e097ac2261d546784637b3df264aa3275cb6281d706d91484f43c207d6661931","styles_id":"instagram"}'
+        data_password["nest_data_manifest"] =  'true'
+        data_password["challenge_context"] = f"{self.jsondata}"
+        data_password["bloks_versioning_id"] = 'e097ac2261d546784637b3df264aa3275cb6281d706d91484f43c207d6661931'
+        data_password["enc_new_password1"] = f"#PWD_INSTAGRAM:4:{timestamp}:{self.new_password}"
+        data_password["enc_new_password2"] = f"#PWD_INSTAGRAM:4:{timestamp}:{self.new_password}"
+        sleep(1)
+        Respone = requests.post("https://instagram.com/api/v1/bloks/apps/com.instagram.challenge.navigation.take_challenge/",data=data_password,headers=self.headers()).text
+        if Respone.__contains__(self.username):
+            print("Password Changed")
+            return self.changeUsername()
+        elif Respone.__contains__("Create a password at least 6 characters long"):
+            print("Create a password at least 6 characters long.")
+            input()
+            exit()
+        else:
+            print(f"Error_Change_password")
             input()
             exit()
     def change_password(self):
@@ -498,8 +525,8 @@ class open_tikt():
         data_password["nest_data_manifest"] =  'true'
         data_password["challenge_context"] = f"{self.jsondata}"
         data_password["bloks_versioning_id"] = 'e097ac2261d546784637b3df264aa3275cb6281d706d91484f43c207d6661931'
-        data_password["enc_new_password1"] = f'{password_encrypt(self.new_password)}'
-        data_password["enc_new_password2"] = f'{password_encrypt(self.new_password)}'
+        data_password["enc_new_password1"] = f"#PWD_INSTAGRAM:0:1624085885:{self.new_password}"
+        data_password["enc_new_password2"] = f"#PWD_INSTAGRAM:0:1624085885:{self.new_password}"
         sleep(1)
         Respone = requests.post("https://instagram.com/api/v1/bloks/apps/com.instagram.challenge.navigation.take_challenge/",data=data_password,headers=self.headers()).text
         if Respone.__contains__(self.username):
@@ -510,8 +537,7 @@ class open_tikt():
             input()
             exit()
         else:
-            print(Respone)
-            print(f"change_password")
+            print(f"Error_Change_password")
             input()
             exit()
 
@@ -534,34 +560,19 @@ class open_tikt():
             print("Username Changed ")
             self.save()
             sleep(3)
-            self.back_user()
         else:
             print(f"'Something has gone wrong' ")
             input()
             exit()
     def save(self):
         with open(f"@{self.new_username}.txt","a") as Save:
-            Save.write(f"old username : @{self.username}\nnew Username : @{self.new_username}\nold password : {self.passwordd}\nnew_password : {self.new_password}")
-    def back_user(self):
-        back = requests.post("https://i.instagram.com/api/v1/accounts/set_username/",data={"username":self.username},headers=self.headers_login()).status_code
-        if back == 200:
-            print("Sucssfully back user")
-            input()
-            exit()
-        else:
-            print("'Something has gone wrong' ")
-            input()
-            exit()
+            Save.write(f"old username : @{self.username}\nnew Username : @{self.new_username}\nnew_password : {self.new_password}")
+        
+        
+        
 
-
-
-
-
-
-
-
-
+                    
+                
 
 
 open_tikt()
-
