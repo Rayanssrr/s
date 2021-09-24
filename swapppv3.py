@@ -216,7 +216,6 @@ class swap:
         
         
     def Successfulyy(self,session):
-        self.Running = False
         get = requests.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true",headers=self.headers_Api(),cookies={"sessionid":session}).text
         self.user = re.search(r'"username":"(.*?)",',get).group(1)
         self.email = re.search(r'"email":"(.*?)",',get).group(1)
@@ -233,6 +232,7 @@ class swap:
         print("\n")
         inputc("+",Design.green,f"{Design.GREEN}Sucssfully Swapped @{self.Target} {Design.red}After {self.Attempts} Attempts ")
         ctypes.windll.user32.MessageBoxW(0, f"Sucssfully Swapped by {by} : @{self.Target}  ", f"Daylight", 0x1000);os._exit(0)
+        self.Running = False
     def request_per_sec(self):
         while self.Running:
             befor = self.Attempts
