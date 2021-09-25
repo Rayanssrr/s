@@ -245,7 +245,7 @@ class swap:
         while self.Running:
             for q in ["|","/","-","\\","|","/","-"]:
                 print(f"\r[ {Design.GREEN}{q}{Design.WHITE} ] Attempt : {self.Attempts} / Rate_Limit : {self.Rate_limited} / R/S : {self.Rs}",end="",flush=True)
-                sleep(0.1)
+                sleep(0.2)
     # def sent_Faster_web_Request(self):
     #     while self.Running:
     #         session = self.random_session()
@@ -414,6 +414,7 @@ class swap:
                         with futures.result() as resp:
                             #print(resp.text)
                             if resp.status_code == 200:
+                                    self.Running = False
                                     with self.Lock:
                                         self.Successfulyy(session)
                             elif resp.status_code == 400:
