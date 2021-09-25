@@ -234,7 +234,7 @@ class swap:
             embed.set_timestamp()
             webhook.add_embed(embed)
             webhook.execute()
-        print("\n");inputc("$",Design.red,f"{Design.WHITE}Sucssfully Swapped {Design.blueq}@{self.Target} {Design.reda}After {self.Attempts} Attempts ")
+        print("\n\n");inputc("$",Design.red,f"{Design.WHITE}Sucssfully Swapped {Design.blueq}@{self.Target} {Design.reda}After {self.Attempts} Attempts ")
         ctypes.windll.user32.MessageBoxW(0, f"Sucssfully Swapped by {by} : @{self.Target}  ", f"Daylight", 0x1000);os._exit(0)
     def request_per_sec(self):
         while self.Running:
