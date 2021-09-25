@@ -7,7 +7,6 @@ from concurrent.futures import as_completed
 from colorama import init
 from termcolor import colored
 from discord_webhook import DiscordWebhook , DiscordEmbed
-
 init()
 def RandomStringUpper(n = 10):
     letters = string.ascii_uppercase + '1234567890'
@@ -36,10 +35,12 @@ def randomStringWithChar(stringLength=10):
 dir_path = os.path.dirname(os.path.realpath(__file__))
 bad_Response = [
     "/challenge/",
+    "checkpoint_required",
     "consent_required",
     "feedback_required",
     "login_required",
-    "nother account"]
+    "nother account",
+    ]
 class Design:
     WHITE = '\x1b[1;37;40m'
     YELLOW = '\x1b[1;33;40m'
@@ -113,7 +114,7 @@ imge = [
     "https://media.giphy.com/media/if9niVFg4IwAE/giphy.gif",
     "https://media.giphy.com/media/QLCWubleeNppS/giphy.gif"
         ]
-        
+
 def inputc(mark,color,text):
     print(f"\r{Design.qube} {colored(text=f'{mark}',color=f'{color}')} {Design.qube2} {text} {colored(text='',color=Design.white)}",end='')
 
@@ -138,6 +139,7 @@ class swap:
         self.Running = True
         self.email = None
         self.phone = None
+        self.control_threads = threading.Event()
         #inputc("?",Design.red,f"{Design.blueq}If You want open file proxy Click Yes [Y/n] : ");self.ask_proxy = input()
         #if self.ask_proxy.lower() == "y":
             #self.file_proxies = open("proxies.txt","r").read().splitlines()
@@ -244,8 +246,6 @@ class swap:
             for q in ["|","/","-","\\","|","/","-"]:
                 print(f"\r[ {Design.GREEN}{q}{Design.WHITE} ] Attempt : {self.Attempts} / Rate_Limit : {self.Rate_limited} / R/S : {self.Rs}",end="",flush=True)
                 sleep(0.1)
-                
-                
     # def sent_Faster_web_Request(self):
     #     while self.Running:
     #         session = self.random_session()
@@ -305,16 +305,19 @@ class swap:
     #             except:
     #                 pass
     def data_edit_profile(self,email,phone):
-        data = {
-            "external_url": "",
-            "phone_number": f"{phone}",
-            "username": f"{self.Target}",
-            "first_name": "",
-            "_uid": f"47641699268",
-            "device_id": "android-d595db3f5c276071",
-            "biography": "",
-            "_uuid": str(uuid.uuid4()),
-            "email": f"{email}"}
+        data = {}
+        data["_uid"] = f"47641699268"
+        data["device_id"] = "android-d595db3f5c276071"
+        
+        data["_uuid"]= str(uuid.uuid4()),
+        data["external_url"] = ""
+        data['_csrftoken'] = 'massing'
+        data["phone_number"] = str(phone)
+        data["username"] = str(self.Target)
+        data["first_name"] = ""
+        data["biograph"] = ""
+        
+        data["email"] = str(email)
         return data
     def headers_Api(self):
         headers = {}
@@ -326,8 +329,6 @@ class swap:
         headers["User-Agent"] = self.generateUSER_AGENT()
         headers["ig-u-ds-user-id"] = f"{RandomString(3)}-@-{RandomStringUpper(2)}#"
         return headers
-
-            
     # def sent_edit_profile_Request(self):
     #     while self.Running:
     #         session = self.random_session()
@@ -366,12 +367,12 @@ class swap:
     #                                 self.Rate_limited += 1
     #             except:
     #                 pass
-    def sent_set_username_REQUEST(self):
-        while self.Running:
-            session = self.random_session()
-            email = self.get_email(session)
-            phone = self.get_phone(session)
-            app = [self.future_session.post('https://i.instagram.com/api/v1/accounts/set_username/', data={"username":self.Target}, headers=self.headers_Api(),cookies={"sessionid":session}),self.future_session.post('https://i.instagram.com/api/v1/accounts/edit_profile/', data=self.data_edit_profile(email,phone), headers=self.headers_Api(),cookies={"sessionid":session}),self.future_session.post('https://www.instagram.com/accounts/edit/', data={'first_name':"", 'email':email, 'username':self.Target, 'phone_number':phone, 'biography':f"", 'external_url':'', 'chaining_enabled':'on'}, headers={
+    #self.future_session.post('https://i.instagram.com/api/v1/accounts/set_username/', data={"username":self.Target}, headers=self.headers_Api(),cookies={"sessionid":session})
+    
+    #
+    # app2 = [self.future_session.post('https://i.instagram.com/api/v1/accounts/set_username/', data={"username":self.Target}, headers=self.headers_Api(),cookies={"sessionid":session}),self.future_session.post('https://i.instagram.com/api/v1/accounts/edit_profile/', data=self.data_edit_profile(email,phone), headers=self.headers_Api(),cookies={"sessionid":session})]
+    def Connection(self,email,phone,session):
+        app = [self.future_session.post('https://i.instagram.com/api/v1/accounts/set_username/', data={"username":self.Target}, headers=self.headers_Api(),cookies={"sessionid":session}),self.future_session.post('https://i.instagram.com/api/v1/accounts/edit_profile/', data=self.data_edit_profile(email,phone), headers=self.headers_Api(),cookies={"sessionid":session}),self.future_session.post('https://www.instagram.com/accounts/edit/', data={'first_name':"", 'email':email, 'username':self.Target, 'phone_number':phone, 'biography':f"", 'external_url':'', 'chaining_enabled':'on'}, headers={
                                 'accept':'*/*', 
                                 'accept-encoding':'gzip, deflate, br', 
                                 'accept-language':'ar,en-US;q=0.9,en;q=0.8', 
@@ -392,26 +393,42 @@ class swap:
                                 'x-ig-www-claim':'hmac.AR04gdj-gOnKqDQw6vN3YPIMMgsN3x-s19fgRfD8YFAz17sN', 
                                 'x-instagram-ajax':'1cb3c391e22f', 
                                 'x-requested-with':'XMLHttpRequest'})]
+        try:
+            return random.choice(app)
+        except:
+            pass
+    def sent_set_username_REQUEST(self):
+        self.control_threads.wait()
+        while self.Running:
+            session = self.random_session()
+            email = self.get_email(session)
+            phone = self.get_phone(session)
             future = []
+            #print(self.Connection(email,phone,session))
             for i in range(self.Threads):
                 try:
-                    futures = random.choice(app)
+                    futures = self.future_session.post('https://i.instagram.com/api/v1/accounts/set_username/', data={"username":self.Target}, headers=self.headers_Api(),cookies={"sessionid":session})
                     futures.i = i
                     future.append(futures)
                     for futures in as_completed(future):
                         with futures.result() as resp:
+                            #print(resp.text)
                             if resp.status_code == 200:
-                                with self.Lock:
-                                    self.Successfulyy(session)
+                                    with self.Lock:
+                                        self.Successfulyy(session)
                             elif resp.status_code == 400:
-                                with self.Lock:
-                                    self.Attempts += 1
+                                    with self.Lock:
+                                        self.Attempts += 1
                             elif resp.status_code == 429:
                                 with self.Lock:
                                     self.Rate_limited += 1
-                            elif any(bad in resp.texy for bad in bad_Response):
-                                self.remove_session("".join(session))
-                                
+                            elif any(bad in resp.text for bad in bad_Response):
+                                print(resp.text)
+                                self.remove_session("".join(session))            
+                            if self.Rate_limited >=4000: 
+                                with self.Lock:
+                                    self.Running = False
+                                    print(f"\n[ {Design.reda}x{Design.WHITE} ]{Design.reda} blocked ip try after 2h Enter to Exit ");input("");os._exit(0)
                 except:
                     pass
                 
@@ -438,6 +455,7 @@ if __name__ == '__main__':
     ctypes.windll.user32.MessageBoxW(0, f"Are You Ready?  ", f"Daylight", 0x1000)
     threading.Thread(target=s.request_per_sec).start()
     threading.Thread(target=s.LOOP).start()
-    for i in range(s.Threads):
+    for thread in range(s.Threads+1):
         threading.Thread(target=s.sent_set_username_REQUEST).start()
+    s.control_threads.set()
     
