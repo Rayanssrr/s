@@ -414,7 +414,7 @@ class swap:
                         with futures.result() as resp:
                             #print(resp.text)
                             if resp.status_code == 200:
-                                    self.Running = False
+                                    #self.Running = False
                                     with self.Lock:
                                         self.Successfulyy(session)
                             elif resp.status_code == 400:
