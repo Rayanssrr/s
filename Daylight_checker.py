@@ -1,5 +1,5 @@
 from time import sleep
-from threading import Thread
+from threading import Thread,Lock,Event
 from random import *
 from string import *
 import string,json,re
@@ -145,7 +145,8 @@ class Checkr(object):
         
         self.run = 1
         self.attempts = 0
-        self.Locks = threading.Lock()
+        self.Locks = Lock()
+        self.Event_Handler = Event()
         self.rl = 0
         self.rs = 0
         self.sessionid = [i.strip() for i in open(dir_path + "/sessions.txt", "r") if i]
@@ -153,7 +154,6 @@ class Checkr(object):
         inputc("+",Design.green,f"{Design.WHITE}Successfully loded {Design.GREEN}'sessions.txt'{Design.WHITE} : {Design.reda} {len(self.sessionid)}\n")
         self.usernames = [i.strip() for i in open(dir_path + "/list.txt", "r") if i]
         sleep(0.5)
-        inputc("//",Design.green,"1=http/s - 2=Socks4 : ")
         inputc("+",Design.green,f"{Design.WHITE}Successfully loded {Design.GREEN}'list.txt'{Design.WHITE} : {Design.reda} {len(self.usernames)}\n")
         self.proxies = [i.strip() for i in open(dir_path + "/proxies.txt", "r") if i]
         try:
@@ -223,6 +223,7 @@ class Checkr(object):
             webhook.execute()
         self.remove_session("".join(session))
         self.remove_user("".join(user))
+        return False
 
 
 
@@ -234,14 +235,14 @@ class Checkr(object):
         head["x-csrftoken"] = str(secrets.token_hex(16) * 2)
         return head
     def swap(self,user,session):
-        resp = self.future_session.post("https://i.instagram.com/api/v1/accounts/set_username/",headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + session},data={"username": f"{user}"},proxies=self.proxy())
+        resp = self.future_session.post("https://i.instagram.com/api/v1/accounts/set_username/",headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + session},data={"username": f"{user}"},proxies=self.proxy(),timeout=5)
         res = resp.result()
         if res.status_code == 200:
             with self.Locks:
                 self.Successfully_Claimed(user,session)
 
     def check_username(self):
-        global Done
+        self.Event_Handler.wait(10)
         user = random.choice(self.usernames)
         session = self.random_session()
         try:
@@ -259,8 +260,9 @@ class Checkr(object):
                         elif json_Response.__contains__('suggestions'):
                             self.attempts  +=1
                         if json_Response["suggestions"].__contains__(user):
-                            inputc("+",Design.green,f"{Design.blueq}Try To Hunt It {Design.GREEN}@{user}")
-                            self.swap(user,session)
+                            with self.Locks:
+                                inputc("+",Design.green,f"{Design.blueq}Try To Hunt It {Design.GREEN}@{user}")
+                                self.swap(user,session)
                             
                             
         except:
@@ -306,19 +308,21 @@ if __name__ == "__main__":
     except:
         pass
     if ip in scan:
-        colorq = ["blue","red"]
-        print(colored(f"{Design.banner}\n\n\n",random.choice(colorq)))
-        var = Checkr()
-        print("\n");inputc("/",Design.green,f"1=http/s - 2=Socks4 : {Design.GREEN}{var.Proxy_Mode}\n")
-        inputc("+",Design.green,f"{Design.WHITE}Threads {Design.reda}(Max = 1000){Design.WHITE} : {Design.GREEN}{var.threads}\n")
-        inputc("+",Design.green,f"{Design.WHITE}Loops {Design.reda}(Max = 450){Design.WHITE} : {Design.GREEN}{var.loops}\n");print("\n");inputc("/",Design.red,f"Press Enter to Started !");input()
+        print(colored(f"{Design.banner}","red"))
+        print("__"*32)
         
+        var = Checkr()
+        print("\n");inputc("/",Design.green,f"1 -> http/s | 2 -> Socks4 : {Design.GREEN}{var.Proxy_Mode}\n")
+        inputc("+",Design.green,f"{Design.WHITE}Threads {Design.reda}(Max = 1000){Design.WHITE} : {Design.GREEN}{var.threads}\n")
+        inputc("+",Design.green,f"{Design.WHITE}Loops {Design.reda}(Max = 450){Design.WHITE} : {Design.GREEN}{var.loops}\n");inputc("/",Design.red,f"Press Enter to Started !");input()
         print(f"\n[ {Design.reda}${Design.WHITE} ] Turbo is Running...\n")
 
         for _ in range(int(var.threads)):
             thread = for_loop(var)
             thread.setDaemon(True)
             thread.start()
+            
+        var.Event_Handler.set()
             
         rs = RequestPerSecounD(var)
         rs.setDaemon(True)
