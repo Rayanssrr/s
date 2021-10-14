@@ -142,13 +142,13 @@ class Checkr(object):
     def __init__(self):
         super(Checkr, self).__init__()
         self.claimed = False
-        
         self.run = 1
         self.attempts = 0
         self.Locks = Lock()
         self.Event_Handler = Event()
         self.rl = 0
         self.rs = 0
+    
         self.sessionid = [i.strip() for i in open(dir_path + "/sessions.txt", "r") if i]
         sleep(0.5)
         inputc("+",Design.green,f"{Design.WHITE}Successfully loded {Design.GREEN}'sessions.txt'{Design.WHITE} : {Design.reda} {len(self.sessionid)}\n")
@@ -162,6 +162,7 @@ class Checkr(object):
         except:
             inputc("-",Design.red,f"{Design.reda}Error loded 'sesstings.txt'\n")
             open("sesstings.txt","a").write('{"sesstings" : {\n\t"name": "FALCON DIGITAL ORG",\n\t"bio": "Rayan", \n\t"Threads": "250",\n\t"Loops": "350",\n\t"MSG": "Successfully Claimed",\n\t"Proxy_Mode":"1"\n}}')
+        print("\n");inputc("?",Design.yellow,f"Do You Want Swap with proxy? {Design.reda}[Y/n]{Design.WHITE} : ");self.ask = input()
         
         
         
@@ -221,52 +222,99 @@ class Checkr(object):
             embed.set_timestamp()
             webhook.add_embed(embed)
             webhook.execute()
+        
         self.remove_session("".join(session))
         self.remove_user("".join(user))
         return False
-
-
-
-    def headers(self):
-        head = {}
-        head["Host"] = "i.instagram.com"
-        head["cookie"] = str(secrets.token_hex(16) * 2)
-        head["User-Agent"] = "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1"
-        head["x-csrftoken"] = str(secrets.token_hex(16) * 2)
-        return head
-    def swap(self,user,session):
-        resp = self.future_session.post("https://i.instagram.com/api/v1/accounts/set_username/",headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + session},data={"username": f"{user}"},proxies=self.proxy(),timeout=5)
-        res = resp.result()
-        if res.status_code == 200:
-            with self.Locks:
-                self.Successfully_Claimed(user,session)
-
-    def check_username(self):
-        self.Event_Handler.wait(10)
+    
+    def just_loop(self):
         user = random.choice(self.usernames)
         session = self.random_session()
+        cookie = secrets.token_hex(16)*2
+        num = random.randint(10000000,9999999999)
+        self.check_username2(user,session,cookie,num);self.check_username(user,session,cookie,num)
+        
+    def swap(self,user,session):
+        self.Event_Handler.wait()
+        if self.ask.lower() == "y":
+                res = requests.post("https://i.instagram.com/api/v1/accounts/set_username/",headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + session},data={"username": f"{user}"},proxies=self.proxy())
+                if res.status_code == 200:
+                    self.Successfully_Claimed(user,session)
+                elif res.text.__contains__("username"):
+                    inputc("x",Design.red,f"{Design.reda}Someone claimed ")
+                else:
+                    inputc("x",Design.red,f"{Design.reda}Ican't Claim This User Because Youre Acc is Blocked")
+        else:
+            res = requests.post("https://i.instagram.com/api/v1/accounts/set_username/",headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + session},data={"username": f"{user}"})
+            if res.status_code == 200:
+                self.Successfully_Claimed(user,session)
+            elif res.text.__contains__("username"):
+                inputc("x",Design.red,f"{Design.reda}Someone claimed ")
+            else:
+                inputc("x",Design.red,f"{Design.reda}Ican't Claim This User Because Youre Acc is Blocked")
+        
+        
+
+        
+
+    def check_username(self,user,session,cookie,num):
         try:
             future = []
-            for i in range(int(self.loops)):
-                futures = self.future_session.post("https://i.instagram.com/api/v1/accounts/username_suggestions/", data={"name":f"{user}"},proxies=self.proxy(), headers=self.headers())
+            i = True
+            while i:
+                futures = self.future_session.post("https://i.instagram.com/api/v1/accounts/username_suggestions/", data={"name":f"{user}"},proxies=self.proxy(), headers={
+                "cookie":f'mid={cookie}; ig_did={str(uuid.uuid4).upper()}; ig_nrcb=1; datr=JUqyYNZAXmJNE4HpggCahOkI; csrftoken={cookie}; ds_user_id={num};',
+                "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1",
+                "x-csrftoken":f"{cookie}",},cookies={"ig_did":str(uuid.uuid4()).upper(),"ds_user_id":f"{random.randint(10,999999999)}"},timeout=10)
                 futures.i = i
                 future.append(futures)
                 for futures in as_completed(future):
                     with futures.result() as response:
-                        os.system(f"title Attempts : {var.attempts} / Ratelimt : {var.rl} / R/S : {var.rs}")
+                        os.system(f"title Attempts : {self.attempts} / Ratelimt : {self.rl} / R/S : {self.rs}")
                         json_Response = json.loads(response.text)
                         if json_Response.__contains__('spam') or json_Response.__contains__('Please wait'):
                             self.rl +=1
                         elif json_Response.__contains__('suggestions'):
                             self.attempts  +=1
                         if json_Response["suggestions"].__contains__(user):
+                            inputc("+",Design.green,f"{Design.blueq}Try To Hunt It {Design.GREEN}@{user}")
                             with self.Locks:
-                                inputc("+",Design.green,f"{Design.blueq}Try To Hunt It {Design.GREEN}@{user}")
+                                self.Event_Handler.set()
                                 self.swap(user,session)
-                            
-                            
+
+        
         except:
             pass
+    
+    def check_username2(self,user,session,cookie,num):
+        try:
+            future = []
+            i = True
+            while i:
+                futures = self.future_session.post("https://i.instagram.com/accounts/username_suggestions/", data={"name":f"{user}"},proxies=self.proxy(), headers={
+                "cookie":f'mid={cookie}; ig_did={str(uuid.uuid4).upper()}; ig_nrcb=1; datr=JUqyYNZAXmJNE4HpggCahOkI; csrftoken={cookie}; ds_user_id={num};',
+                "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1",
+                "x-csrftoken":f"{cookie}",},cookies={"ig_did":str(uuid.uuid4()).upper(),"ds_user_id":f"{random.randint(10,999999999)}"},timeout=10)
+                futures.i = i
+                future.append(futures)
+                for futures in as_completed(future):
+                    with futures.result() as response:
+                        print(f"\r Attempts : {self.attempts} / Ratelimt : {self.rl} / R/S : {self.rs}",end="")
+                        json_Response = json.loads(response.text)
+                        if json_Response.__contains__('spam') or json_Response.__contains__('Please wait'):
+                            self.rl +=1
+                        elif json_Response.__contains__('suggestions'):
+                            self.attempts  +=1
+                        if json_Response["suggestions"].__contains__(user):
+                            inputc("+",Design.green,f"{Design.blueq}Try To Hunt It {Design.GREEN}@{user}")
+                            with self.Locks:
+                                self.Event_Handler.set()
+                                self.swap(user,session)              
+        except:
+            pass
+
+                            
+                            
 
 
 
@@ -279,7 +327,7 @@ class for_loop(Thread):
 
     def run(self):
         while self.my_loop.run and not Done:
-            if self.my_loop.check_username():
+            if self.my_loop.just_loop():
                 self.my_loop.claimed = True
                 self.my_loop.run = False
 
@@ -319,14 +367,12 @@ if __name__ == "__main__":
 
         for _ in range(int(var.threads)):
             thread = for_loop(var)
-            thread.setDaemon(True)
             thread.start()
             
-        var.Event_Handler.set()
             
         rs = RequestPerSecounD(var)
-        rs.setDaemon(True)
         rs.run()
+        thread.run()
         rs.start()
     else:
         print(f"{Design.reda}{ip} This ip is not active")
