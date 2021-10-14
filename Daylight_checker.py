@@ -299,8 +299,8 @@ class Checkr(object):
                 future.append(futures)
                 for futures in as_completed(future):
                     with futures.result() as response:
-                        print(f"\r Attempts : {self.attempts} / Ratelimt : {self.rl} / R/S : {self.rs}",end="")
                         json_Response = json.loads(response.text)
+                        os.system(f"title Attempts : {self.attempts} / Ratelimt : {self.rl} / R/S : {self.rs}")
                         if json_Response.__contains__('spam') or json_Response.__contains__('Please wait'):
                             self.rl +=1
                         elif json_Response.__contains__('suggestions'):
