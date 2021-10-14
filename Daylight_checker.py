@@ -269,7 +269,7 @@ class Checkr(object):
                 for futures in as_completed(future):
                     with futures.result() as response:
                         os.system(f"title Attempts : {self.attempts} / Ratelimt : {self.rl} / R/S : {self.rs}")
-                        print(f"\rAttempts : {self.attempts} / Ratelimt : {self.rl} / R/S : {self.rs}",end="")
+                        #print(f"\rAttempts : {self.attempts} / Ratelimt : {self.rl} / R/S : {self.rs}",end="")
                         json_Response = json.loads(response.text)
                         if json_Response.__contains__('spam') or json_Response.__contains__('Please wait'):
                             self.rl +=1
@@ -300,7 +300,7 @@ class Checkr(object):
                     with futures.result() as response:
                         json_Response = json.loads(response.text)
                         os.system(f"title Attempts : {self.attempts} / Ratelimt : {self.rl} / R/S : {self.rs}")
-                        print(f"\rAttempts : {self.attempts} / Ratelimt : {self.rl} / R/S : {self.rs}",end="")
+                        #print(f"\rAttempts : {self.attempts} / Ratelimt : {self.rl} / R/S : {self.rs}",end="")
                         if json_Response.__contains__('spam') or json_Response.__contains__('Please wait'):
                             self.rl +=1
                         elif json_Response.__contains__('suggestions'):
