@@ -239,17 +239,17 @@ class Checkr(object):
                 if res.status_code == 200:
                     self.Successfully_Claimed(user,session)
                 elif res.text.__contains__("username"):
-                    inputc("x",Design.red,f"{Design.reda}Someone claimed ")
+                    print("\n");inputc("x",Design.red,f"{Design.reda}Someone claimed ")
                 else:
-                    inputc("x",Design.red,f"{Design.reda}Ican't Claim This User Because Youre Acc is Blocked")
+                    print("\n");inputc("x",Design.red,f"{Design.reda}Ican't Claim This User Because Youre Acc is Blocked")
         else:
             res = requests.post("https://i.instagram.com/api/v1/accounts/set_username/",headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + session},data={"username": f"{user}"})
             if res.status_code == 200:
                 self.Successfully_Claimed(user,session)
             elif res.text.__contains__("username"):
-                inputc("x",Design.red,f"{Design.reda}Someone claimed ")
+                print("\n");inputc("x",Design.red,f"{Design.reda}Someone claimed ")
             else:
-                inputc("x",Design.red,f"{Design.reda}Ican't Claim This User Because Youre Acc is Blocked")
+                print("\n");inputc("x",Design.red,f"{Design.reda}Ican't Claim This User Because Youre Acc is Blocked")
         
         
 
@@ -269,6 +269,7 @@ class Checkr(object):
                 for futures in as_completed(future):
                     with futures.result() as response:
                         os.system(f"title Attempts : {self.attempts} / Ratelimt : {self.rl} / R/S : {self.rs}")
+                        print(f"\rAttempts : {self.attempts} / Ratelimt : {self.rl} / R/S : {self.rs}",end="")
                         json_Response = json.loads(response.text)
                         if json_Response.__contains__('spam') or json_Response.__contains__('Please wait'):
                             self.rl +=1
@@ -276,7 +277,7 @@ class Checkr(object):
                             self.attempts  +=1
                         if json_Response["suggestions"].__contains__(user):
                             with self.Locks:
-                                inputc("+",Design.green,f"{Design.blueq}Try To Hunt It {Design.GREEN}@{user}")
+                                inputc("+",Design.green,f"{Design.blueq}Try To Hunt It {Design.GREEN}@{user}\n")
                                 self.Event_Handler.set()
                                 self.swap(user,session)
 
@@ -299,14 +300,15 @@ class Checkr(object):
                     with futures.result() as response:
                         json_Response = json.loads(response.text)
                         os.system(f"title Attempts : {self.attempts} / Ratelimt : {self.rl} / R/S : {self.rs}")
+                        print(f"\rAttempts : {self.attempts} / Ratelimt : {self.rl} / R/S : {self.rs}",end="")
                         if json_Response.__contains__('spam') or json_Response.__contains__('Please wait'):
                             self.rl +=1
                         elif json_Response.__contains__('suggestions'):
                             self.attempts  +=1
                         if json_Response["suggestions"].__contains__(user):
-                            
+                    
                             with self.Locks:
-                                inputc("+",Design.green,f"{Design.blueq}Try To Hunt It {Design.GREEN}@{user}")
+                                inputc("+",Design.green,f"{Design.blueq}Try To Hunt It {Design.GREEN}@{user}\n")
                                 self.Event_Handler.set()
                                 self.swap(user,session)              
         except:
@@ -367,12 +369,13 @@ if __name__ == "__main__":
         for _ in range(int(var.threads)):
             thread = for_loop(var)
             thread.start()
-            
-            
         rs = RequestPerSecounD(var)
         rs.run()
-        thread.run()
         rs.start()
+            
+            
+            
+
     else:
         print(f"{Design.reda}{ip} This ip is not active")
         input()
