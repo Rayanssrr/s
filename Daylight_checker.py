@@ -240,23 +240,11 @@ class Checkr(object):
                 if res.status_code == 200:
                     with self.Locks:
                         self.Successfully_Claimed(user,session)
-                elif res.text.__contains__("username"):
-                    with self.Locks:
-                        print("\n");inputc("x",Design.red,f"{Design.reda}Someone claimed ")
-                else:
-                    with self.Locks:
-                        print("\n");inputc("x",Design.red,f"{Design.reda}Ican't Claim This User Because Youre Acc is Blocked")
         else:
             res = requests.post("https://i.instagram.com/api/v1/accounts/set_username/",headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + session},data={"username": f"{user}"})
             if res.status_code == 200:
                 with self.Locks:
                     self.Successfully_Claimed(user,session)
-            elif res.text.__contains__("username"):
-                with self.Locks:
-                    print("\n");inputc("x",Design.red,f"{Design.reda}Someone claimed ")
-            else:
-                with self.Locks:
-                    print("\n");inputc("x",Design.red,f"{Design.reda}Ican't Claim This User Because Youre Acc is Blocked")
         
         
 
@@ -312,7 +300,6 @@ class Checkr(object):
                         elif json_Response.__contains__('suggestions'):
                             self.attempts  +=1
                         if json_Response["suggestions"].__contains__(user):
-                    
                             with self.Locks:
                                 inputc("+",Design.green,f"{Design.blueq}Try To Hunt It {Design.GREEN}@{user}")
                             self.swap(user,session)              
