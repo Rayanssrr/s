@@ -207,7 +207,7 @@ class Checkr(object):
         return self.erp
     
     def Successfully_Claimed(self,user,session):
-        print(f"\n[ {Design.reda}${Design.WHITE} ] {self.Msg}  {Design.blueq}@{user}")
+        print(f"\n{Design.WHITE}[ {Design.reda}${Design.WHITE} ] {self.Msg}  {Design.blueq}@{user}\n")
         get = requests.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true",headers={"User-Agent": generateUSER_AGENT()},cookies={"sessionid":session}).text
         self.email = re.search(r'"email":"(.*?)",',get).group(1)
         open(f"@{user}.txt","a").write(f"username:{user}\nemail:{self.email}\nsession:{session}")
@@ -272,7 +272,7 @@ class Checkr(object):
                             self.attempts  +=1
                         if json_Response["suggestions"].__contains__(user):
                             with self.Locks:
-                                inputc("+",Design.green,f"{Design.blueq}Try To Hunt It {Design.GREEN}@{user}")
+                                print(f"\r{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user}",end="")
                             self.swap(user,session)
 
         
@@ -301,7 +301,7 @@ class Checkr(object):
                             self.attempts  +=1
                         if json_Response["suggestions"].__contains__(user):
                             with self.Locks:
-                                inputc("+",Design.green,f"{Design.blueq}Try To Hunt It {Design.GREEN}@{user}")
+                                print(f"\r{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user}",end="")
                             self.swap(user,session)              
         except:
             pass
