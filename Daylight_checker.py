@@ -196,6 +196,8 @@ class Checkr(object):
             self.run = False
             
             print("\n".join(self.usernames), file=open(dir_path + "/list.txt", "w"))
+    
+
 
     def proxy(self):
         if self.Proxy_Mode.__contains__("1"):
@@ -233,23 +235,28 @@ class Checkr(object):
         self.check_username2(user,session,cookie,num);self.check_username(user,session,cookie,num)
         
     def swap(self,user,session):
-        self.Event_Handler.wait()
         if self.ask.lower() == "y":
                 res = requests.post("https://i.instagram.com/api/v1/accounts/set_username/",headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + session},data={"username": f"{user}"},proxies=self.proxy())
                 if res.status_code == 200:
-                    self.Successfully_Claimed(user,session)
+                    with self.Locks:
+                        self.Successfully_Claimed(user,session)
                 elif res.text.__contains__("username"):
-                    print("\n");inputc("x",Design.red,f"{Design.reda}Someone claimed ")
+                    with self.Locks:
+                        print("\n");inputc("x",Design.red,f"{Design.reda}Someone claimed ")
                 else:
-                    print("\n");inputc("x",Design.red,f"{Design.reda}Ican't Claim This User Because Youre Acc is Blocked")
+                    with self.Locks:
+                        print("\n");inputc("x",Design.red,f"{Design.reda}Ican't Claim This User Because Youre Acc is Blocked")
         else:
             res = requests.post("https://i.instagram.com/api/v1/accounts/set_username/",headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + session},data={"username": f"{user}"})
             if res.status_code == 200:
-                self.Successfully_Claimed(user,session)
+                with self.Locks:
+                    self.Successfully_Claimed(user,session)
             elif res.text.__contains__("username"):
-                print("\n");inputc("x",Design.red,f"{Design.reda}Someone claimed ")
+                with self.Locks:
+                    print("\n");inputc("x",Design.red,f"{Design.reda}Someone claimed ")
             else:
-                print("\n");inputc("x",Design.red,f"{Design.reda}Ican't Claim This User Because Youre Acc is Blocked")
+                with self.Locks:
+                    print("\n");inputc("x",Design.red,f"{Design.reda}Ican't Claim This User Because Youre Acc is Blocked")
         
         
 
@@ -277,9 +284,8 @@ class Checkr(object):
                             self.attempts  +=1
                         if json_Response["suggestions"].__contains__(user):
                             with self.Locks:
-                                inputc("+",Design.green,f"{Design.blueq}Try To Hunt It {Design.GREEN}@{user}\n")
-                                self.Event_Handler.set()
-                                self.swap(user,session)
+                                inputc("+",Design.green,f"{Design.blueq}Try To Hunt It {Design.GREEN}@{user}")
+                            self.swap(user,session)
 
         
         except:
@@ -308,9 +314,8 @@ class Checkr(object):
                         if json_Response["suggestions"].__contains__(user):
                     
                             with self.Locks:
-                                inputc("+",Design.green,f"{Design.blueq}Try To Hunt It {Design.GREEN}@{user}\n")
-                                self.Event_Handler.set()
-                                self.swap(user,session)              
+                                inputc("+",Design.green,f"{Design.blueq}Try To Hunt It {Design.GREEN}@{user}")
+                            self.swap(user,session)              
         except:
             pass
 
