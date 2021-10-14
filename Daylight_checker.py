@@ -263,8 +263,6 @@ class Checkr(object):
                 future.append(futures)
                 for futures in as_completed(future):
                     with futures.result() as response:
-                        os.system(f"title Attempts : {self.attempts} / Ratelimt : {self.rl} / R/S : {self.rs}")
-                        #print(f"\rAttempts : {self.attempts} / Ratelimt : {self.rl} / R/S : {self.rs}",end="")
                         json_Response = json.loads(response.text)
                         if json_Response.__contains__('spam') or json_Response.__contains__('Please wait'):
                             self.rl +=1
@@ -274,8 +272,6 @@ class Checkr(object):
                             with self.Locks:
                                 print(f"\r{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user}",end="")
                             self.swap(user,session)
-
-        
         except:
             pass
     
@@ -293,8 +289,6 @@ class Checkr(object):
                 for futures in as_completed(future):
                     with futures.result() as response:
                         json_Response = json.loads(response.text)
-                        os.system(f"title Attempts : {self.attempts} / Ratelimt : {self.rl} / R/S : {self.rs}")
-                        #print(f"\rAttempts : {self.attempts} / Ratelimt : {self.rl} / R/S : {self.rs}",end="")
                         if json_Response.__contains__('spam') or json_Response.__contains__('Please wait'):
                             self.rl +=1
                         elif json_Response.__contains__('suggestions'):
@@ -357,13 +351,21 @@ if __name__ == "__main__":
         inputc("+",Design.green,f"{Design.WHITE}Threads {Design.reda}(Max = 1000){Design.WHITE} : {Design.GREEN}{var.threads}\n")
         inputc("+",Design.green,f"{Design.WHITE}Loops {Design.reda}(Max = 450){Design.WHITE} : {Design.GREEN}{var.loops}\n");inputc("/",Design.red,f"Press Enter to Started !");input()
         print(f"\n[ {Design.reda}${Design.WHITE} ] Turbo is Running...\n")
-
+        
+        def PrintLn():
+            while var.run:
+                sleep(2)
+                os.system(f"title Attempts : {var.attempts} / Ratelimt : {var.rl} / R/S : {var.rs}")
+            
+        
+        Thread(target=PrintLn).start()
         for _ in range(int(var.threads)):
             thread = for_loop(var)
             thread.start()
         rs = RequestPerSecounD(var)
         rs.run()
         rs.start()
+        
             
             
             
