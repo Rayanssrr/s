@@ -162,9 +162,6 @@ class Checkr(object):
         except:
             inputc("-",Design.red,f"{Design.reda}Error loded 'sesstings.txt'\n")
             open("sesstings.txt","a").write('{"sesstings" : {\n\t"name": "FALCON DIGITAL ORG",\n\t"bio": "Rayan", \n\t"Threads": "250",\n\t"Loops": "350",\n\t"MSG": "Successfully Claimed",\n\t"Proxy_Mode":"1"\n}}')
-        print("\n");inputc("?",Design.yellow,f"Do You Want Swap with proxy? {Design.reda}[Y/n]{Design.WHITE} : ");self.ask = input()
-        
-        
         
         self.json_sesstings = json.loads(self.sesstings)
         self.bio = self.json_sesstings["sesstings"]["bio"]
@@ -174,6 +171,7 @@ class Checkr(object):
         self.Proxy_Mode = self.json_sesstings["sesstings"]["Proxy_Mode"]
         self.name = self.json_sesstings["sesstings"]["name"]
         self.future_session = FuturesSession(max_workers=int(self.loops))
+        print("\n");inputc("?",Design.yellow,f"Do You Want Swap with proxy? {Design.reda}[Y/n]{Design.WHITE} : ");self.ask = input()
         
         
     
@@ -277,8 +275,8 @@ class Checkr(object):
                         elif json_Response.__contains__('suggestions'):
                             self.attempts  +=1
                         if json_Response["suggestions"].__contains__(user):
-                            inputc("+",Design.green,f"{Design.blueq}Try To Hunt It {Design.GREEN}@{user}")
                             with self.Locks:
+                                inputc("+",Design.green,f"{Design.blueq}Try To Hunt It {Design.GREEN}@{user}")
                                 self.Event_Handler.set()
                                 self.swap(user,session)
 
@@ -306,8 +304,9 @@ class Checkr(object):
                         elif json_Response.__contains__('suggestions'):
                             self.attempts  +=1
                         if json_Response["suggestions"].__contains__(user):
-                            inputc("+",Design.green,f"{Design.blueq}Try To Hunt It {Design.GREEN}@{user}")
+                            
                             with self.Locks:
+                                inputc("+",Design.green,f"{Design.blueq}Try To Hunt It {Design.GREEN}@{user}")
                                 self.Event_Handler.set()
                                 self.swap(user,session)              
         except:
