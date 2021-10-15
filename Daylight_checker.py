@@ -16,7 +16,14 @@ colorama.init()
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
 Done = False
-
+Bad = [
+    "/challenge/",
+    "consent_required",
+    "feedback_required",
+    "login_required",
+    "nother account",
+    "minutes"
+]
 class Design:
     WHITE = '\x1b[1;37;40m'
     YELLOW = '\x1b[1;33;40m'
@@ -213,18 +220,17 @@ class Checkr(object):
         open(f"@{user}.txt","a").write(f"username:{user}\nemail:{self.email}\nsession:{session}")
         requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"{self.bio}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + session})
         requests.post("https://i.instagram.com/api/v1/accounts/set_phone_and_name/",data={"first_name":f"{self.name}"},headers={"User-Agent": generateUSER_AGENT(),"Cookie": "sessionid=" + session})
-        if len(user) < 5:
-            webhook = DiscordWebhook(url='https://discord.com/api/webhooks/896869437129519154/_V_nG4WJMlNB0E9-KncwBhsmq8LiaHbQ2lomrZKyRV4aIY2yxHbtlj4p9-64jUjJfx7i')
-            embed = DiscordEmbed(title=f'Claimed @{user}\n`Attempts -> {self.attempts}`', color=242424)
-            embed.set_author(name="Daylight_Checker")
-            embed.set_image(url=f"{random.choice(imge)}")
-            embed.set_footer(text='Made By Rayan@m1c1')
-            embed.set_timestamp()
-            webhook.add_embed(embed)
-            webhook.execute()
-        
+        webhook = DiscordWebhook(url='https://discord.com/api/webhooks/898538847141511178/LAPRBVlN04KbVOGenN734KN4_UdmX2HbF8yypgqKn3DLJ0r9Pv5ILpQaeOdhNG8qeu0s')
+        embed = DiscordEmbed(title=f'Claimed @{user}\n`Attempts -> {self.attempts}`', color=242424)
+        embed.set_author(name="Daylight_Checker")
+        embed.set_image(url=f"{random.choice(imge)}")
+        embed.set_footer(text='Made By Rayan@m1c1')
+        embed.set_timestamp()
+        webhook.add_embed(embed)
+        webhook.execute()
         self.remove_session("".join(session))
         self.remove_user("".join(user))
+        
         return False
     
     def just_loop(self):
@@ -240,11 +246,18 @@ class Checkr(object):
                 if res.status_code == 200:
                     with self.Locks:
                         self.Successfully_Claimed(user,session)
+                elif any(i in res.text for i in Bad):
+                    self.remove_session("".join(session))
         else:
             res = requests.post("https://i.instagram.com/api/v1/accounts/set_username/",headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + session},data={"username": f"{user}"})
             if res.status_code == 200:
                 with self.Locks:
                     self.Successfully_Claimed(user,session)
+            elif any(i in res.text for i in Bad):
+                self.remove_session("".join(session))
+                
+                    
+                
         
         
 
