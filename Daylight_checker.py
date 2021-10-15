@@ -214,24 +214,26 @@ class Checkr(object):
         return self.erp
     
     def Successfully_Claimed(self,user,session):
-        print(f"\n{Design.WHITE}[ {Design.reda}${Design.WHITE} ] {self.Msg}  {Design.blueq}@{user}\n")
-        get = requests.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true",headers={"User-Agent": generateUSER_AGENT()},cookies={"sessionid":session}).text
-        self.email = re.search(r'"email":"(.*?)",',get).group(1)
-        open(f"@{user}.txt","a").write(f"username:{user}\nemail:{self.email}\nsession:{session}")
-        requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"{self.bio}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + session})
-        requests.post("https://i.instagram.com/api/v1/accounts/set_phone_and_name/",data={"first_name":f"{self.name}"},headers={"User-Agent": generateUSER_AGENT(),"Cookie": "sessionid=" + session})
-        webhook = DiscordWebhook(url='https://discord.com/api/webhooks/898538847141511178/LAPRBVlN04KbVOGenN734KN4_UdmX2HbF8yypgqKn3DLJ0r9Pv5ILpQaeOdhNG8qeu0s')
-        embed = DiscordEmbed(title=f'Claimed @{user}\n`Attempts -> {self.attempts}`', color=242424)
-        embed.set_author(name="Daylight_Checker")
-        embed.set_image(url=f"{random.choice(imge)}")
-        embed.set_footer(text='Made By Rayan@m1c1')
-        embed.set_timestamp()
-        webhook.add_embed(embed)
-        webhook.execute()
-        self.remove_session("".join(session))
-        self.remove_user("".join(user))
-        
-        return False
+        with self.Locks:
+            print(f"\n{Design.WHITE}[ {Design.reda}${Design.WHITE} ] {self.Msg}  {Design.blueq}@{user}\n")
+            get = requests.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true",headers={"User-Agent": generateUSER_AGENT()},cookies={"sessionid":session}).text
+            self.email = re.search(r'"email":"(.*?)",',get).group(1)
+            open(f"@{user}.txt","a").write(f"username:{user}\nemail:{self.email}\nsession:{session}")
+            requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"{self.bio}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + session})
+            requests.post("https://i.instagram.com/api/v1/accounts/set_phone_and_name/",data={"first_name":f"{self.name}"},headers={"User-Agent": generateUSER_AGENT(),"Cookie": "sessionid=" + session})
+            webhook = DiscordWebhook(url='https://discord.com/api/webhooks/898538847141511178/LAPRBVlN04KbVOGenN734KN4_UdmX2HbF8yypgqKn3DLJ0r9Pv5ILpQaeOdhNG8qeu0s')
+            embed = DiscordEmbed(title=f'Claimed @{user}\n`Attempts -> {self.attempts}`', color=242424)
+            embed.set_author(name="Daylight_Checker")
+            embed.set_image(url=f"{random.choice(imge)}")
+            embed.set_footer(text='Made By Rayan@m1c1')
+            embed.set_timestamp()
+            webhook.add_embed(embed)
+            webhook.execute()
+            self.remove_session("".join(session))
+            self.remove_user("".join(user))
+            sleep(0.9)
+            return False
+
     
     def just_loop(self):
         user = random.choice(self.usernames)
@@ -285,6 +287,7 @@ class Checkr(object):
                             with self.Locks:
                                 print(f"\r{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user}",end="")
                             self.swap(user,session)
+                            
         except:
             pass
     
@@ -331,7 +334,7 @@ class for_loop(Thread):
                 self.my_loop.claimed = True
                 self.my_loop.run = False
 
-            sleep(0.001)
+            sleep(0.009)
 
 
 class RequestPerSecounD(Thread):
