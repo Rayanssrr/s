@@ -142,6 +142,7 @@ class Daylight(object):
         self.Event_Handler = Event()
         self.rl = 0
         self.rs = 0
+        self.REQ = requests.session()
         print("\n")
         self.sessionid = [i.strip() for i in open(dir_path + "/sessions.txt", "r") if i]
         sleep(0.5)
@@ -231,7 +232,6 @@ class Daylight(object):
         
 
     def just_loop(self,session,user,user2):
-        self.Event_Handler.wait(5)
         cookie = secrets.token_hex(16)*2
         num = random.randint(10000000,9999999999)
         self.check_username(user,user2,session,cookie,num)
@@ -253,15 +253,13 @@ class Daylight(object):
                     with futures.result() as response:
                         #print(response.text)
                         if response.text.__contains__(f':["{user}"'):
-                            self.Event_Handler.set()
                             with self.Locks:
                                 print(f"{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user2}",end="\r",flush=True)
-                            random.choice([self.Set_username_with_proxy(session,user),self.Set_username_without_proxy(session,user)])
+                            self.Set_username_with_proxy(session,user2)
                         elif response.text.__contains__(f':["{user2}"'):
-                            self.Event_Handler.set()
                             with self.Locks:
                                 print(f"{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user2}",end="\r",flush=True)
-                            random.choice([self.Set_username_with_proxy(session,user2),self.Set_username_without_proxy(session,user2)])
+                            self.Set_username_with_proxy(session,user2)
                         elif response.text.__contains__("suggestions"):
                             self.attempts +=1
                         elif response.status_code == 429:
@@ -284,85 +282,42 @@ class Daylight(object):
                         with futures.result() as response:
                             #print(response.text)
                             if response.text.__contains__(f':["{user}"'):
-                                self.Event_Handler.set()
                                 with self.Locks:
                                     print(f"{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user2}",end="\r",flush=True)
-                                random.choice([self.Set_username_with_proxy(session,user),self.Set_username_without_proxy(session,user)])
+                                    self.Set_username_with_proxy(session,user)
                             elif response.text.__contains__(f':["{user2}"'):
-                                self.Event_Handler.set()
                                 with self.Locks:
                                     print(f"{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user2}",end="\r",flush=True)
-                                random.choice([self.Set_username_with_proxy(session,user2),self.Set_username_without_proxy(session,user2)])
+                                    self.Set_username_with_proxy(session,user2)
                             elif response.text.__contains__("suggestions"):
                                 self.attempts +=1
                             elif response.status_code == 429:
                                 self.rl +=1
                     except:
-                        pass    
+                        pass  
+                    
+    def Set_username_with_proxy(self,session,user):
+        response = self.REQ.post("https://i.instagram.com/api/v1/accounts/set_username/",headers={f"User-Agent": generateUSER_AGENT()},data={"username": user},cookies={"sessionid":session},proxies=self.proxy()).text
+        if response.__contains__('"status":"ok"'):
+            self.Sucessfully_Claimed(session,user)
+        elif any(i in response for i in Bad):
+            self.remove_session("".join(session))
+        else:
+            self.Set_username_without_proxy(session,user)  
 
     def Set_username_without_proxy(self,session,user):
-        buffer = BytesIO()
-        c = pycurl.Curl()
-        c.setopt(pycurl.URL,"https://i.instagram.com/api/v1/accounts/set_username/")
-        c.setopt(pycurl.ENCODING, '')
-        c.setopt(pycurl.WRITEDATA, buffer)
-        # set headers
-        c.setopt(pycurl.HTTPHEADER, [
-                        "Accept: */*",
-                        "Accept-Language: en-US",
-                        f"ig-u-ds-user-id: {RandomString(3)}-@-{RandomStringUpper(2)}#",
-                        f"User-Agent: {generateUSER_AGENT()}",
-                        "Content-Type: application/x-www-form-urlencoded; charset=UTF-8",
-                        "Cookie: sessionid=" + session])
-        c.setopt(pycurl.CAINFO, certifi.where())
-        c.setopt(pycurl.POST, True)
-        c.setopt(pycurl.POSTFIELDS, f"username=" + user)
-        # c.setopt(c.PROXY_SSL_VERIFYHOST, 0)
-        # c.setopt(c.PROXY_SSL_VERIFYPEER, 0)
-        # c.setopt(pycurl.PROXY, random.choice(self.proxies))
-        c.setopt(pycurl.CONNECTTIMEOUT, 20)
-        # c.setopt(pycurl.PROXYTYPE,pycurl.PROXYTYPE_HTTP)
-        c.perform()
-        c.close()
-        response =  buffer.getvalue().decode('utf-8')
-        #print(response)
+        response = self.REQ.post("https://i.instagram.com/api/v1/accounts/set_username/",headers={f"User-Agent": generateUSER_AGENT()},data={"username": user},cookies={"sessionid":session}).text
         if response.__contains__('"status":"ok"'):
             self.Sucessfully_Claimed(session,user)
         elif any(i in response for i in Bad):
             self.remove_session("".join(session))
+
+            
                             
                         
-    def Set_username_with_proxy(self,session,user):
-        buffer = BytesIO()
-        c = pycurl.Curl()
-        c.setopt(pycurl.URL,"https://i.instagram.com/api/v1/accounts/set_username/")
-        c.setopt(pycurl.ENCODING, '')
-        c.setopt(pycurl.WRITEDATA, buffer)
-        # set headers
-        c.setopt(pycurl.HTTPHEADER, [
-                        "Accept: */*",
-                        "Accept-Language: en-US",
-                        f"ig-u-ds-user-id: {RandomString(3)}-@-{RandomStringUpper(2)}#",
-                        f"User-Agent: {generateUSER_AGENT()}",
-                        "Content-Type: application/x-www-form-urlencoded; charset=UTF-8",
-                        "Cookie: sessionid=" + session])
-        c.setopt(pycurl.CAINFO, certifi.where())
-        c.setopt(pycurl.POST, True)
-        c.setopt(pycurl.POSTFIELDS, f"username=" + user)
-        c.setopt(c.PROXY_SSL_VERIFYHOST, 0)
-        c.setopt(c.PROXY_SSL_VERIFYPEER, 0)
-        c.setopt(pycurl.PROXY, random.choice(self.proxies))
-        c.setopt(pycurl.CONNECTTIMEOUT, 5)
-        c.setopt(pycurl.TIMEOUT, 20)
-        c.setopt(pycurl.PROXYTYPE,pycurl.PROXYTYPE_HTTP)
-        c.perform()
-        c.close()
-        response =  buffer.getvalue().decode('utf-8')
-        #print(response)
-        if response.__contains__('"status":"ok"'):
-            self.Sucessfully_Claimed(session,user)
-        elif any(i in response for i in Bad):
-            self.remove_session("".join(session))
+
+        
+        
                             
 
         
