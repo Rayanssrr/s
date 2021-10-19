@@ -255,13 +255,13 @@ class Daylight(object):
                         if response.text.__contains__(f':["{user}"'):
                             self.Event_Handler.set()
                             with self.Locks:
-                                print(f"{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user}",end="\r",flush=True)
-                                random.choice([self.Set_username_with_proxy(session,user),self.Set_username_without_proxy(session,user)])
+                                print(f"{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user}\n",end="\r",flush=True)
+                            random.choice([self.Set_username_with_proxy(session,user),self.Set_username_without_proxy(session,user)])
                         elif response.text.__contains__(f':["{user2}"'):
                             self.Event_Handler.set()
                             with self.Locks:
-                                    print(f"{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user2}",end="\r",flush=True)
-                                    random.choice([self.Set_username_with_proxy(session,user2),self.Set_username_without_proxy(session,user2)])
+                                print(f"{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user2}\n",end="\r",flush=True)
+                            random.choice([self.Set_username_with_proxy(session,user2),self.Set_username_without_proxy(session,user2)])
                         elif response.text.__contains__("suggestions"):
                             self.attempts +=1
                         elif response.status_code == 429:
@@ -286,12 +286,12 @@ class Daylight(object):
                             if response.text.__contains__(f':["{user}"'):
                                 self.Event_Handler.set()
                                 with self.Locks:
-                                    print(f"{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user}")
+                                    print(f"{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user}\n")
                                 random.choice([self.Set_username_with_proxy(session,user),self.Set_username_without_proxy(session,user)])
                             elif response.text.__contains__(f':["{user2}"'):
                                 self.Event_Handler.set()
                                 with self.Locks:
-                                    print(f"{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user2}",end="\r",flush=True)
+                                    print(f"{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user2}\n",end="\r",flush=True)
                                 random.choice([self.Set_username_with_proxy(session,user2),self.Set_username_without_proxy(session,user2)])
                             elif response.text.__contains__("suggestions"):
                                 self.attempts +=1
