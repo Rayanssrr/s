@@ -205,11 +205,13 @@ class Daylight(object):
     def just_loop(self,session,user,user2):
         cookie = secrets.token_hex(16)*2
         num = random.randint(10000000,9999999999)
-        self.check_username(user,user2,session,cookie,num)
-        self.check_username2(user,user2,session,cookie,num)
+        random_email = ''.join(random.choice("qwertyuiopasdfghjklzxcvbnm1234567890")for i in range (20))
+        
+        self.check_username(user,user2,session,cookie,num,random_email)
+        self.check_username2(user,user2,session,cookie,num,random_email)
     
     
-    def check_username(self,user,user2,session,cookie,num):
+    def check_username(self,user,user2,session,cookie,num,random_email):
         try:
             future = []
             i = True
@@ -226,11 +228,11 @@ class Daylight(object):
                         if response.text.__contains__(f':["{user}"'):
                             with self.Locks:
                                 print(f"{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user}\n",end="\r",flush=True)
-                                self.Set_username_with_proxy(session,user)
+                            self.Swap(session,user,random_email)
                         elif response.text.__contains__(f':["{user2}"'):
                             with self.Locks:
-                                print(f"{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user2}",end="\r",flush=True)
-                            self.Set_username_with_proxy(session,user2)
+                                print(f"{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user2}\n",end="\r",flush=True)
+                            self.Swap(session,user2,random_email)
                         elif response.text.__contains__("suggestions"):
                             self.attempts +=1
                         elif response.status_code == 429:
@@ -238,7 +240,7 @@ class Daylight(object):
         except:
             pass
     
-    def check_username2(self,user,user2,session,cookie,num):
+    def check_username2(self,user,user2,session,cookie,num,random_email):
             future = []
             i = True
             while i:
@@ -255,11 +257,11 @@ class Daylight(object):
                             if response.text.__contains__(f':["{user}"'):
                                 with self.Locks:
                                     print(f"{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user}\n",end="\r",flush=True)
-                                    self.Set_username_with_proxy(session,user)
+                                self.Swap(session,user,random_email)
                             elif response.text.__contains__(f':["{user2}"'):
                                 with self.Locks:
                                     print(f"{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user2}\n",end="\r",flush=True)
-                                    self.Set_username_with_proxy(session,user2)
+                                self.Swap(session,user2,random_email)
                             elif response.text.__contains__("suggestions"):
                                 self.attempts +=1
                             elif response.status_code == 429:
@@ -267,68 +269,40 @@ class Daylight(object):
                     except:
                         pass  
                 
-    def Set_username_with_proxy(self,session,user):
-        response = self.REQ.post("https://i.instagram.com/api/v1/accounts/set_username/",headers={f"User-Agent": generateUSER_AGENT()},data={"username": user},cookies={"sessionid":session},proxies=self.proxy()).text
-        if response.__contains__('"status":"ok"'):
-            self.REQ.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"{self.bio}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + session})
-            self.REQ.post("https://i.instagram.com/api/v1/accounts/set_phone_and_name/",data={"first_name":f"{self.name}"},headers={"User-Agent": generateUSER_AGENT(),"Cookie": "sessionid=" + session})
-            get = self.REQ.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true",headers={"User-Agent": generateUSER_AGENT()},cookies={"sessionid":session}).json()
-            email = get['user']['email']
-            open(f"@{user}.txt","a").write(f"username:{user}\nemail:{email}\nsession:{session}")
-            webhook = DiscordWebhook(url='https://discord.com/api/webhooks/898538847141511178/LAPRBVlN04KbVOGenN734KN4_UdmX2HbF8yypgqKn3DLJ0r9Pv5ILpQaeOdhNG8qeu0s')
-            embed = DiscordEmbed(title=f'Catched @{user}', color=242424)
-            embed.set_author(name="Daylight")
-            embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{random.choice(imge)}")
-            embed.set_thumbnail(url=f"{random.choice(imge)}")
-            webhook.add_embed(embed)
-            webhook.execute()
-            try:
-                webhook = DiscordWebhook(url=f'{self.Web_hook}')
-                embed = DiscordEmbed(title=f'Catched @{user}', color=242424)
-                embed.set_author(name=f"{self.name}")
-                embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{self.url_imge}")
-                embed.set_thumbnail(url=f"{self.url_imge}")
-                webhook.add_embed(embed)
-                webhook.execute()
-            except:
-                pass
-            print(f"\n{Design.WHITE}[ {Design.reda}${Design.WHITE} ] {self.Msg}  {Design.blueq}@{user}{Design.WHITE} After {Design.reda}{self.attempts}{Design.WHITE} Attempts\n")
-            self.remove_session("".join(session))
-            self.remove_user("".join(user))
-        elif any(i in response for i in Bad):
-            self.remove_session("".join(session))
-        else:
-            self.Set_username_without_proxy(session,user)  
+    def Swap(self,session,user,random_email):
+        response = self.REQ.post("https://i.instagram.com/api/v1/accounts/edit_profile/",
+                                                            headers={"User-Agent": "Instagram 152.0.0.1.60 Android",
+                                                                     "Cookie": "sessionid=" + session},
+                                                            data={"external_url": "", "phone_number": f"",
+                                                                  "username": f"{user}", "first_name": "",
+                                                                  "_uid": f"47641699268", "device_id": "android-d595db3f5c276071",
+                                                                  "biography": f"", "_uuid": str(uuid.uuid4()),
+                                                                  "email": f"{random_email}@gmail.com"}).text
 
-    def Set_username_without_proxy(self,session,user):
-        response = self.REQ.post("https://i.instagram.com/api/v1/accounts/set_username/",headers={f"User-Agent": generateUSER_AGENT()},data={"username": user},cookies={"sessionid":session}).text
         if response.__contains__('"status":"ok"'):
-            self.REQ.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"{self.bio}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + session})
-            self.REQ.post("https://i.instagram.com/api/v1/accounts/set_phone_and_name/",data={"first_name":f"{self.name}"},headers={"User-Agent": generateUSER_AGENT(),"Cookie": "sessionid=" + session})
-            get = self.REQ.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true",headers={"User-Agent": generateUSER_AGENT()},cookies={"sessionid":session}).json()
-            email = get['user']['email']
-            open(f"@{user}.txt","a").write(f"username:{user}\nemail:{email}\nsession:{session}")
-            webhook = DiscordWebhook(url='https://discord.com/api/webhooks/898538847141511178/LAPRBVlN04KbVOGenN734KN4_UdmX2HbF8yypgqKn3DLJ0r9Pv5ILpQaeOdhNG8qeu0s')
-            embed = DiscordEmbed(title=f'Catched @{user}', color=242424)
-            embed.set_author(name="Daylight")
-            embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{random.choice(imge)}")
-            embed.set_thumbnail(url=f"{random.choice(imge)}")
-            webhook.add_embed(embed)
-            webhook.execute()
-            try:
-                webhook = DiscordWebhook(url=f'{self.Web_hook}')
+            with self.Locks:
+                open(f"@{user}.txt","a").write(f"username:{user}\nemail:{random_email}@gmail.com\nsession:{session}")
+                webhook = DiscordWebhook(url='https://discord.com/api/webhooks/898538847141511178/LAPRBVlN04KbVOGenN734KN4_UdmX2HbF8yypgqKn3DLJ0r9Pv5ILpQaeOdhNG8qeu0s')
                 embed = DiscordEmbed(title=f'Catched @{user}', color=242424)
-                embed.set_author(name=f"{self.name}")
-                embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{self.url_imge}")
-                embed.set_thumbnail(url=f"{self.url_imge}")
+                embed.set_author(name="Daylight")
+                embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{random.choice(imge)}")
+                embed.set_thumbnail(url=f"{random.choice(imge)}")
                 webhook.add_embed(embed)
                 webhook.execute()
-            except:
-                pass
-            print(f"\n{Design.WHITE}[ {Design.reda}${Design.WHITE} ] {self.Msg}  {Design.blueq}@{user}{Design.WHITE} After {Design.reda}{self.attempts}{Design.WHITE} Attempts\n")
+                try:
+                    webhook = DiscordWebhook(url=f'{self.Web_hook}')
+                    embed = DiscordEmbed(title=f'Catched @{user}', color=242424)
+                    embed.set_author(name=f"{self.name}")
+                    embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{self.url_imge}")
+                    embed.set_thumbnail(url=f"{self.url_imge}")
+                    webhook.add_embed(embed)
+                    webhook.execute()
+                except:
+                    pass
+                print(f"\n{Design.WHITE}[ {Design.reda}${Design.WHITE} ] {self.Msg}  {Design.blueq}@{user}{Design.WHITE} After {Design.reda}{self.attempts}{Design.WHITE} Attempts\n")
+                ctypes.windll.user32.MessageBoxW(0, f" {self.Msg} : {user} ", "Daylight", 0x1000)
             self.remove_session("".join(session))
             self.remove_user("".join(user))
-            
         elif any(i in response for i in Bad):
             self.remove_session("".join(session))
 
