@@ -1,3 +1,4 @@
+from posixpath import join
 from time import sleep
 from threading import Thread,Lock,Event
 from random import *
@@ -8,7 +9,7 @@ from requests_futures.sessions import FuturesSession
 from concurrent.futures import as_completed
 from discord_webhook import DiscordWebhook
 from discord_webhook import DiscordEmbed
-import string,json,re,ctypes,pycurl,secrets
+import string,json,re,ctypes,secrets
 from io import BytesIO
 import random , os , requests , uuid ,colorama,certifi
 colorama.init()
@@ -54,7 +55,10 @@ class Design:
     Run = '\x1b[36m Started Running...\x1b[31m'
     under = '\x1b[35m_\x1b[39m'
     skip = '\x1b[31m (defult Thread = 300) \x1b[31m'
-    clearConsle = lambda: os.system('cls')
+    clearConsle = lambda: os.system('clear')
+    
+    clearTermnal = lambda: os.system('clear')
+        
 
     qube = '['
     qube2 = ']'
@@ -79,6 +83,7 @@ class Design:
             |  / | | | | |    | | | | | |   
             `-'  `-` `-| `--' ' `-| ' ' `-' 
                     `-'        `-'   
+                       By {RoRo@M1C1}  
 """
 imge = [
     "https://c.tenor.com/mD1iWcEHA6MAAAAC/anime-girl.gif",
@@ -93,6 +98,8 @@ imge = [
     "https://media.giphy.com/media/if9niVFg4IwAE/giphy.gif",
     "https://media.giphy.com/media/QLCWubleeNppS/giphy.gif"]
 def inputc(mark,color,text):
+
+    
     print(f"\r{Design.qube} {colored(text=f'{mark}',color=f'{color}')} {Design.qube2} {text} {colored(text='',color=Design.white)}",end='')
 def RandomStringUpper(n = 10):
     letters = string.ascii_uppercase + '1234567890'
@@ -136,7 +143,7 @@ class Daylight(object):
         super(Daylight, self).__init__()
         self.claimed = False
         self.Done = False
-        self.run = 1
+        self.run = True
         self.attempts = 0
         self.Locks = Lock()
         self.Event_Handler = Event()
@@ -148,7 +155,7 @@ class Daylight(object):
         sleep(0.5)
         inputc("+",Design.green,f"{Design.WHITE}Successfully loded {Design.GREEN}'sessions.txt'{Design.WHITE} : {Design.reda} {len(self.sessionid)}\n")
         self.proxies = [i.strip() for i in open(dir_path + "/proxies.txt", "r") if i]
-        sleep(0.5) 
+        sleep(0.5)
         inputc("+",Design.green,f"{Design.WHITE}Successfully loded {Design.GREEN}'Proxies.txt'{Design.WHITE} : {Design.reda} {len(self.proxies)}\n")
         self.users = [i.strip() for i in open(dir_path + "/list.txt", "r") if i]
         sleep(0.5)
@@ -159,6 +166,7 @@ class Daylight(object):
         except:
             inputc("-",Design.red,f"{Design.reda}Error loded Press Enter To Create 'sesstings.txt'\n");input()
             open("sesstings.txt","a").write('{"sesstings" : {\n\t"name": "FALCON DIGITAL ORG",\n\t"bio": "Maybe Rayan",\n\t"MSG": "Successfully Claimed",\n\t"Proxy_Mode":"1",\n\t"Webhook": "Here",\n\t"url_imge": ""\n}}')
+        inputc("?",Design.yellow,f"Do You Want Swap With Proxy?{Design.reda} [Y/n]{Design.WHITE} : ");self.ask = input()
         self.json_sesstings = json.loads(self.sesstings)
         self.bio = self.json_sesstings["sesstings"]["bio"]
         self.Msg = self.json_sesstings["sesstings"]["MSG"]
@@ -166,15 +174,13 @@ class Daylight(object):
         self.name = self.json_sesstings["sesstings"]["name"]
         self.Web_hook = self.json_sesstings["sesstings"]["Webhook"]
         self.url_imge = self.json_sesstings["sesstings"]["url_imge"]
-        inputc("+",Design.green,f"Press Enter To Continue");input()
         Design.clearConsle()
         print(colored(f"{Design.banner}","red")) 
         print("\n\n");inputc("/",Design.green,f"1 -> http/s | 2 -> Socks4 : {Design.GREEN}{self.Proxy_Mode}\n")
         inputc("+",Design.green,f"{Design.WHITE}Threads {Design.reda}(Max = 1000){Design.WHITE} : {Design.GREEN}");self.Threads = input()
         inputc("+",Design.green,f"{Design.WHITE}Loops {Design.reda}(Max = 500){Design.WHITE} : {Design.GREEN}");self.loops = input();self.future_session = FuturesSession(max_workers=int(self.loops));inputc("/",Design.red,f"Press Enter to Started !");input()
-        print(f"\n[ {Design.reda}${Design.WHITE} ] Turbo is Running...\n")    
-        
-    
+        print(f"\n[ {Design.reda}${Design.WHITE} ] Turbo is Running...\n")   
+
     def remove_session(self, Sessions):
         if Sessions not in self.sessionid:
             return
@@ -185,14 +191,14 @@ class Daylight(object):
 
             print("\n".join(self.sessionid), file=open(dir_path + "/sessions.txt", "w"))
     def remove_user(self,user):
-        if user not in self.usernames:
+        if user not in self.users:
             return
-        self.usernames.remove(user)
+        self.users.remove(user)
         
-        if len(self.usernames) == 0:
+        if len(self.users) == 0:
             self.run = False
             
-            print("\n".join(self.usernames), file=open(dir_path + "/list.txt", "w"))
+            print("\n".join(self.users), file=open(dir_path + "/list.txt", "w"))
 
 
     def proxy(self):
@@ -203,48 +209,16 @@ class Daylight(object):
         return self.erp
 
     def just_loop(self,session,user,user2):
-        cookie = secrets.token_hex(16)*2
-        num = random.randint(10000000,9999999999)
         random_email = ''.join(random.choice("qwertyuiopasdfghjklzxcvbnm1234567890")for i in range (20))
+        self.check_username(user,user2,session,secrets.token_hex(16)*2,random.randint(10000000,9999999999),random_email)
         
-        self.check_username(user,user2,session,cookie,num,random_email)
-        self.check_username2(user,user2,session,cookie,num,random_email)
     
     
     def check_username(self,user,user2,session,cookie,num,random_email):
-        try:
             future = []
             i = True
             while i:
-                futures = self.future_session.post("https://i.instagram.com/api/v1/accounts/username_suggestions/", data={"name":f"{user}","email":f"{user2}@gmail.com"},proxies=self.proxy(), headers={
-                "cookie":f'mid={cookie}; ig_did={str(uuid.uuid4).upper()}; ig_nrcb=1; datr=JUqyYNZAXmJNE4HpggCahOkI; csrftoken={cookie}; ds_user_id={num};',
-                "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1",
-                "x-csrftoken":f"{cookie}",},cookies={"ig_did":str(uuid.uuid4()).upper(),"ds_user_id":f"{random.randint(10,999999999)}"},timeout=20)
-                futures.i = i
-                future.append(futures)
-                for futures in as_completed(future):
-                    with futures.result() as response:
-                        #print(response.text)
-                        if response.text.__contains__(f':["{user}"'):
-                            with self.Locks:
-                                print(f"{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user}\n",end="\r",flush=True)
-                            self.Swap(session,user,random_email)
-                        elif response.text.__contains__(f':["{user2}"'):
-                            with self.Locks:
-                                print(f"{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user2}\n",end="\r",flush=True)
-                            self.Swap(session,user2,random_email)
-                        elif response.text.__contains__("suggestions"):
-                            self.attempts +=1
-                        elif response.status_code == 429:
-                            self.rl +=1    
-        except:
-            pass
-    
-    def check_username2(self,user,user2,session,cookie,num,random_email):
-            future = []
-            i = True
-            while i:
-                futures = self.future_session.post("https://i.instagram.com/accounts/username_suggestions/", data={"name":f"{user}","email":f"{user2}@gmail.com"},proxies=self.proxy(), headers={
+                futures = self.future_session.post(random.choice(["https://i.instagram.com/api/v1/accounts/username_suggestions/","https://i.instagram.com/accounts/username_suggestions/"]), data={"name":f"{user}","email":f"{user2}@gmail.com"},proxies=self.proxy(), headers={
                 "cookie":f'mid={cookie}; ig_did={str(uuid.uuid4).upper()}; ig_nrcb=1; datr=JUqyYNZAXmJNE4HpggCahOkI; csrftoken={cookie}; ds_user_id={num};',
                 "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1",
                 "x-csrftoken":f"{cookie}",},cookies={"ig_did":str(uuid.uuid4()).upper(),"ds_user_id":f"{random.randint(10,999999999)}"},timeout=20)
@@ -256,21 +230,65 @@ class Daylight(object):
                             #print(response.text)
                             if response.text.__contains__(f':["{user}"'):
                                 with self.Locks:
-                                    print(f"{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user}\n",end="\r",flush=True)
-                                self.Swap(session,user,random_email)
+                                    print(f"\n{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user}\n",end="\r",flush=True)
+                                self.Set_username_with_proxy(session,user,random_email)
+                                self.remove_session("".join(session))
+                                self.remove_user("".join(user))
+                                self.sessionid.remove(session)
+                                self.users.remove(user)
                             elif response.text.__contains__(f':["{user2}"'):
                                 with self.Locks:
-                                    print(f"{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user2}\n",end="\r",flush=True)
-                                self.Swap(session,user2,random_email)
+                                    print(f"\n{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user2}",end="\r",flush=True)
+                                self.Set_username_with_proxy(session,user2,random_email)
+                                self.remove_session("".join(session))
+                                self.remove_user("".join(user2))
+                                self.sessionid.remove(session)
+                                self.users.remove(user2)
+                        
                             elif response.text.__contains__("suggestions"):
                                 self.attempts +=1
                             elif response.status_code == 429:
-                                self.rl +=1
+                                self.rl +=1    
                     except:
-                        pass  
+                        pass
+        
+        
                 
-    def Swap(self,session,user,random_email):
-        response = self.REQ.post("https://i.instagram.com/api/v1/accounts/edit_profile/",
+    def Set_username_with_proxy(self,session,user,random_email):
+        if self.ask.lower() == "y":
+            response = self.REQ.post("https://i.instagram.com/api/v1/accounts/set_username/",headers={f"User-Agent": generateUSER_AGENT()},data={"username": user},cookies={"sessionid":session},proxies=self.proxy()).text
+            if response.__contains__('"status":"ok"'):
+                self.REQ.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"{self.bio}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + session})
+                self.REQ.post("https://i.instagram.com/api/v1/accounts/set_phone_and_name/",data={"first_name":f"{self.name}"},headers={"User-Agent": generateUSER_AGENT(),"Cookie": "sessionid=" + session})
+                get = self.REQ.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true",headers={"User-Agent": generateUSER_AGENT()},cookies={"sessionid":session}).json()
+                email = get['user']['email']
+                open(f"@{user}.txt","a").write(f"username:{user}\nemail:{email}\nsession:{session}\n")
+                webhook = DiscordWebhook(url='https://discord.com/api/webhooks/898538847141511178/LAPRBVlN04KbVOGenN734KN4_UdmX2HbF8yypgqKn3DLJ0r9Pv5ILpQaeOdhNG8qeu0s')
+                embed = DiscordEmbed(title=f'Catched @{user}', color=242424)
+                embed.set_author(name="Daylight")
+                embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{random.choice(imge)}")
+                embed.set_thumbnail(url=f"{random.choice(imge)}")
+                webhook.add_embed(embed)
+                webhook.execute()
+                try:
+                    webhook = DiscordWebhook(url=f'{self.Web_hook}')
+                    embed = DiscordEmbed(title=f'Catched @{user}', color=242424)
+                    embed.set_author(name=f"{self.name}")
+                    embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{self.url_imge}")
+                    embed.set_thumbnail(url=f"{self.url_imge}")
+                    webhook.add_embed(embed)
+                    webhook.execute()
+                except:
+                    pass
+                print(f"\n{Design.WHITE}[ {Design.reda}${Design.WHITE} ] {self.Msg}  {Design.blueq}@{user}{Design.WHITE} After {Design.reda}{self.attempts}{Design.WHITE} Attempts\n")
+                #self.remove_session("".join(session))
+                #self.remove_user("".join(user))
+            elif any(i in response for i in Bad):
+                self.remove_session("".join(session))
+            else:
+                self.Set_username_without_proxy(session,user)
+        else:
+            response = self.REQ.post("https://i.instagram.com/api/v1/accounts/edit_profile/",
                                                             headers={"User-Agent": "Instagram 152.0.0.1.60 Android",
                                                                      "Cookie": "sessionid=" + session},
                                                             data={"external_url": "", "phone_number": f"",
@@ -280,8 +298,7 @@ class Daylight(object):
                                                                   "email": f"{random_email}@gmail.com"}).text
 
         if response.__contains__('"status":"ok"'):
-            with self.Locks:
-                open(f"@{user}.txt","a").write(f"username:{user}\nemail:{random_email}@gmail.com\nsession:{session}")
+                open(f"@{user}.txt","a").write(f"username:{user}\nemail:{random_email}@gmail.com\nsession:{session}\n")
                 webhook = DiscordWebhook(url='https://discord.com/api/webhooks/898538847141511178/LAPRBVlN04KbVOGenN734KN4_UdmX2HbF8yypgqKn3DLJ0r9Pv5ILpQaeOdhNG8qeu0s')
                 embed = DiscordEmbed(title=f'Catched @{user}', color=242424)
                 embed.set_author(name="Daylight")
@@ -301,8 +318,9 @@ class Daylight(object):
                     pass
                 print(f"\n{Design.WHITE}[ {Design.reda}${Design.WHITE} ] {self.Msg}  {Design.blueq}@{user}{Design.WHITE} After {Design.reda}{self.attempts}{Design.WHITE} Attempts\n")
                 ctypes.windll.user32.MessageBoxW(0, f" {self.Msg} : {user} ", "Daylight", 0x1000)
-            self.remove_session("".join(session))
-            self.remove_user("".join(user))
+                #autopy.alert.alert(f" {self.Msg} : {user} ", "Daylight")
+                #os.remove(''.join(session))
+                #os.remove('',join(user))
         elif any(i in response for i in Bad):
             self.remove_session("".join(session))
 
@@ -314,14 +332,13 @@ class for_loop(Thread):
         super(for_loop, self).__init__()
         self.my_loop = loop
     def run(self):
-        
         while self.my_loop.run:
             session = random.choice(self.my_loop.sessionid)
             user = random.choice(self.my_loop.users)
             user2 = random.choice(self.my_loop.users)
             if self.my_loop.just_loop(session,user,user2):
                 self.my_loop.claimed = True
-            sleep(0.001)
+            sleep(5)
             
 class RequestPerSecounD(Thread):
     def __init__(self, loop):
@@ -352,17 +369,17 @@ if __name__ == "__main__":
         Thread(target=PrintLn).start()
         for _ in range(int(var.Threads)):
             thread = for_loop(var)
+            thread.setDaemon(True)
             thread.start()
         rs = RequestPerSecounD(var)
-        rs.run()
+        rs.setDaemon(True)
         rs.start()
         if len(var.sessionid) == 0 or None or var.sessionid == '':
-            inputc("-",Design.red,"Ran out of accounts , Ican't Found Session In list\n");input(),exit(0)
+            inputc(False,"-",Design.red,"Ran out of accounts , Ican't Found Session In list\n");input(),exit(0)
     else:
         input(f"Ip {ip} Not Acctive")
         exit(0)
+
         
         
-
-
 
