@@ -80,7 +80,7 @@ class Design:
     skip = '\x1b[31m (defult Thread = 300) \x1b[31m'
     clearConsle = lambda: os.system('cls')
     
-    clearTermnal = lambda: os.system('clear')
+    clearTermnal = lambda: os.system('cls')
         
 
     qube = '['
@@ -328,7 +328,7 @@ class swap:
             self.sesstings = open("sesstings.txt","r").read()
             inputc(True,"+",Design.green,f"{Design.WHITE}Successfully loded {Design.GREEN}'sesstings.txt'")
         except:
-            inputc("-",Design.red,f"{Design.reda}Error loded Press Enter To Create 'sesstings.txt'\n");input()
+            inputc(True,"-",Design.red,f"{Design.reda}Error loded Press Enter To Create 'sesstings.txt'\n");input()
             open("sesstings.txt","a").write('{"sesstings" : {\n\t"name": "#DayLight",\n\t"bio": "Maybe Rayan",\n\t"MSG": "Sucessfully Claimed",\n\t"Webhook": "Here",\n\t"url_imge": ""\n}}')
         self.json_sesstings = json.loads(self.sesstings)
         self.bio = self.json_sesstings["sesstings"]["bio"]
@@ -440,6 +440,7 @@ class swap:
             embed.set_thumbnail(url=f"{self.url_imge}")
             webhook.add_embed(embed)
             webhook.execute()
+            
         except:
             pass
         autopy.alert.alert(f"{self.Msg} : @{self.Target}",f"{self.name}");os._exit(0)
