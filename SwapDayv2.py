@@ -392,8 +392,8 @@ class swap:
             for q in ["|","/","-","\\","|","/","-"]:
                 print(f"\r[ {Design.GREEN}{q}{Design.WHITE} ] Attempt : {self.att} / Rate_Limit : {self.rl}",end="",flush=True)
     def get_info(self):
-        get = requests.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true",headers=self.headers_Api(),cookies={"sessionid":self.session}).text
         try:
+            get = requests.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true",headers=self.headers_Api(),cookies={"sessionid":self.session}).text
             self.user = re.search(r'"username":"(.*?)",',get).group(1)
             self.email = re.search(r'"email":"(.*?)",',get).group(1)
             inputc(False,"+",Design.green,f"Login sucssfully as {self.user}");input()
