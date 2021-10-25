@@ -109,7 +109,7 @@ class Design:
                     By {RoRo@m1c1}   
 """
 
-os.system('mode con: cols=83 lines=30')
+os.system('mode con: cols=80 lines=27')
 active = requests.get("https://api.ipify.org/?format=json").json()
 ip = active["ip"]
 scan = requests.get("https://pastebin.com/raw/miBm2ymP").text
