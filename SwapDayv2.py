@@ -316,6 +316,22 @@ class login:
                 input()
                 exit()
 
+class Signatures(object):
+        def __init__(self):
+                super(Signatures, self).__init__()
+                self.key = b"02271fcedc24c5849a7505120650925e2b4c5b041e0a0bb0f82f4d41cfcdc944"
+ 
+        def gen_uuid(self):
+                return str(uuid.uuid4())
+ 
+        def gen_device_id(self):
+                return "android-{}".format(hashlib.md5(self.gen_uuid().encode("utf-8")).hexdigest()[:16])
+ 
+        def gen_signature(self, data):
+                return hmac.new(self.key, str.encode(data), hashlib.sha256).hexdigest()
+ 
+        def sign_post_data(self, data):
+                return "signed_body={}.{}&ig_sig_key_version=4".format(self.gen_signature(data), data)
 
 class swap:
     def __init__(self) :
@@ -354,7 +370,7 @@ class swap:
         self.att = 0
         self.rl = 0
         self.Locks  = Lock()
-        self.get_info()
+        self.update_consent()
         inputc(False,"?",Design.blue,f"Do You Want Check Block {Design.reda}[Y/n]{Design.WHITE} :  ");self.check = input()
         if self.check.__contains__("y"):
             self.check_block()
@@ -392,6 +408,27 @@ class swap:
         while self.run:
             for q in ["|","/","-","\\","|","/","-"]:
                 print(f"\r[ {Design.GREEN}{q}{Design.WHITE} ] Attempt : {self.att} / Rate_Limit : {self.rl}",end="",flush=True)
+
+    def update_consent(self):
+
+        response = requests.post("https://i.instagram.com/api/v1/consent/update_dob/", headers={
+                "Accept": "*/*",
+                "Accept-Encoding": "gzip, deflate",
+                "Accept-Language": "en-US",
+                "User-Agent": self.sesstings1.generateUSER_AGENT(),
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                "X-IG-Capabilities": "3brTvw==",
+                "X-IG-Connection-Type": "WIFI"},data='{"current_screen_key\":\"dob\",\"day\":\"1\",\"year\":\"1998\",\"month\":\"1\""}',cookies={"sessionid": self.session}).text
+
+
+
+        if response.__contains__('"status":"ok"'):
+            inputc(False,"+",Design.green,f"Successfully updated consent to GDPR\n")
+            return self.get_info()
+        else:
+            inputc(True,"-",Design.red,f"Failed to consent to GDPR, use an IP that is not from Europe\n")
+            return False
+ 
     def get_info(self):
         headers = {}
         headers["Connection"] = "keep-alive"
