@@ -55,9 +55,9 @@ class Design:
     Run = '\x1b[36m Started Running...\x1b[31m'
     under = '\x1b[35m_\x1b[39m'
     skip = '\x1b[31m (defult Thread = 300) \x1b[31m'
-    clearConsle = lambda: os.system('clear')
+    clearConsle = lambda: os.system('cls')
     
-    clearTermnal = lambda: os.system('clear')
+    clearTermnal = lambda: os.system('cls')
         
 
     qube = '['
@@ -167,7 +167,6 @@ class Daylight(object):
         except:
             inputc("-",Design.red,f"{Design.reda}Error loded Press Enter To Create 'sesstings.txt'\n");input()
             open("sesstings.txt","a").write('{"sesstings" : {\n\t"name": "FALCON DIGITAL ORG",\n\t"bio": "Maybe Rayan",\n\t"MSG": "Successfully Claimed",\n\t"Proxy_Mode":"1",\n\t"Webhook": "Here",\n\t"url_imge": ""\n}}')
-        inputc("?",Design.yellow,f"Do You Want Swap With Proxy?{Design.reda} [Y/n]{Design.WHITE} : ");self.ask = input()
         self.json_sesstings = json.loads(self.sesstings)
         self.bio = self.json_sesstings["sesstings"]["bio"]
         self.Msg = self.json_sesstings["sesstings"]["MSG"]
@@ -175,11 +174,12 @@ class Daylight(object):
         self.name = self.json_sesstings["sesstings"]["name"]
         self.Web_hook = self.json_sesstings["sesstings"]["Webhook"]
         self.url_imge = self.json_sesstings["sesstings"]["url_imge"]
-        Design.clearConsle()
-        print(colored(f"{Design.banner}","red")) 
         print("\n\n");inputc("/",Design.green,f"1 -> http/s | 2 -> Socks4 : {Design.GREEN}{self.Proxy_Mode}\n")
         inputc("+",Design.green,f"{Design.WHITE}Threads {Design.reda}(Max = 1000){Design.WHITE} : {Design.GREEN}");self.Threads = input()
         inputc("+",Design.green,f"{Design.WHITE}Loops {Design.reda}(Max = 500){Design.WHITE} : {Design.GREEN}");self.loops = input();self.future_session = FuturesSession(max_workers=int(self.loops));inputc("/",Design.red,f"Press Enter to Started !");input()
+        Design.clearConsle()
+        print(colored(f"{Design.banner}","red")) 
+        
         print(f"\n[ {Design.reda}${Design.WHITE} ] Turbo is Running...\n")   
 
     def remove_session(self, Sessions):
@@ -209,21 +209,21 @@ class Daylight(object):
         return self.erp
     
     def Set_username_with_proxy(self,session,user):
-        response = self.REQ.post("https://i.instagram.com/api/v1/accounts/set_username/",headers={f"User-Agent": generateUSER_AGENT()},data={"username": user},cookies={"sessionid":session},proxies=self.proxy()).text
-        if response.__contains__('"status":"ok"'):
-            self.REQ.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"{self.bio}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + session})
-            self.REQ.post("https://i.instagram.com/api/v1/accounts/set_phone_and_name/",data={"first_name":f"{self.name}"},headers={"User-Agent": generateUSER_AGENT(),"Cookie": "sessionid=" + session})
-            get = self.REQ.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true",headers={"User-Agent": generateUSER_AGENT()},cookies={"sessionid":session}).json()
-            email = get['user']['email']
-            open(f"@{user}.txt","a").write(f"username:{user}\nemail:{email}\nsession:{session}\n")
-            webhook = DiscordWebhook(url='https://discord.com/api/webhooks/898538847141511178/LAPRBVlN04KbVOGenN734KN4_UdmX2HbF8yypgqKn3DLJ0r9Pv5ILpQaeOdhNG8qeu0s')
-            embed = DiscordEmbed(title=f'Catched @{user}', color=242424)
-            embed.set_author(name="Daylight")
-            embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{random.choice(imge)}")
-            embed.set_thumbnail(url=f"{random.choice(imge)}")
-            webhook.add_embed(embed)
-            webhook.execute()
-            try:
+        try:
+            response = self.REQ.post("https://i.instagram.com/api/v1/accounts/set_username/",headers={f"User-Agent": generateUSER_AGENT()},data={"username": user},cookies={"sessionid":session},proxies=self.proxy()).text
+            if response.__contains__('"status":"ok"'):
+                self.REQ.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"{self.bio}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + session})
+                self.REQ.post("https://i.instagram.com/api/v1/accounts/set_phone_and_name/",data={"first_name":f"{self.name}"},headers={"User-Agent": generateUSER_AGENT(),"Cookie": "sessionid=" + session})
+                get = self.REQ.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true",headers={"User-Agent": generateUSER_AGENT()},cookies={"sessionid":session}).json()
+                email = get['user']['email']
+                open(f"@{user}.txt","a").write(f"username:{user}\nemail:{email}\nsession:{session}\n")
+                webhook = DiscordWebhook(url='https://discord.com/api/webhooks/898538847141511178/LAPRBVlN04KbVOGenN734KN4_UdmX2HbF8yypgqKn3DLJ0r9Pv5ILpQaeOdhNG8qeu0s')
+                embed = DiscordEmbed(title=f'Catched @{user}', color=242424)
+                embed.set_author(name="Daylight")
+                embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{random.choice(imge)}")
+                embed.set_thumbnail(url=f"{random.choice(imge)}")
+                webhook.add_embed(embed)
+                webhook.execute()
                 webhook = DiscordWebhook(url=f'{self.Web_hook}')
                 embed = DiscordEmbed(title=f'Catched @{user}', color=242424)
                 embed.set_author(name=f"{self.name}")
@@ -231,16 +231,16 @@ class Daylight(object):
                 embed.set_thumbnail(url=f"{self.url_imge}")
                 webhook.add_embed(embed)
                 webhook.execute()
-            except:
-                pass
-            #print(f"\n{Design.WHITE}[ {Design.reda}${Design.WHITE} ] {self.Msg}  {Design.blueq}@{user}{Design.WHITE} After {Design.reda}{self.attempts}{Design.WHITE} Attempts\n")
+                #print(f"\n{Design.WHITE}[ {Design.reda}${Design.WHITE} ] {self.Msg}  {Design.blueq}@{user}{Design.WHITE} After {Design.reda}{self.attempts}{Design.WHITE} Attempts\n")
                 print(f"\n\n\r{Design.WHITE}[ {Design.reda}${Design.WHITE} ] {self.Msg}  {Design.blueq}@{user}{Design.WHITE} After {Design.reda}{self.attempts}{Design.WHITE} Attempts\n\n\n")
                 ctypes.windll.user32.MessageBoxW(0, f" {self.Msg} : {user} ", "Daylight", 0x1000)
                 #autopy.alert.alert(f" {self.Msg} : {user} ", "Daylight")
                 self.remove_session("".join(session))
                 self.remove_user("".join(user))
-        elif any(i in response for i in Bad):
-            self.remove_session("".join(session))
+            elif any(i in response for i in Bad):
+                self.remove_session("".join(session))
+        except:
+            pass
     def Edit(self,session,user,random_email):
         response = self.REQ.post("https://i.instagram.com/api/v1/accounts/edit_profile/",
                                                         headers={"User-Agent": "Instagram 152.0.0.1.60 Android",
@@ -409,8 +409,7 @@ if __name__ == "__main__":
         if len(var.sessionid) == 0 or None or var.sessionid == '':
             inputc("-",Design.red,"Ran out of accounts , Ican't Found Session In list\n");input(),exit(0)
     else:
-        input(f"Ip {ip} Not Acctive")
-        exit(0)
+        input(f"ip {ip} not active");exit(0)
         
 
         
