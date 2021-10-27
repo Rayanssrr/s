@@ -144,6 +144,7 @@ class Daylight(object):
         self.claimed = False
         self.Done = False
         self.run = True
+        self.response = None
         self.attempts = 0
         self.Locks = Lock()
         self.Event_Handler = Event()
@@ -188,7 +189,6 @@ class Daylight(object):
 
         if len(self.sessionid) == 0:
             self.run = False
-
             print("\n".join(self.sessionid), file=open(dir_path + "/sessions.txt", "w"))
     def remove_user(self,user):
         if user not in self.users:
@@ -207,98 +207,53 @@ class Daylight(object):
         else:
             self.erp = {f"http":f"socks4://{random.choice(self.proxies)}","https":f"socks4://{random.choice(self.proxies)}"}
         return self.erp
-
-    def just_loop(self,session,user,user2):
-        random_email = ''.join(random.choice("qwertyuiopasdfghjklzxcvbnm1234567890")for i in range (20))
-        self.check_username(user,user2,session,secrets.token_hex(16)*2,random.randint(10000000,9999999999),random_email)
-        
     
-    
-    def check_username(self,user,user2,session,cookie,num,random_email):
-            future = []
-            i = True
-            while i:
-                futures = self.future_session.post(random.choice(["https://i.instagram.com/api/v1/accounts/username_suggestions/","https://i.instagram.com/accounts/username_suggestions/"]), data={"name":f"{user}","email":f"{user2}@gmail.com"},proxies=self.proxy(), headers={
-                "cookie":f'mid={cookie}; ig_did={str(uuid.uuid4).upper()}; ig_nrcb=1; datr=JUqyYNZAXmJNE4HpggCahOkI; csrftoken={cookie}; ds_user_id={num};',
-                "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1",
-                "x-csrftoken":f"{cookie}",},cookies={"ig_did":str(uuid.uuid4()).upper(),"ds_user_id":f"{random.randint(10,999999999)}"},timeout=20)
-                futures.i = i
-                future.append(futures)
-                for futures in as_completed(future):
-                    try:
-                        with futures.result() as response:
-                            #print(response.text)
-                            if response.text.__contains__(f':["{user}"'):
-                                with self.Locks:
-                                    print(f"\n{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user}\n",end="\r",flush=True)
-                                self.Set_username_with_proxy(session,user,random_email)
-                                self.remove_session("".join(session))
-                                self.remove_user("".join(user))
-                                self.sessionid.remove(session)
-                                self.users.remove(user)
-                            elif response.text.__contains__(f':["{user2}"'):
-                                with self.Locks:
-                                    print(f"\n{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user2}",end="\r",flush=True)
-                                self.Set_username_with_proxy(session,user2,random_email)
-                                self.remove_session("".join(session))
-                                self.remove_user("".join(user2))
-                                self.sessionid.remove(session)
-                                self.users.remove(user2)
-                        
-                            elif response.text.__contains__("suggestions"):
-                                self.attempts +=1
-                            elif response.status_code == 429:
-                                self.rl +=1    
-                    except:
-                        pass
-        
-        
-                
-    def Set_username_with_proxy(self,session,user,random_email):
-        if self.ask.lower() == "y":
-            response = self.REQ.post("https://i.instagram.com/api/v1/accounts/set_username/",headers={f"User-Agent": generateUSER_AGENT()},data={"username": user},cookies={"sessionid":session},proxies=self.proxy()).text
-            if response.__contains__('"status":"ok"'):
-                self.REQ.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"{self.bio}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + session})
-                self.REQ.post("https://i.instagram.com/api/v1/accounts/set_phone_and_name/",data={"first_name":f"{self.name}"},headers={"User-Agent": generateUSER_AGENT(),"Cookie": "sessionid=" + session})
-                get = self.REQ.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true",headers={"User-Agent": generateUSER_AGENT()},cookies={"sessionid":session}).json()
-                email = get['user']['email']
-                open(f"@{user}.txt","a").write(f"username:{user}\nemail:{email}\nsession:{session}\n")
-                webhook = DiscordWebhook(url='https://discord.com/api/webhooks/898538847141511178/LAPRBVlN04KbVOGenN734KN4_UdmX2HbF8yypgqKn3DLJ0r9Pv5ILpQaeOdhNG8qeu0s')
+    def Set_username_with_proxy(self,session,user):
+        response = self.REQ.post("https://i.instagram.com/api/v1/accounts/set_username/",headers={f"User-Agent": generateUSER_AGENT()},data={"username": user},cookies={"sessionid":session},proxies=self.proxy()).text
+        if response.__contains__('"status":"ok"'):
+            self.REQ.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"{self.bio}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + session})
+            self.REQ.post("https://i.instagram.com/api/v1/accounts/set_phone_and_name/",data={"first_name":f"{self.name}"},headers={"User-Agent": generateUSER_AGENT(),"Cookie": "sessionid=" + session})
+            get = self.REQ.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true",headers={"User-Agent": generateUSER_AGENT()},cookies={"sessionid":session}).json()
+            email = get['user']['email']
+            open(f"@{user}.txt","a").write(f"username:{user}\nemail:{email}\nsession:{session}\n")
+            webhook = DiscordWebhook(url='https://discord.com/api/webhooks/898538847141511178/LAPRBVlN04KbVOGenN734KN4_UdmX2HbF8yypgqKn3DLJ0r9Pv5ILpQaeOdhNG8qeu0s')
+            embed = DiscordEmbed(title=f'Catched @{user}', color=242424)
+            embed.set_author(name="Daylight")
+            embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{random.choice(imge)}")
+            embed.set_thumbnail(url=f"{random.choice(imge)}")
+            webhook.add_embed(embed)
+            webhook.execute()
+            try:
+                webhook = DiscordWebhook(url=f'{self.Web_hook}')
                 embed = DiscordEmbed(title=f'Catched @{user}', color=242424)
-                embed.set_author(name="Daylight")
-                embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{random.choice(imge)}")
-                embed.set_thumbnail(url=f"{random.choice(imge)}")
+                embed.set_author(name=f"{self.name}")
+                embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{self.url_imge}")
+                embed.set_thumbnail(url=f"{self.url_imge}")
                 webhook.add_embed(embed)
                 webhook.execute()
-                try:
-                    webhook = DiscordWebhook(url=f'{self.Web_hook}')
-                    embed = DiscordEmbed(title=f'Catched @{user}', color=242424)
-                    embed.set_author(name=f"{self.name}")
-                    embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{self.url_imge}")
-                    embed.set_thumbnail(url=f"{self.url_imge}")
-                    webhook.add_embed(embed)
-                    webhook.execute()
-                except:
-                    pass
-                print(f"\n{Design.WHITE}[ {Design.reda}${Design.WHITE} ] {self.Msg}  {Design.blueq}@{user}{Design.WHITE} After {Design.reda}{self.attempts}{Design.WHITE} Attempts\n")
-                #self.remove_session("".join(session))
-                #self.remove_user("".join(user))
-            elif any(i in response for i in Bad):
+            except:
+                pass
+            #print(f"\n{Design.WHITE}[ {Design.reda}${Design.WHITE} ] {self.Msg}  {Design.blueq}@{user}{Design.WHITE} After {Design.reda}{self.attempts}{Design.WHITE} Attempts\n")
+                print(f"\n\n\r{Design.WHITE}[ {Design.reda}${Design.WHITE} ] {self.Msg}  {Design.blueq}@{user}{Design.WHITE} After {Design.reda}{self.attempts}{Design.WHITE} Attempts\n\n\n")
+                ctypes.windll.user32.MessageBoxW(0, f" {self.Msg} : {user} ", "Daylight", 0x1000)
+                #autopy.alert.alert(f" {self.Msg} : {user} ", "Daylight")
                 self.remove_session("".join(session))
-            else:
-                self.Set_username_without_proxy(session,user)
-        else:
-            response = self.REQ.post("https://i.instagram.com/api/v1/accounts/edit_profile/",
-                                                            headers={"User-Agent": "Instagram 152.0.0.1.60 Android",
-                                                                     "Cookie": "sessionid=" + session},
-                                                            data={"external_url": "", "phone_number": f"",
-                                                                  "username": f"{user}", "first_name": "",
-                                                                  "_uid": f"47641699268", "device_id": "android-d595db3f5c276071",
-                                                                  "biography": f"", "_uuid": str(uuid.uuid4()),
-                                                                  "email": f"{random_email}@gmail.com"}).text
+                self.remove_user("".join(user))
+        elif any(i in response for i in Bad):
+            self.remove_session("".join(session))
+    def Edit(self,session,user,random_email):
+        response = self.REQ.post("https://i.instagram.com/api/v1/accounts/edit_profile/",
+                                                        headers={"User-Agent": "Instagram 152.0.0.1.60 Android",
+                                                                    "Cookie": "sessionid=" + session},
+                                                        data={"external_url": "", "phone_number": f"",
+                                                                "username": f"{user}", "first_name": "",
+                                                                "_uid": f"47641699268", "device_id": "android-d595db3f5c276071",
+                                                                "biography": f"{self.bio}", "_uuid": str(uuid.uuid4()),
+                                                                "email": f"{random_email}@gmail.com"}).text
 
         if response.__contains__('"status":"ok"'):
                 open(f"@{user}.txt","a").write(f"username:{user}\nemail:{random_email}@gmail.com\nsession:{session}\n")
+                self.REQ.post("https://i.instagram.com/api/v1/accounts/set_phone_and_name/",data={"first_name":f"{self.name}"},headers={"User-Agent": generateUSER_AGENT(),"Cookie": "sessionid=" + session})
                 webhook = DiscordWebhook(url='https://discord.com/api/webhooks/898538847141511178/LAPRBVlN04KbVOGenN734KN4_UdmX2HbF8yypgqKn3DLJ0r9Pv5ILpQaeOdhNG8qeu0s')
                 embed = DiscordEmbed(title=f'Catched @{user}', color=242424)
                 embed.set_author(name="Daylight")
@@ -316,13 +271,90 @@ class Daylight(object):
                     webhook.execute()
                 except:
                     pass
-                print(f"\n{Design.WHITE}[ {Design.reda}${Design.WHITE} ] {self.Msg}  {Design.blueq}@{user}{Design.WHITE} After {Design.reda}{self.attempts}{Design.WHITE} Attempts\n")
+                print(f"\n\n\r{Design.WHITE}[ {Design.reda}${Design.WHITE} ] {self.Msg}  {Design.blueq}@{user}{Design.WHITE} After {Design.reda}{self.attempts}{Design.WHITE} Attempts\n\n\n")
                 ctypes.windll.user32.MessageBoxW(0, f" {self.Msg} : {user} ", "Daylight", 0x1000)
+                #autopy.alert.alert(f" {self.Msg} : {user} ", "Daylight")
+                self.remove_session("".join(session))
+                self.remove_user("".join(user))
                 #autopy.alert.alert(f" {self.Msg} : {user} ", "Daylight")
                 #os.remove(''.join(session))
                 #os.remove('',join(user))
         elif any(i in response for i in Bad):
             self.remove_session("".join(session))
+
+    def sett(self,session,user):
+        response = self.REQ.post("https://i.instagram.com/api/v1/accounts/set_username/",headers={f"User-Agent": generateUSER_AGENT()},data={"username": user},cookies={"sessionid":session}).text
+        if response.__contains__('"status":"ok"'):
+            self.REQ.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"{self.bio}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + session})
+            self.REQ.post("https://i.instagram.com/api/v1/accounts/set_phone_and_name/",data={"first_name":f"{self.name}"},headers={"User-Agent": generateUSER_AGENT(),"Cookie": "sessionid=" + session})
+            get = self.REQ.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true",headers={"User-Agent": generateUSER_AGENT()},cookies={"sessionid":session}).json()
+            email = get['user']['email']
+            open(f"@{user}.txt","a").write(f"username:{user}\nemail:{email}\nsession:{session}\n")
+            webhook = DiscordWebhook(url='https://discord.com/api/webhooks/898538847141511178/LAPRBVlN04KbVOGenN734KN4_UdmX2HbF8yypgqKn3DLJ0r9Pv5ILpQaeOdhNG8qeu0s')
+            embed = DiscordEmbed(title=f'Catched @{user}', color=242424)
+            embed.set_author(name="Daylight")
+            embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{random.choice(imge)}")
+            embed.set_thumbnail(url=f"{random.choice(imge)}")
+            webhook.add_embed(embed)
+            webhook.execute()
+            try:
+                webhook = DiscordWebhook(url=f'{self.Web_hook}')
+                embed = DiscordEmbed(title=f'Catched @{user}', color=242424)
+                embed.set_author(name=f"{self.name}")
+                embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{self.url_imge}")
+                embed.set_thumbnail(url=f"{self.url_imge}")
+                webhook.add_embed(embed)
+                webhook.execute()
+            except:
+                pass
+            print(f"\n\n\r{Design.WHITE}[ {Design.reda}${Design.WHITE} ] {self.Msg}  {Design.blueq}@{user}{Design.WHITE} After {Design.reda}{self.attempts}{Design.WHITE} Attempts\n\n\n")
+            ctypes.windll.user32.MessageBoxW(0, f" {self.Msg} : {user} ", "Daylight", 0x1000)
+            #autopy.alert.alert(f" {self.Msg} : {user} ", "Daylight")
+            self.remove_session("".join(session))
+            self.remove_user("".join(user))
+
+
+        
+
+    def just_loop(self,session,user):
+        random_email = ''.join(random.choice("qwertyuiopasdfghjklzxcvbnm1234567890")for i in range (20))
+        self.check_username(user,session,secrets.token_hex(16)*2,random.randint(10000000,9999999999),random_email)
+        
+    
+    
+    def check_username(self,user,session,cookie,num,random_email):
+        future = []
+        i = True
+        while i:
+            futures = self.future_session.post(random.choice(["https://i.instagram.com/api/v1/accounts/username_suggestions/","https://i.instagram.com/accounts/username_suggestions/"]), data={"name":f"{user}"},proxies=self.proxy(), headers={
+            "cookie":f'mid={cookie}; ig_did={str(uuid.uuid4).upper()}; ig_nrcb=1; datr=JUqyYNZAXmJNE4HpggCahOkI; csrftoken={cookie}; ds_user_id={num};',
+            "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1",
+            "x-csrftoken":f"{cookie}",},cookies={"ig_did":str(uuid.uuid4()).upper(),"ds_user_id":f"{random.randint(10,999999999)}"},timeout=25)
+            futures.i = i
+            future.append(futures)
+            for futures in as_completed(future):
+                try:
+                    self.response1 = futures.result()
+                except:
+                    return False
+                self.response = self.response1.text
+                self.response__status_code = self.response1.status_code
+                if self.response.__contains__(f':["{user}"'):
+                    print(f"\n\n\r{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user}{Design.WHITE}\n\n")
+                    Set_user_proxy = Thread(target=self.Set_username_with_proxy(session,user))
+                    Edit_Profile = Thread(target=self.Edit(session,user,random_email))
+                    set_user = Thread(target=self.sett(session,user))
+                    Edit_Profile.start();Set_user_proxy.start();set_user.start()
+                    self.remove_session("".join(session))
+                    self.remove_user("".join(user))
+                elif self.response.__contains__("suggestions"):
+                    self.attempts +=1
+                elif self.response__status_code == 429:
+                    self.rl +=1 
+                        
+        
+
+
 
             
                             
@@ -335,10 +367,9 @@ class for_loop(Thread):
         while self.my_loop.run:
             session = random.choice(self.my_loop.sessionid)
             user = random.choice(self.my_loop.users)
-            user2 = random.choice(self.my_loop.users)
-            if self.my_loop.just_loop(session,user,user2):
+            if self.my_loop.just_loop(session,user):
                 self.my_loop.claimed = True
-            sleep(5)
+            sleep(2)
             
 class RequestPerSecounD(Thread):
     def __init__(self, loop):
@@ -366,6 +397,7 @@ if __name__ == "__main__":
             while var.run:
                 sleep(2)
                 os.system(f"title Attempts : {var.attempts} / Ratelimt : {var.rl} / R/S : {var.rs}")
+                
         Thread(target=PrintLn).start()
         for _ in range(int(var.Threads)):
             thread = for_loop(var)
@@ -375,10 +407,11 @@ if __name__ == "__main__":
         rs.setDaemon(True)
         rs.start()
         if len(var.sessionid) == 0 or None or var.sessionid == '':
-            inputc(False,"-",Design.red,"Ran out of accounts , Ican't Found Session In list\n");input(),exit(0)
+            inputc("-",Design.red,"Ran out of accounts , Ican't Found Session In list\n");input(),exit(0)
     else:
         input(f"Ip {ip} Not Acctive")
         exit(0)
+        
 
         
         
