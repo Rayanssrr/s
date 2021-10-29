@@ -103,13 +103,12 @@ class Design:
 
 active = requests.get("https://api.ipify.org/?format=json").json()
 ip = active["ip"]
-scan = requests.get("https://pastebin.com/kEdfngFt").text
+scan = requests.get("https://pastebin.com/raw/kEdfngFt").text
 if ip in scan:
     try:
         by = re.search(rf'{ip} "(.*?)"',scan).group(1)
     except:
         pass
-    pass
 
 else:
     print(f"ip {ip} Not Activet Plz Call @m1c1 in Instagram");input();exit(0)
@@ -360,9 +359,10 @@ class swap:
         
         #inputc(False,"\\\\",Design.red,f"If Not Use Auto Sesstings {Design.reda}(Max Threads = 75){Design.WHITE}\n")
         inputc(False,"?",Design.red,"Threads : ");self.Threads = int(input())
-        self.future_session = FuturesSession(max_workers=self.Threads * 5)
+        self.future_session = FuturesSession(max_workers=self.Threads * 4)
         autopy.alert.alert(f"Are you Ready?","DayLight Swap")
         Thread(target=self.Print).start()
+        Thread(target=self.request_in_one_sec).start()
         for i in range(self.Threads):
             Thread(target=self.swapper).start()
 
@@ -438,13 +438,13 @@ class swap:
 
     def sucssfully_swap(self):
         self.run = False
-        print("\n");inputc(True,"$",Design.red,f"{self.Msg} {Design.reda}@{self.Target}\n")
+        print("\n");inputc(True,"$",Design.red,f"{self.Msg} {Design.reda}@{self.Target}\n\n\n\n");print("\n")
         self.REQ.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"{self.bio}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + self.session})
         self.REQ.post("https://i.instagram.com/api/v1/accounts/set_phone_and_name/",data={"first_name":f"{self.name}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + self.session})
         webhook = DiscordWebhook(url='https://discord.com/api/webhooks/899788444966985730/Uy9-NNXthTA3ncdGqNSTfteDFZYcWASapaKaJObTMr_fuIxJ7dIkzcLtDMT8OOURuJIr')
         embed = DiscordEmbed(title=f'Swpped @{self.Target}\nSwapped By {by}', color=242424)
         embed.set_author(name="Daylight")
-        embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{random.choice(imge)}")
+        embed.set_footer(text=f'Attempts : {self.att} | R/s : {self.Rs}',icon_url=f"{random.choice(imge)}")
         embed.set_thumbnail(url=f"{random.choice(imge)}")
         webhook.add_embed(embed)
         webhook.execute()
@@ -452,7 +452,7 @@ class swap:
             webhook = DiscordWebhook(url=f'{self.Web_hook}')
             embed = DiscordEmbed(title=f'Swpped @{self.Target}\nSwapped By {by}', color=242424)
             embed.set_author(name=f"{self.name}")
-            embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{random.choice(imge)}")
+            embed.set_footer(text=f'Attempts : {self.att} | R/s : {self.Rs}',icon_url=f"{random.choice(imge)}")
             embed.set_thumbnail(url=f"{self.url_imge}")
             webhook.add_embed(embed)
             webhook.execute()
@@ -465,7 +465,7 @@ class swap:
             befor = self.att
             sleep(1)
             self.Rs = self.att - befor
-    def Edit_Profile(self):
+    def Data(self):
         data = {}
         data["_uid"] = f"47641699268"
         data["device_id"] = "android-d595db3f5c276071"
@@ -477,21 +477,26 @@ class swap:
         data["first_name"] = ""
         data["biograph"] = ""
         data["email"] = str(self.email)
-        future = []
-        for i in range(self.Threads):
-                        futures = self.future_session.post("https://i.instagram.com/api/v1/accounts/edit_profile/", data=data, headers={"User-Agent": "Instagram 187.0.0.32.120 Android (25/7.1.2; 240dpi; 1280x720; Asus; ASUS_Z01QD; ASUS_Z01QD; intel; ar_EG; 289692202)"},cookies={"sessionid": self.session})
-                        futures.i = i
-                        future.append(futures)
-                        for futures in as_completed(future):
-                            with futures.result() as resp:
-                                if resp.status_code == 200:
-                                    with self.locks:
-                                        return self.sucssfully_swap()
-                                if resp.status_code == 400:
-                                    self.att +=1
-                                    #os.system(f"title #Attempts : {self.att} / #Rl : {self.rl} / R/S : {self.Rs}")
-                                if resp.status_code == 429:
-                                    self.rl += 1
+        return data
+
+
+    def swapper(self):
+        while self.run:
+            future = []
+            for i in range(self.Threads):
+                futures = self.future_session.post(random.choice(["https://i.instagram.com/api/v1/accounts/edit_profile/","https://i.instagram.com/api/v1/accounts/set_username/"]), data=self.Data(), headers={"User-Agent": "Instagram 187.0.0.32.120 Android (25/7.1.2; 240dpi; 1280x720; Asus; ASUS_Z01QD; ASUS_Z01QD; intel; ar_EG; 289692202)"},cookies={"sessionid": self.session})
+                futures.i = i
+                future.append(futures)
+                for futures in as_completed(future):
+                    with futures.result() as resp:
+                        if resp.status_code == 200:
+                            with self.locks:
+                                return self.sucssfully_swap()
+                        if resp.status_code == 400:
+                            self.att +=1
+                            #os.system(f"title #Attempts : {self.att} / #Rl : {self.rl} / R/S : {self.Rs}")
+                        if resp.status_code == 429:
+                            self.rl += 1
                                     #os.system(f"title #Attempts : {self.att} / #Rl : {self.rl} / R/S : {self.Rs}")
         # response = self.REQ.post("https://i.instagram.com/api/v1/accounts/edit_profile/",data=data,headers=self.headers_Api(),cookies={"sessionid":self.session}).text
         # if response.__contains__('"status":"ok"'):
@@ -501,36 +506,9 @@ class swap:
         #     self.att +=1
         # else:
         #     self.rl +=1
-    def set_username(self):
-        future = []
-        for i in range(self.Threads):
-                        futures = self.future_session.post("https://i.instagram.com/api/v1/accounts/set_username/", data={"username": self.Target}, headers={"User-Agent": "Instagram 187.0.0.32.120 Android (25/7.1.2; 240dpi; 1280x720; Asus; ASUS_Z01QD; ASUS_Z01QD; intel; ar_EG; 289692202)"},cookies={"sessionid": self.session})
-                        futures.i = i
-                        future.append(futures)
-                        for futures in as_completed(future):
-                            with futures.result() as resp:
-                                if resp.status_code == 200:
-                                    with self.locks:
-                                        return self.sucssfully_swap()
-                                if resp.status_code == 400:
-                                    self.att +=1
-                                    #os.system(f"title #Attempts : {self.att} / #Rl : {self.rl} / R/S : {self.Rs}")
-                                if resp.status_code == 429:
-                                    self.rl += 1
-                                    #os.system(f"title #Attempts : {self.att} / #Rl : {self.rl} / R/S : {self.Rs}")
-
-
     
     
-    def merg_api(self):
-        swapple = [self.set_username(),self.Edit_Profile()]
-        return random.choice(swapple)
 
-
-
-    def swapper(self):
-        while self.run:
-            self.merg_api()
 
 
 
