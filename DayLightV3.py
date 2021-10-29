@@ -263,11 +263,10 @@ class login:
                 else:
                     exit()
         except:
-            print("accepted Done")
+            #print("accepted Done")
             inputc(False,"+",Design.green,f"Accepted Done\n")
             return self.Login()
 
-        
         
     def Login(self):
         inputc(False,"/",Design.green,f"UserName? : ");self.username = input()
@@ -380,10 +379,10 @@ class swap:
     def Print(self):
         while self.run:
             for q in ["|","/","-","\\","|","/","-"]:
+                sleep(0.9)
                 print(f"\r[ {Design.GREEN}{q}{Design.WHITE} ] Attempt : {self.att} / Rate_Limit : {self.rl} / R/s {self.Rs}",end="",flush=True)
 
     def update_consent(self):
-
         response = requests.post("https://i.instagram.com/api/v1/consent/update_dob/", headers={
                 "Accept": "*/*",
                 "Accept-Encoding": "gzip, deflate",
@@ -438,7 +437,9 @@ class swap:
 
     def sucssfully_swap(self):
         self.run = False
-        print("\n");inputc(True,"$",Design.red,f"{self.Msg} {Design.reda}@{self.Target}\n\n\n\n");print("\n")
+        sleep(1)
+        print(f"\n\n{Design.WHITE}[ {Design.reda}${Design.WHITE} ] {self.Msg}  {Design.blueq}@{self.Target}{Design.WHITE} After {Design.reda}{self.att}{Design.WHITE} Attempts\n\n\n")
+        #print("\n");inputc(True,"$",Design.red,f"{self.Msg} {Design.reda}@{self.Target}\n\n\n\n");print("\n")
         self.REQ.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"{self.bio}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + self.session})
         self.REQ.post("https://i.instagram.com/api/v1/accounts/set_phone_and_name/",data={"first_name":f"{self.name}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + self.session})
         webhook = DiscordWebhook(url='https://discord.com/api/webhooks/899788444966985730/Uy9-NNXthTA3ncdGqNSTfteDFZYcWASapaKaJObTMr_fuIxJ7dIkzcLtDMT8OOURuJIr')
@@ -456,9 +457,9 @@ class swap:
             embed.set_thumbnail(url=f"{self.url_imge}")
             webhook.add_embed(embed)
             webhook.execute()
-            
         except:
             pass
+        sleep(2)
         autopy.alert.alert(f"{self.Msg} : @{self.Target}",f"{self.name}");os._exit(0)
     def request_in_one_sec(self):
         while self.run:
