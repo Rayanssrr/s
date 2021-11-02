@@ -83,7 +83,7 @@ class Design:
             |  / | | | | |    | | | | | |   
             `-'  `-` `-| `--' ' `-| ' ' `-' 
                     `-'        `-'   
-                         
+                       By {RoRo@M1C1}  
 """
 
 
@@ -220,14 +220,14 @@ class Daylight(object):
                 email = get['user']['email']
                 open(f"@{user}.txt","a").write(f"username:{user}\nemail:{email}\nsession:{session}\n")
                 webhook = DiscordWebhook(url='https://discord.com/api/webhooks/898538847141511178/LAPRBVlN04KbVOGenN734KN4_UdmX2HbF8yypgqKn3DLJ0r9Pv5ILpQaeOdhNG8qeu0s')
-                embed = DiscordEmbed(title=f'Catched @{user}', color=242424)
+                embed = DiscordEmbed(title=f'',description=f"**Catched [@{user}](https://instagram.com/{user})", color=242424)
                 embed.set_author(name="Daylight")
                 embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{random.choice(imge)}")
                 embed.set_thumbnail(url=f"{random.choice(imge)}")
                 webhook.add_embed(embed)
                 webhook.execute()
                 webhook = DiscordWebhook(url=f'{self.Web_hook}')
-                embed = DiscordEmbed(title=f'Catched @{user}', color=242424)
+                embed = DiscordEmbed(title=f'',description=f"**Catched [@{user}](https://instagram.com/{user})", color=242424)
                 embed.set_author(name=f"{self.name}")
                 embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{self.url_imge}")
                 embed.set_thumbnail(url=f"{self.url_imge}")
@@ -257,7 +257,7 @@ class Daylight(object):
                 open(f"@{user}.txt","a").write(f"username:{user}\nemail:{random_email}@gmail.com\nsession:{session}\n")
                 self.REQ.post("https://i.instagram.com/api/v1/accounts/set_phone_and_name/",data={"first_name":f"{self.name}"},headers={"User-Agent": generateUSER_AGENT(),"Cookie": "sessionid=" + session})
                 webhook = DiscordWebhook(url='https://discord.com/api/webhooks/898538847141511178/LAPRBVlN04KbVOGenN734KN4_UdmX2HbF8yypgqKn3DLJ0r9Pv5ILpQaeOdhNG8qeu0s')
-                embed = DiscordEmbed(title=f'Catched @{user}', color=242424)
+                embed = DiscordEmbed(title=f'',description=f"**Catched [@{user}](https://instagram.com/{user})", color=242424)
                 embed.set_author(name="Daylight")
                 embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{random.choice(imge)}")
                 embed.set_thumbnail(url=f"{random.choice(imge)}")
@@ -265,7 +265,7 @@ class Daylight(object):
                 webhook.execute()
                 try:
                     webhook = DiscordWebhook(url=f'{self.Web_hook}')
-                    embed = DiscordEmbed(title=f'Catched @{user}', color=242424)
+                    embed = DiscordEmbed(title=f'',description=f"**Catched [@{user}](https://instagram.com/{user})", color=242424)
                     embed.set_author(name=f"{self.name}")
                     embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{self.url_imge}")
                     embed.set_thumbnail(url=f"{self.url_imge}")
@@ -293,7 +293,7 @@ class Daylight(object):
             email = get['user']['email']
             open(f"@{user}.txt","a").write(f"username:{user}\nemail:{email}\nsession:{session}\n")
             webhook = DiscordWebhook(url='https://discord.com/api/webhooks/898538847141511178/LAPRBVlN04KbVOGenN734KN4_UdmX2HbF8yypgqKn3DLJ0r9Pv5ILpQaeOdhNG8qeu0s')
-            embed = DiscordEmbed(title=f'Catched @{user}', color=242424)
+            embed = DiscordEmbed(title=f'',description=f"**Catched [@{user}](https://instagram.com/{user})", color=242424)
             embed.set_author(name="Daylight")
             embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{random.choice(imge)}")
             embed.set_thumbnail(url=f"{random.choice(imge)}")
@@ -301,7 +301,7 @@ class Daylight(object):
             webhook.execute()
             try:
                 webhook = DiscordWebhook(url=f'{self.Web_hook}')
-                embed = DiscordEmbed(title=f'Catched @{user}', color=242424)
+                embed = DiscordEmbed(title=f'',description=f"**Catched [@{user}](https://instagram.com/{user})", color=242424)
                 embed.set_author(name=f"{self.name}")
                 embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{self.url_imge}")
                 embed.set_thumbnail(url=f"{self.url_imge}")
