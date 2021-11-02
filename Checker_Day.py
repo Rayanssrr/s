@@ -83,7 +83,7 @@ class Design:
             |  / | | | | |    | | | | | |   
             `-'  `-` `-| `--' ' `-| ' ' `-' 
                     `-'        `-'   
-                       By {RoRo@M1C1}  
+                         
 """
 
 
@@ -340,12 +340,11 @@ class Daylight(object):
                 if self.response.text.__contains__("suggestions"):
                     self.attempts +=1    
                 if self.response.text.__contains__(f':["{user}"'):
-                    print(f"\n\n\r{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user}{Design.WHITE}\n\n")
-                    Thread(target=self.Set_username_with_proxy , args=(session,user)).start()
-                    Thread(target=self.Edit , args=(session,user,random_email)).start()
-                    Thread(target=self.sett , args=(session,user)).start()
-                    self.remove_session("".join(session))
-                    self.remove_user("".join(user))
+                    with self.Locks:
+                        print(f"\n\n\r{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user}{Design.WHITE}\n\n")
+                        Thread(target=self.Set_username_with_proxy , args=(session,user)).start()
+                        Thread(target=self.Edit , args=(session,user,random_email)).start()
+                        Thread(target=self.sett , args=(session,user)).start()
                 elif self.response.status_code == 429:
                     self.rl +=1
                     #futures.close()
