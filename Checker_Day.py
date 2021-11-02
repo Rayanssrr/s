@@ -204,9 +204,15 @@ class Daylight(object):
 
     def proxy(self):
         if self.Proxy_Mode.__contains__("1"):
-            self.erp = {"http": f"{random.choice(self.proxies)}", "https": f"{random.choice(self.proxies)}"}
+            
+            self.erp = {
+                'http': f'http://{random.choice(self.proxies)}',
+                'https': f'http://{random.choice(self.proxies)}'
+                }
         else:
-            self.erp = {f"http":f"socks4://{random.choice(self.proxies)}","https":f"socks4://{random.choice(self.proxies)}"}
+            self.erp = {
+            f"http":f"socks4://{random.choice(self.proxies)}",
+            "https":f"socks4://{random.choice(self.proxies)}"}
         return self.erp
     
     def Set_username_with_proxy(self,session,user):
@@ -242,6 +248,7 @@ class Daylight(object):
                 self.remove_session("".join(session))
         except:
             pass
+        
     def Edit(self,session,user,random_email):
         response = self.REQ.post("https://i.instagram.com/api/v1/accounts/edit_profile/",
                                                         headers={"User-Agent": "Instagram 152.0.0.1.60 Android",
@@ -318,16 +325,14 @@ class Daylight(object):
         
 
     def just_loop(self,session,user):
-        self.check_username(user,session,secrets.token_hex(16)*2,random.randint(10000000,9999999999),''.join(random.choice("qwertyuiopasdfghjklzxcvbnm1234567890")for i in range (20)))
+        self.check_username(user,session,''.join(random.choice("qwertyuiopasdfghjklzxcvbnm1234567890")for i in range (20)))
     
-    def check_username(self,user,session,cookie,num,random_email):
+    def check_username(self,user,session,random_email):
             #future = []
             #for i in range(int(self.Threads)):
             try:
-                self.response  = self.REQ.post(random.choice(["https://i.instagram.com/api/v1/accounts/username_suggestions/","https://i.instagram.com/accounts/username_suggestions/"]), data={"name":f"{user}"},proxies=self.proxy(), headers={
-                "cookie":f'mid={cookie}; ig_did={str(uuid.uuid4).upper()}; ig_nrcb=1; datr=JUqyYNZAXmJNE4HpggCahOkI; csrftoken={cookie}; ds_user_id={num};',
-                "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1",
-                "x-csrftoken":f"{cookie}",},cookies={"ig_did":str(uuid.uuid4()).upper(),"ds_user_id":f"{random.randint(10,999999999)}"},timeout=20)
+                self.response  = self.REQ.post("https://i.instagram.com/api/v1/users/check_username/",headers={"User-Agent": generateUSER_AGENT()},data={"username": f"{user}", "_uuid": uuid.uuid4()},proxies=self.proxy())
+                #print(self.response)
                 # futures.i = i
                 # future.append(futures)
                 # for futures in as_completed(future):
@@ -336,18 +341,30 @@ class Daylight(object):
             except:
                 pass
             else:
-                if self.response.text.__contains__("suggestions"):
-                    self.attempts +=1    
-                if self.response.text.__contains__(f':["{user}"'):
-                    with self.Locks:
-                        print(f"{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user}{Design.WHITE}")
+                #print(self.response.text)
+                if self.response.text.__contains__("username_is_taken"):
+                        self.attempts +=1
+                elif self.response.text.__contains__('available":true'):
+                        print(f"\n{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user}{Design.WHITE}")
                         Thread(target=self.Set_username_with_proxy , args=(session,user)).start()
                         Thread(target=self.Edit , args=(session,user,random_email)).start()
                         Thread(target=self.sett , args=(session,user)).start()
-                elif self.response.status_code == 429:
+                else:
                     self.rl +=1
-                    #futures.close()
                 self.response.close()
+
+
+            #     if self.response.text.__contains__("suggestions"):
+            #         self.attempts +=1    
+            #     if self.response.text.__contains__(f':["{user}"'):
+            #             print(f"{Design.WHITE}[ {Design.GREEN}+{Design.WHITE} ]{Design.blueq} Try To Hunt It  {Design.reda}@{user}{Design.WHITE}")
+            #             #Thread(target=self.Set_username_with_proxy , args=(session,user)).start()
+            #             Thread(target=self.Edit , args=(session,user,random_email)).start()
+            #             Thread(target=self.sett , args=(session,user)).start()
+            #     elif self.response.status_code == 429:
+            #         self.rl +=1
+                    #futures.close()
+                
                     # except:
                     #     pass
                         
@@ -406,7 +423,7 @@ if __name__ == "__main__":
         if len(var.sessionid) == 0 or None or var.sessionid == '':
             inputc("-",Design.red,"Ran out of accounts , Ican't Found Session In list\n");input(),exit(0)
     else:
-        input(f"ip Not Activ {ip}");exit(0)
+        print(ip);input()
         
         
 
