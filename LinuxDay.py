@@ -174,7 +174,7 @@ class Daylight(object):
         
         print("\n");inputc("?",Design.red,f"Target : ");self.Target = input()
         inputc("?",Design.red,f"Threads : ");self.threads = int(input())
-        inputc("?",Design.red,f"Loops : ");self.loops = input();self.future_session = FuturesSession(max_workers=int(self.loops))  
+        inputc("?",Design.red,f"Loops : ");self.loops = input();self.future_session = FuturesSession(max_workers=int(self.loops *4))  
         
         
        
@@ -466,15 +466,14 @@ if __name__ == "__main__":
                     sleep(0.3)
         Thread(target=PrintLn).start()
         rs = RequestPerSecounD(var)
-        rs.run()
         rs.start()
         for _ in range(int(var.threads)):
             thread = for_loop(var)
             thread.start()
 
+
         if len(var.sessionid) == 0 or None or var.sessionid == '':
             inputc("-",Design.red,"Ran out of accounts , Ican't Found Session In list\n");input(),exit(0)
             
     else:
-        input(f"Ip {ip} Not Acctive")
-        exit(0)
+        input(ip)
