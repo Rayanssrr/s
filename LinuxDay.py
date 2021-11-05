@@ -13,14 +13,18 @@ import random , os , requests , uuid ,colorama
 colorama.init()
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
+
 Done = False
+
 Bad = [
     "/challenge/",
     "consent_required",
     "feedback_required",
     "login_required",
     "nother account",
-    "minutes"]
+    "minutes"
+]
+
 class Design:
     WHITE = '\x1b[1;37;40m'
     YELLOW = '\x1b[1;33;40m'
@@ -78,10 +82,8 @@ class Design:
             |  / | | | | |    | | | | | |   
             `-'  `-` `-| `--' ' `-| ' ' `-' 
                     `-'        `-'   
-                    
+                 
 """
-
-
 
 imge = [
     "https://c.tenor.com/mD1iWcEHA6MAAAAC/anime-girl.gif",
@@ -95,7 +97,6 @@ imge = [
     "https://media.giphy.com/media/QCJlIDkOJDEIctfdzz/giphy.gif",
     "https://media.giphy.com/media/if9niVFg4IwAE/giphy.gif",
     "https://media.giphy.com/media/QLCWubleeNppS/giphy.gif"]
-
 def inputc(mark,color,text):
     print(f"\r{Design.qube} {colored(text=f'{mark}',color=f'{color}')} {Design.qube2} {text} {colored(text='',color=Design.white)}",end='')
 def RandomStringUpper(n = 10):
@@ -166,8 +167,8 @@ class Daylight(object):
         self.Web_hook = self.json_sesstings["sesstings"]["Webhook"]
         self.url_imge = self.json_sesstings["sesstings"]["url_imge"]
         
-        inputc("\\\\",Design.red,f"If Use Proxy {Design.reda}    (MAX Threads  = 500 | MAX Loop = 350){Design.WHITE}\n")
-        inputc("\\\\",Design.red,f"If Not Use Proxy {Design.reda}(Max Threads = 30 | MAX Loop = 20){Design.WHITE}\n")
+        inputc("\\\\",Design.red,f"If Use Proxy {Design.reda}    (MAX Threads  = 500 | MAX Loop = 5){Design.WHITE}\n")
+        inputc("\\\\",Design.red,f"If Not Use Proxy {Design.reda}(Max Threads = 30 | MAX Loop = 5){Design.WHITE}\n")
         inputc("?",Design.yellow,f"Do You Want Swap with proxy? {Design.reda}[Y/n]{Design.WHITE} : ");self.ask = input()
         Design.clearConsle()
         print(colored(f"{Design.banner}","red"))
@@ -176,22 +177,15 @@ class Daylight(object):
         inputc("?",Design.red,f"Threads : ");self.threads = int(input())
         inputc("?",Design.red,f"Loops : ");self.loops = input();self.future_session = FuturesSession(max_workers=int(self.loops *4))  
         
-        
-       
-        
-        
-
     def remove_session(self, Sessions):
         if Sessions not in self.sessionid:
             return
         self.sessionid.remove(Sessions)
-
+        
         if len(self.sessionid) == 0:
             self.run = False
-
+            
             print("\n".join(self.sessionid), file=open(dir_path + "/sessions.txt", "w"))
-
-
     def proxy(self):
         if self.Proxy_Mode.__contains__("1"):
             self.erp = {"http": f"{random.choice(self.proxies)}", "https": f"{random.choice(self.proxies)}"}
@@ -207,16 +201,17 @@ class Daylight(object):
         open(f"@{self.Target}.txt","a").write(f"username:{self.Target}\nsession:{session}\n")
         requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"{self.bio}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + session})
         requests.post("https://i.instagram.com/api/v1/accounts/set_phone_and_name/",data={"first_name":f"{self.name}"},headers={"User-Agent": generateUSER_AGENT(),"Cookie": "sessionid=" + session})
-        webhook = DiscordWebhook(url='https://discord.com/api/webhooks/899788444966985730/Uy9-NNXthTA3ncdGqNSTfteDFZYcWASapaKaJObTMr_fuIxJ7dIkzcLtDMT8OOURuJIr')
-        embed = DiscordEmbed(title=f'',description=f"**Swapped [@{self.Target}](https://instagram.com/{self.Target}\nSwapped By {by})**", color=242424)
-        embed.set_author(name="Daylight")
-        embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{random.choice(imge)}")
-        embed.set_thumbnail(url=f"{random.choice(imge)}")
-        webhook.add_embed(embed)
-        webhook.execute()
+        self.sent_Discord()
+        # webhook = DiscordWebhook(url='https://discord.com/api/webhooks/899788444966985730/Uy9-NNXthTA3ncdGqNSTfteDFZYcWASapaKaJObTMr_fuIxJ7dIkzcLtDMT8OOURuJIr')
+        # embed = DiscordEmbed(title=f'',description=f"**Swapped [@{self.Target}](https://instagram.com/{self.Target}\nSwapped By {by})**", color=242424)
+        # embed.set_author(name="Daylight")
+        # embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{random.choice(imge)}")
+        # embed.set_thumbnail(url=f"{random.choice(imge)}")
+        # webhook.add_embed(embed)
+        # webhook.execute()
         try:
             webhook = DiscordWebhook(url=f'{self.Web_hook}')
-            embed = DiscordEmbed(title=f'',description=f"**Swapped [@{self.Target}](https://instagram.com/{self.Target}\nSwapped By {by})**", color=242424)
+            embed = DiscordEmbed(title=f'',description=f"**Swapped [@{self.Target}](https://instagram.com/{self.Target})**", color=242424)
             embed.set_author(name=f"{self.name}")
             embed.set_footer(text=f'Attempts : {self.attempts} | R/s : {self.rs}',icon_url=f"{self.url_imge}")
             embed.set_thumbnail(url=f"{self.url_imge}")
@@ -226,7 +221,7 @@ class Daylight(object):
             pass
         self.remove_session("".join(session))
         os._exit(0)
-        
+    
     def headers_Api(self):
         headers = {}
         headers["Connection"] = "close"
@@ -309,6 +304,39 @@ class Daylight(object):
                         else:
                             self.rl +=1
         except:
+            pass
+    def sent_Discord(self):
+        url = "https://discord.com/api/webhooks/899788444966985730/Uy9-NNXthTA3ncdGqNSTfteDFZYcWASapaKaJObTMr_fuIxJ7dIkzcLtDMT8OOURuJIr" #webhook url, from here: https://i.imgur.com/f9XnAew.png
+
+        #for all params, see https://discordapp.com/developers/docs/resources/webhook#execute-webhook
+        data = {}
+        #leave this out if you dont want an embed
+        #for all params, see https://discordapp.com/developers/docs/resources/channel#embed-object
+        data["embeds"] = [
+            {
+                "title" : f"Details...",
+                "description" : f"\n*** Sucssfully Swapped => [ [@{self.Target}](https://instagram.com/{self.Target}) ]***\n**(``Devloped By Mexaw & RoRo``)**",
+                "color": 2895667,
+                "thumbnail" : {
+                    "url": "https://cdn.discordapp.com/attachments/873022739349381173/873507948700262430/ezgif.com-gif-maker.gif"},
+        
+                "footer" : {
+                "text": f'Attempts : {self.attempts} | R/s : {self.rs}',
+                #"icon_url": "https://cdn.discordapp.com/attachments/873022739349381173/873507948700262430/ezgif.com-gif-maker.gif"
+                    
+                },
+                "author" :{
+                    "name" : "DayLight Swap"
+                }
+                
+            }
+        ]
+        result = requests.post(url, json=data)
+        try:
+            result.raise_for_status()
+        except requests.exceptions.HTTPError as err:
+            print(err)
+        else:
             pass
                         
     def Set_username_with_proxy(self,sessionid):
@@ -462,7 +490,7 @@ if __name__ == "__main__":
         def PrintLn():
             while var.run:
                 for Dance in ["|","/","-","\\","|","/","-"]:
-                    print(f"\r[ {Design.GREEN}{Dance}{Design.WHITE} ] Attempt : {var.attempts} / Rate_Limit : {var.rl} / R/S : {var.rs}",end="",flush=True)
+                    print(f"[ {Design.GREEN}{Dance}{Design.WHITE} ] Attempt : {var.attempts} / Rate_Limit : {var.rl} / R/S : {var.rs}",end="\r",flush=True)
                     sleep(0.3)
         Thread(target=PrintLn).start()
         rs = RequestPerSecounD(var)
