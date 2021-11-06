@@ -167,15 +167,15 @@ class Daylight(object):
         self.Web_hook = self.json_sesstings["sesstings"]["Webhook"]
         self.url_imge = self.json_sesstings["sesstings"]["url_imge"]
         
-        inputc("\\\\",Design.red,f"If Use Proxy {Design.reda}    (MAX Threads  = 500 | MAX Loop = 5){Design.WHITE}\n")
-        inputc("\\\\",Design.red,f"If Not Use Proxy {Design.reda}(Max Threads = 30 | MAX Loop = 5){Design.WHITE}\n")
+        inputc("\\\\",Design.red,f"If Use Proxy {Design.reda}    (MAX Threads  = 500 | MAX Loop = 30){Design.WHITE}\n")
+        inputc("\\\\",Design.red,f"If Not Use Proxy {Design.reda}(Max Threads = 30 | MAX Loop = 10){Design.WHITE}\n")
         inputc("?",Design.yellow,f"Do You Want Swap with proxy? {Design.reda}[Y/n]{Design.WHITE} : ");self.ask = input()
         Design.clearConsle()
         print(colored(f"{Design.banner}","red"))
         
         print("\n");inputc("?",Design.red,f"Target : ");self.Target = input()
         inputc("?",Design.red,f"Threads : ");self.threads = int(input())
-        inputc("?",Design.red,f"Loops : ");self.loops = input();self.future_session = FuturesSession(max_workers=int(self.loops *4))  
+        inputc("?",Design.red,f"Loops : ");self.loops = input();self.future_session = FuturesSession(max_workers=int(self.loops *3))  
         
     def remove_session(self, Sessions):
         if Sessions not in self.sessionid:
@@ -188,16 +188,16 @@ class Daylight(object):
             print("\n".join(self.sessionid), file=open(dir_path + "/sessions.txt", "w"))
     def proxy(self):
         if self.Proxy_Mode.__contains__("1"):
-            self.erp = {"http": f"{random.choice(self.proxies)}", "https": f"{random.choice(self.proxies)}"}
+            self.erp = {"https": f"{random.choice(self.proxies)}"}
         else:
-            self.erp = {f"http":f"socks4://{random.choice(self.proxies)}","https":f"socks4://{random.choice(self.proxies)}"}
+            self.erp = {"https":f"socks4://{random.choice(self.proxies)}"}
         return self.erp
     
     def Sucessfully_Claimed(self,session):
         self.run = False
         self.claimed = False
         self.just_loop = False
-        print(f"\n\n{Design.WHITE}[ {Design.reda}${Design.WHITE} ] {self.Msg}  {Design.blueq}@{self.Target}{Design.WHITE} After {Design.reda}{self.attempts}{Design.WHITE} Attempts\n\n")
+        print(f"\n{Design.WHITE}[ {Design.reda}${Design.WHITE} ] {self.Msg}  {Design.blueq}@{self.Target}{Design.WHITE} After {Design.reda}{self.attempts}{Design.WHITE} Attempts\n")
         open(f"@{self.Target}.txt","a").write(f"username:{self.Target}\nsession:{session}\n")
         requests.post('https://i.instagram.com/api/v1/accounts/set_biography/', data={"raw_text": f"{self.bio}"},headers={"User-Agent": "Instagram 152.0.0.1.60 Android", "Cookie": "sessionid=" + session})
         requests.post("https://i.instagram.com/api/v1/accounts/set_phone_and_name/",data={"first_name":f"{self.name}"},headers={"User-Agent": generateUSER_AGENT(),"Cookie": "sessionid=" + session})
@@ -252,7 +252,7 @@ class Daylight(object):
         if self.ask.lower() == "y":
             self.Set_username_with_proxy(session)
         else:
-            random.choice([self.Edit_Profile_without_proxy(session),self.Set_username_without_proxy(session),self.Edit_Web_without_proxy(session)])
+            random.choice([self.Set_username_without_proxy(session),self.Edit_Web_without_proxy(session)])
 
         
     def Set_username_without_proxy(self,sessionid):
@@ -453,10 +453,6 @@ class for_loop(Thread):
             session = random.choice(self.my_loop.sessionid)
             if self.my_loop.just_loop(session):
                 self.my_loop.claimed = True
-
-
-                
-            sleep(0.001)
 class RequestPerSecounD(Thread):
     def __init__(self, loop):
         super(RequestPerSecounD, self).__init__()
@@ -491,7 +487,7 @@ if __name__ == "__main__":
             while var.run:
                 for Dance in ["|","/","-","\\","|","/","-"]:
                     print(f"[ {Design.GREEN}{Dance}{Design.WHITE} ] Attempt : {var.attempts} / Rate_Limit : {var.rl} / R/S : {var.rs}",end="\r",flush=True)
-                    sleep(0.3)
+                    sleep(0.005)
         Thread(target=PrintLn).start()
         rs = RequestPerSecounD(var)
         rs.start()
