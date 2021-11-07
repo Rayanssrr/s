@@ -462,6 +462,7 @@ class RequestPerSecounD(Thread):
             before = self.my_loop_request.attempts
             sleep(1)
             self.my_loop_request.rs = self.my_loop_request.attempts - before
+            print(f"[ {Design.GREEN}/{Design.WHITE} ] Attempt : {var.attempts} / Rate_Limit : {var.rl} / R/S : {var.rs}",end="\r",flush=True)
 if __name__ == "__main__":
     active = requests.get("https://api.ipify.org/?format=json").json()
     ip = active["ip"]
@@ -483,12 +484,12 @@ if __name__ == "__main__":
         
         print("\n");inputc("/",Design.red,f"Press Enter to Started !");input();#ctypes.windll.user32.MessageBoxW(0, f"Are You Ready?", f"king {by}", 0x1000)
         print(f"\n[ {Design.reda}${Design.WHITE} ] Turbo is Running...\n")
-        def PrintLn():
-            while var.run:
-                for Dance in ["|","/","-","\\","|","/","-"]:
-                    print(f"[ {Design.GREEN}{Dance}{Design.WHITE} ] Attempt : {var.attempts} / Rate_Limit : {var.rl} / R/S : {var.rs}",end="\r",flush=True)
-                    sleep(0.005)
-        Thread(target=PrintLn).start()
+#         def PrintLn():
+#             while var.run:
+#                 for Dance in ["|","/","-","\\","|","/","-"]:
+#                     print(f"[ {Design.GREEN}{Dance}{Design.WHITE} ] Attempt : {var.attempts} / Rate_Limit : {var.rl} / R/S : {var.rs}",end="\r",flush=True)
+#                     sleep(0.005)
+#         Thread(target=PrintLn).start()
         rs = RequestPerSecounD(var)
         rs.start()
         for _ in range(int(var.threads)):
